@@ -1,13 +1,20 @@
-Project Structure:
+Notes:
+
+BP stands for bootleg pokemon
+
+|-------------------------------------------------|
+|              PROJECT STRUCTURE                  |
+|-------------------------------------------------|
 
 GameMain:          Is in charge of running the game
 |----> Scene:       Manages the current location (not physical) of the player
 ||---> Encounter:   A battle event.
 ||---> Map:         An area where the player can walk around. Has a collection of entities and map tiles
-|||--> Controller:  Handles player input
 |||--> Region:      Details special areas on the map with special behavior
 |----> Display:     Contains the window that is drawn to
 |----> Settings:    Defines the options for the game
+
+Controller:         Handles player input
 
 Entity:             An object that exists on the map
 
@@ -17,6 +24,37 @@ UnitInstance:       A specific instance of a pokemon. Has a field for "Unit" tha
 PlayerCharacter:    Represents the character along with the creatures they have
 |----> Item:        An object that can be stored by the player
 ||---> UnitItem:    Can be used on a unit
+
+|-------------------------------------------------|
+|                      ABP                        |
+|-------------------------------------------------|
+
+ABP stands for "A Bootleg Pokemon"
+Gonna be used a lot so get used to the name or make a better one?
+
+The ABP class refers to an instance of a BP. A specific BP.
+
+Meanwhile, the ABPSpecies class defines a species of BP, along
+with the rules for the BP (e.g. what moves it can learn, its sprite)
+
+|-------------------------------------------------|
+|                  ENCOUNTERS                     |
+|-------------------------------------------------|
+
+I'm only going to implement 1v1 battles to start
+The encounter object will have 
+a controller,
+a player,
+an enemy,
+active BP's 
+
+AEncounter:
+AEnemy enemy
+APlayerCharacter player
+AEncounterEnvironment environment  -- Handles things like background and music(?)
+-- background image
+-- info display objects
+
 
 |-------------------------------------------------|
 |                     FILES                       |

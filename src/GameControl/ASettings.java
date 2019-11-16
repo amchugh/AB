@@ -9,7 +9,7 @@ public class ASettings {
   private Dimension windowSize;
   
   public ASettings() {
-    windowSize = new Dimension(600,600);
+    windowSize = new Dimension(800,600);
   }
   
   public Dimension getWindowSize() {
