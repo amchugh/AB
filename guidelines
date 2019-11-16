@@ -1,0 +1,65 @@
+Project Structure:
+
+GameMain:          Is in charge of running the game
+|----> Scene:       Manages the current location (not physical) of the player
+||---> Encounter:   A battle event.
+||---> Map:         An area where the player can walk around. Has a collection of entities and map tiles
+|||--> Controller:  Handles player input
+|||--> Region:      Details special areas on the map with special behavior
+|----> Display:     Contains the window that is drawn to
+|----> Settings:    Defines the options for the game
+
+Entity:             An object that exists on the map
+
+Unit:               My name for a pokemon. A Unit defines a type of pokemon
+UnitInstance:       A specific instance of a pokemon. Has a field for "Unit" that specifies what type of unit it is.
+
+PlayerCharacter:    Represents the character along with the creatures they have
+|----> Item:        An object that can be stored by the player
+||---> UnitItem:    Can be used on a unit
+
+|-------------------------------------------------|
+|                     FILES                       |
+|-------------------------------------------------|
+
+.encr file:
+| Contains the information for one encounter (wild battles or trainer battles)
+
+.rgn file:
+| Contains region information
+
+.ent files:
+| Contains entity information
+
+.map file:
+| Contains the information used to generate a map object
+| 
+| Schematic:
+| Replace the hard brackets plus word with the correct value
+| *Spaces are important*
+| "//" are comments
+| "subid" means the id is specific to the file.
+| meanwhile, "id"s are global across the entire dataset for the game
+| -------------------------------------------
+| 0| [map id]
+| 1| [width]x[height]
+| 2| [tile id] [tile id] [tile id] [tile id] ...     // there should be width*height entries in this line
+| 3| [region id] [tile number] [tile number] [tile number] ... // There should be as many of these lines as nessecary
+| 4|  
+| 7| [entity id] [tile number] [entity id] [tile number] ... // There can be as many entities as needed
+| -------------------------------------------
+| 
+| Here's an example:
+| |------------------|
+| |"map1.map"        |
+| |------------------|
+| |0                 |
+| |3x3               |
+| |0 0 0 0 0 0 0 0 0 |
+| |0 0 1 2 4         |
+| |1 0 3 6           |
+| |                  |
+| |0 0 0.2 1 1       |
+| |                  |
+| |0 4 1 7           |
+| |------------------|
