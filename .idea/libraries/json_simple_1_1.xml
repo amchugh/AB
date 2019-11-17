@@ -2,7 +2,6 @@
   <library name="json-simple-1.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/json-simple-1.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/junit-4.12.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
