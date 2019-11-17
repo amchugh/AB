@@ -13,7 +13,7 @@ class AMapReaderTest {
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
             AMapReader r = new AMapReader("rsc/DoesNotExists.map");
-            r.constructMap();
+            r.constructMap(null);
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -28,7 +28,7 @@ class AMapReaderTest {
     @Test
     public void simpleReadExample() throws IOException, ParseException {
         AMapReader r = new AMapReader("test/rsc/SimpleMap.map");
-        AMap m = r.constructMap();
+        AMap m = r.constructMap(null);
 
         assert (m != null);
     }

@@ -14,11 +14,11 @@ import java.util.Iterator;
 public class AMapReader {
     private String mapFileName;
 
-    AMapReader(String _mapFileName) {
-        mapFileName = _mapFileName;
+    AMapReader(String mapFileName) {
+        this.mapFileName = mapFileName;
     }
 
-    AMap constructMap() throws IOException, ParseException {
+    AMap constructMap(ACellManager cellManager) throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader(mapFileName));
         JSONObject jo = (JSONObject) obj;
 
@@ -26,7 +26,7 @@ public class AMapReader {
         int width = getInt(jo, "Width");
         int height = getInt(jo, "Height");
 
-        AMapInstance map = new AMapInstance(mapId, width, height);
+        AMapInstance map = new AMapInstance(mapId, width, height, cellManager);
 
         // Get the cell array.  This will be an array of arrays.
         JSONArray cells = (JSONArray) jo.get("Cells");

@@ -10,6 +10,13 @@ import java.awt.*;
 // TODO:  replace with a more generic interface name.
 
 public interface AMap {
+
+  // Set the focus point for the map as a grid position.  The AMap implementation will decide where
+  // this focus point is rendered on the screen based on characteristics of the map and environment.
+  // Since it is the focus point it is likely that the AMap implementation will place this at the
+  // center of the viewing area.
+  void setViewFocus(GridPos pos);
+
   void update();
   void draw(Graphics g);
 }
