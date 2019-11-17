@@ -7,6 +7,7 @@ public class AGameMain {
   
   private ADisplay display;
   private ASettings settings;
+  private AController controller;
   
   private AScene currentScene;
   
@@ -15,7 +16,11 @@ public class AGameMain {
     settings = ASettings.DEFAULT_SETTINGS; // TODO load settings
     // Create the display
     display = new ADisplay(settings.getWindowSize());
-    
+
+    // Add the controller
+    controller = new AController();
+    display.addKeyListener(controller);
+
     // Set the current scene
     APlayerCharacter p = new APlayerCharacter();
     AEnemy e = new AEnemy();
