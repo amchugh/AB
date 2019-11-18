@@ -2,7 +2,7 @@ package GameControl;
 
 import java.awt.*;
 
-public class AMapInstance implements AMap {
+public class AMapInstance implements AMap, AScene {
     private int id;
     private int gridWidth;
     private int gridHeight;
@@ -66,5 +66,10 @@ public class AMapInstance implements AMap {
     protected GridPos determineTopLeftPos() {
         // TODO:  Figure out where the top left is
         return new GridPos(1, 1);
+    }
+    
+    @Override
+    public void onButtonPress(char button) {
+        // todo implement
     }
 }

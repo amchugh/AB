@@ -22,6 +22,9 @@ public class AEncounter implements AScene {
   
   @Override
   public void draw(Graphics g) {
+    // First, draw the background image
+    Dimension size = ASettings.getCurrentSettings().getWindowSize();
+    g.drawImage(environment.getBackgroundImage(), 0, 0, size.width, size.height,null);
     g.drawImage(player.getActiveBP().getSpecies().frontImage, 10, 10, 100, 100, null);
     g.drawImage(enemy.getActiveBP().getSpecies().backImage, 110, 10, 100, 100, null);
   }
