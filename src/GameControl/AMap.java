@@ -16,7 +16,4 @@ public interface AMap {
   // Since it is the focus point it is likely that the AMap implementation will place this at the
   // center of the viewing area.
   void setViewFocus(GridPos pos);
-
-  void update();
-  void draw(Graphics g);
 }
