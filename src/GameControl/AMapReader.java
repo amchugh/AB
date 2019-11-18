@@ -9,16 +9,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class AMapReader {
-    private String mapFileName;
+public class AMapReader extends AIOManager {
 
-    AMapReader(String mapFileName) {
-        this.mapFileName = mapFileName;
+    public AMapReader(String mapFileName) {
+        super(mapFileName);
     }
 
     AMap constructMap(ACellManager cellManager) throws IOException, ParseException {
-        Object obj = new JSONParser().parse(new FileReader(mapFileName));
-        JSONObject jo = (JSONObject) obj;
+        JSONObject jo = getJSON();
 
         int mapId = getInt(jo, "MapId");
         int width = getInt(jo, "Width");
@@ -46,11 +44,5 @@ public class AMapReader {
         return map;
     }
 
-    private int getInt(JSONObject o, String sub) {
-        return ((Long)o.get(sub)).intValue();
-    }
 
-    private int getInt(Object o) {
-        return ((Long)o).intValue();
-    }
 }
