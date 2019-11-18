@@ -9,6 +9,10 @@ public class ABP {
   public ABP() {
     species = new ABPSpecies();
   }
+
+  public ABP(ABPSpecies species) {
+    this.species = species;
+  }
   
   /**
    * Causes the BP to take damage
@@ -21,6 +25,14 @@ public class ABP {
       return false;
     }
     return true;
+  }
+
+  /**
+   * This should only be used when constructing the BP.
+   * @param health
+   */
+  public void setHealth(int health) {
+    this.health = health;
   }
   
   public ABPSpecies getSpecies() {
