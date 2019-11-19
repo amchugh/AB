@@ -28,7 +28,7 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
             String frontImageName = getString(s, "FrontImageLocation");
             String backImageName = getString(s, "BackImageLocation");
             ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName);
-            m.add(instance);
+            m.addItem(instance);
         }
 
         // todo:: find the more appropriate error to throw here
