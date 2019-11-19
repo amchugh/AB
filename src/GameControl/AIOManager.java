@@ -31,4 +31,8 @@ public class AIOManager {
         return ((Long)o).intValue();
     }
 
+    protected String getString(JSONObject o, String sub) {
+        return (String)o.get(sub);
+    }
+
 }
