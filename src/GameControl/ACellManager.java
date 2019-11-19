@@ -10,4 +10,6 @@ public interface ACellManager {
     public int getCellWidth();
     public int getCellHeight();
     public Image getCellImage(int cellId);
+
+    public boolean isCellIdValid(int cellId);
 }

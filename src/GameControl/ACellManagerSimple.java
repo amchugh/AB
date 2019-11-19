@@ -23,4 +23,9 @@ public class ACellManagerSimple implements ACellManager {
             throw new RuntimeException("Simple implementation must always work", e);
         }
     }
+
+    @Override
+    public boolean isCellIdValid(int cellId) {
+        return true;
+    }
 }

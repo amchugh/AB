@@ -12,7 +12,6 @@ public class AEncounter implements AScene {
     player = _player;
     enemy = _enemy;
     environment = _environment;
-    
   }
   
   @Override

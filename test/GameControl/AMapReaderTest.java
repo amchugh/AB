@@ -27,7 +27,7 @@ class AMapReaderTest {
     @Test
     public void simpleReadExample() throws IOException, ParseException {
         AMapReader r = new AMapReader("test/rsc/SimpleMap.map");
-        AMap m = r.constructMap(null);
+        AMap m = r.constructMap(new ACellManagerSimple());
 
         assert (m != null);
     }
