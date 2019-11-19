@@ -11,7 +11,7 @@ public class AEncounterEnvironment {
   
   public AEncounterEnvironment() {
     try {
-      backgroundImage = ImageIO.read(new File("images/planetEv1.png"));
+      backgroundImage = ImageIO.read(new File("rsc/images/planetEv1.png"));
     } catch (IOException e) {
       throw new RuntimeException("Simple implementation should never fail", e);
     }

@@ -46,10 +46,9 @@ public class ABPSpeciesManagerReaderTest {
     public void simpleReadExample() throws Exception, IOException, ParseException {
         ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
         ABPSpeciesManager m = r.initializeSpeciesManager();
-        // It isn'tABP bp = r.readABP(m);
 
         assert (m != null);
-        assert (m.getNumberOfSpecies() == 1);
+        assert (m.getNumberOfItems() == 1);
     }
 
 }
