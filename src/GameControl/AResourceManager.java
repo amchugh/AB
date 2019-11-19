@@ -19,14 +19,8 @@ public class AResourceManager {
     }
 
     public AIDItem getItemByID(int id) throws IllegalArgumentException {
-        // todo:: I would love for this to be implemented functionally. Unfortunately, I don't know
-        // todo:: enough about functional java programming to do that.
-        for (AIDItem i : items) {
-            if (i.getID() == id) {
-                return i;
-            }
-        }
-        throw new IllegalArgumentException("No item is loaded with ID " + id);
+        return items.stream().filter((i) -> i.getID() == id)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No item is loaded with ID " + id));
     }
 
     /**
