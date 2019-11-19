@@ -17,9 +17,10 @@ public class AController extends KeyAdapter implements KeyListener {
     private class KeyPress {
         char c;
         double buttonDownTime;
-        KeyPress (char _c, double _t) {
-            c = _c;
-            buttonDownTime = _t;
+
+        KeyPress(char c, double t) {
+            this.c = c;
+            this.buttonDownTime = t;
         }
     }
 
@@ -32,14 +33,7 @@ public class AController extends KeyAdapter implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // We need to remove all the keys with this char
-        char s = e.getKeyChar();
-        for (int i = 0; i < pressedKeys.size(); i++) {
-            if (pressedKeys.get(i).c == s) {
-                pressedKeys.remove(i);
-                return;
-            }
-        }
+        pressedKeys.removeIf(s -> s.c == e.getKeyChar());
     }
 
     public ArrayList<KeyPress> getSelected() {
