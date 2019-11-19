@@ -4,17 +4,17 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ABPSpeciesManagerReader extends AIOManager {
+public class ABPSpeciesManagerReader extends AIOJSONHelper {
 
     public ABPSpeciesManagerReader(String filename) {
         super(filename);
     }
 
-    ABPSpeciesManager initializeSpeciesManager() throws IOException, ParseException {
+    public ABPSpeciesManager initializeSpeciesManager() throws Exception, IOException, ParseException {
         JSONObject jo = getJSON();
 
         ABPSpeciesManager m = new ABPSpeciesManager();
@@ -29,6 +29,11 @@ public class ABPSpeciesManagerReader extends AIOManager {
             String backImageName = getString(s, "BackImageLocation");
             ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName);
             m.add(instance);
+        }
+
+        // todo:: find the more appropriate error to throw here
+        if (!m.verifyIDNumbers()) {
+            throw new Exception("Dataset contains duplicate ID numbers");
         }
 
         return m;

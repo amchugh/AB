@@ -13,9 +13,10 @@ public class ABPSpecies {
   
   // TODO this class also needs work.
   public ABPSpecies() {
+    this.idNumber = 0;
     try {
-      frontImage = ImageIO.read(new File("images/planetEv1.png"));
-      backImage = ImageIO.read(new File("images/TourcisEv1.png"));
+      frontImage = ImageIO.read(new File("rsc/images/planetEv1.png"));
+      backImage = ImageIO.read(new File("rsc/images/TourcisEv1.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -30,5 +31,9 @@ public class ABPSpecies {
       e.printStackTrace();
     }
   }
-  
+
+  public int getID() {
+    return idNumber;
+  }
+
 }

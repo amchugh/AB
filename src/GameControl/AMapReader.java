@@ -7,7 +7,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class AMapReader extends AIOManager {
+public class AMapReader extends AIOJSONHelper {
 
     public AMapReader(String mapFileName) {
         super(mapFileName);

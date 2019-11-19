@@ -8,10 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AIOManager {
+public class AIOJSONHelper {
     private String filename;
 
-    AIOManager(String filename) {
+    AIOJSONHelper(String filename) {
         this.filename = filename;
     }
 

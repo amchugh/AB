@@ -4,6 +4,11 @@
             "ID": 3,
             "FrontImageLocation": "rsc/images/planetEv1.png",
             "BackImageLocation": "rsc/images/TourcisEv1.png"
+        },
+        {
+            "ID": 3,
+            "FrontImageLocation": "rsc/images/planetEv1.png",
+            "BackImageLocation": "rsc/images/TourcisEv1.png"
         }
     ]
 }

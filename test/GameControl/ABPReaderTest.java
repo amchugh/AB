@@ -11,7 +11,8 @@ class ABPReaderTest {
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
             ABPReader r = new ABPReader("rsc/DoesNotExists.map");
-            ABPSpeciesManager m = new ABPSpeciesManager(); // TODO initialize Species Manager
+            ABPSpeciesManager m = new ABPSpeciesManager(); // This does not need to be initialized.
+                                                           // In fact, this could be null
             r.readABP(m);
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
@@ -25,13 +26,14 @@ class ABPReaderTest {
     }
 
     @Test
-    public void simpleReadExample() throws IOException, ParseException {
+    public void simpleReadExample() throws Exception, IOException, ParseException { //todo:: this method will need to be updated as well when a better exception is named
         ABPReader r = new ABPReader("test/rsc/SimpleBP.bpf");
-        ABPSpeciesManager m = new ABPSpeciesManager(); // TODO initialize Species Manager
+        ABPSpeciesManagerReader mr = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
+        ABPSpeciesManager m = mr.initializeSpeciesManager();
         ABP bp = r.readABP(m);
 
         assert (bp != null);
-        assert (bp.getSpecies() != null); // TODO this will be more important later
+        assert (bp.getSpecies() != null);
     }
 
 }

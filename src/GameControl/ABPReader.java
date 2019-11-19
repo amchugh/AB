@@ -5,7 +5,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-public class ABPReader extends AIOManager {
+public class ABPReader extends AIOJSONHelper {
 
     public ABPReader(String BPFilename) {
         super(BPFilename);
