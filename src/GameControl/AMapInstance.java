@@ -1,6 +1,7 @@
 package GameControl;
 
 import java.awt.*;
+import java.util.List;
 
 public class AMapInstance implements AMap, AScene {
     private int id;
@@ -9,6 +10,7 @@ public class AMapInstance implements AMap, AScene {
     private int [][] cells;
     private GridPos desiredCenter;
     private ACellManager aCellManager;
+    private AViewAdvisor viewAdvisor;
 
     AMapInstance(int id, int gridWidth, int gridHeight, ACellManager aCellManager) {
         this.id = id;
@@ -33,6 +35,11 @@ public class AMapInstance implements AMap, AScene {
         desiredCenter = pos;
     }
 
+    @Override
+    public void setViewAdvisor(AViewAdvisor advisor) {
+        this.viewAdvisor = advisor;
+    }
+
     // AMap methods
     @Override
     public void update() {
@@ -45,30 +52,20 @@ public class AMapInstance implements AMap, AScene {
         int viewableWidth = 5;
         int viewableHeight = 5;
 
-        GridPos topLeft = determineTopLeftPos();
+        List<AViewAdvisor.ViewableGridCell> viewableCells =
+                viewAdvisor.advise(desiredCenter, viewableWidth, viewableHeight, gridWidth, gridHeight);
 
         int cellWidth = aCellManager.getCellWidth();
         int cellHeight = aCellManager.getCellHeight();
 
-        int graphicsX;
-        int graphicsY = 0;
-
-        for (int row = 0; row < viewableHeight; row++ ) {
-            graphicsX = 0;
-            for (int col = 0; col < viewableWidth; col++ ) {
-                GridPos currentGridPos = new GridPos( topLeft.getX() + col, topLeft.getY() + row);
-                g.drawImage(aCellManager.getCellImage(cells[currentGridPos.getY()][currentGridPos.getX()]), graphicsX, graphicsY, null);
-                graphicsX += cellWidth;
-            }
-            graphicsY += cellHeight;
+        for (AViewAdvisor.ViewableGridCell c : viewableCells) {
+            int graphicsX = c.screenCoordinate.x * cellWidth;
+            int graphicsY = c.screenCoordinate.y * cellHeight;
+            int cellId = cells[c.gridPos.getY()][c.gridPos.getX()];
+            g.drawImage(aCellManager.getCellImage(cellId), graphicsX, graphicsY, null);
         }
     }
 
-    protected GridPos determineTopLeftPos() {
-        // TODO:  Figure out where the top left is
-        return new GridPos(1, 1);
-    }
-    
     @Override
     public void onButtonPress(char button) {
         // todo implement

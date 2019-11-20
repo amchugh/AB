@@ -1,7 +1,5 @@
 package GameControl;
 
-import java.awt.*;
-
 // This is the interface definition for a Map instance.  A Map represents an object which is updated every step
 // and which can be drawn onto the display.  This is a very generic definition.
 //
@@ -16,4 +14,7 @@ public interface AMap {
   // Since it is the focus point it is likely that the AMap implementation will place this at the
   // center of the viewing area.
   void setViewFocus(GridPos pos);
+
+  // Set the view advisor which is used to determine which map cells can be currently seen.
+  void setViewAdvisor(AViewAdvisor advisor);
 }
