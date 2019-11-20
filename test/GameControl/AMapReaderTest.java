@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class AMapReaderTest {
 
     @Test
@@ -29,6 +31,6 @@ class AMapReaderTest {
         AMapReader r = new AMapReader("test/rsc/SimpleMap.map");
         AMap m = r.constructMap(new ACellManagerSimple());
 
-        assert (m != null);
+        assertNotNull(m);
     }
 }
