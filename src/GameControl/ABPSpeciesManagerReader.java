@@ -14,7 +14,7 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public ABPSpeciesManager initializeSpeciesManager() throws Exception, IOException, ParseException {
+    public ABPSpeciesManager initializeSpeciesManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         ABPSpeciesManager m = new ABPSpeciesManager();
@@ -33,7 +33,7 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
 
         // todo:: find the more appropriate error to throw here
         if (!m.verifyIDNumbers()) {
-            throw new Exception("Dataset contains duplicate ID numbers");
+            throw new IOException("Dataset contains duplicate ID numbers");
         }
 
         return m;

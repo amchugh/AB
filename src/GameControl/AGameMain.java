@@ -24,7 +24,7 @@ public class AGameMain {
     // Set the current scene
     APlayerCharacter p = new APlayerCharacter();
     AEnemy e = new AEnemy();
-    AEncounterEnvironment e2 = new AEncounterEnvironment();
+    AEncounterEnvironment e2 = new AEncounterEnvironment(0);
     currentScene = new AEncounter(p, e, e2);
     
     // Finally, make the display visible
