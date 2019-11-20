@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class ABPSpeciesManagerReaderTest {
 
     @Test
@@ -44,7 +46,7 @@ public class ABPSpeciesManagerReaderTest {
         ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
         ABPSpeciesManager m = r.initializeSpeciesManager();
 
-        assert (m != null);
+        assertNotNull(m);
         assert (m.getNumberOfItems() == 1);
     }
 

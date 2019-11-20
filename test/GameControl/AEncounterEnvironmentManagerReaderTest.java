@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class AEncounterEnvironmentManagerReaderTest {
 
     @Test
@@ -44,7 +46,7 @@ public class AEncounterEnvironmentManagerReaderTest {
         AEncounterEnvironmentManagerReader r = new AEncounterEnvironmentManagerReader("test/rsc/SimpleEnvironmentData.eef");
         AEncounterEnvironmentManager m = r.initializeEnvironmentManager();
 
-        assert (m != null);
+        assertNotNull(m);
         assert (m.getNumberOfItems() == 1);
     }
 

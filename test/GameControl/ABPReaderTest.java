@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class ABPReaderTest {
 
     @Test
@@ -32,7 +34,7 @@ class ABPReaderTest {
         ABPSpeciesManager m = mr.initializeSpeciesManager();
         ABP bp = r.readABP(m);
 
-        assert (bp != null);
+        assertNotNull(bp);
         assert (bp.getSpecies() != null);
     }
 
