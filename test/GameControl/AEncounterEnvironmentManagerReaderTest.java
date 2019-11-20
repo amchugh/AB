@@ -7,18 +7,18 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ABPSpeciesManagerReaderTest {
+public class AEncounterEnvironmentManagerReaderTest {
 
     @Test
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
-            ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("rsc/doesnotexist.sdf");
-            ABPSpeciesManager m = r.initializeSpeciesManager();
+            AEncounterEnvironmentManagerReader r = new AEncounterEnvironmentManagerReader("rsc/doesnotexist.sdf");
+            AEncounterEnvironmentManager m = r.initializeEnvironmentManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
-            // Expected, so swallow
+            // unexpected
         } catch ( org.json.simple.parser.ParseException e ) {
             // Not expected
             throw e;
@@ -28,8 +28,8 @@ public class ABPSpeciesManagerReaderTest {
     @Test
     public void throwsExceptionOnBadDataset() throws Exception {
         try {
-            ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/BadSpeciesData.sdf");
-            ABPSpeciesManager m = r.initializeSpeciesManager();
+            AEncounterEnvironmentManagerReader r = new AEncounterEnvironmentManagerReader("test/rsc/BadEnvironmentData.eef");
+            AEncounterEnvironmentManager m = r.initializeEnvironmentManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -43,8 +43,8 @@ public class ABPSpeciesManagerReaderTest {
 
     @Test
     public void simpleReadExample() throws Exception, IOException, ParseException {
-        ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
-        ABPSpeciesManager m = r.initializeSpeciesManager();
+        AEncounterEnvironmentManagerReader r = new AEncounterEnvironmentManagerReader("test/rsc/SimpleEnvironmentData.eef");
+        AEncounterEnvironmentManager m = r.initializeEnvironmentManager();
 
         assertNotNull(m);
         assert (m.getNumberOfItems() == 1);
