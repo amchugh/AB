@@ -2,6 +2,10 @@
   <library name="json-simple-1.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/json-simple-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-core-3.1.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-agent-1.10.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/objenesis-2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-1.10.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

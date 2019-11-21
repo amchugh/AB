@@ -6,6 +6,13 @@ import java.util.List;
 // they will be drawn on the screen.
 public interface AViewAdvisor {
     class LogicalScreenCoordinate {
+        public LogicalScreenCoordinate() {
+        }
+
+        public LogicalScreenCoordinate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
         public int x;
         public int y;
     }
@@ -13,6 +20,14 @@ public interface AViewAdvisor {
     ;
 
     class ViewableGridCell {
+        public ViewableGridCell(LogicalScreenCoordinate s, GridPos g) {
+            this.screenCoordinate = s;
+            this.gridPos = g;
+        }
+
+        public ViewableGridCell() {
+        }
+
         LogicalScreenCoordinate screenCoordinate;
         GridPos gridPos;
     }

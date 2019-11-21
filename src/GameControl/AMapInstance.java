@@ -62,7 +62,7 @@ public class AMapInstance implements AMap, AScene {
             int graphicsX = c.screenCoordinate.x * cellWidth;
             int graphicsY = c.screenCoordinate.y * cellHeight;
             int cellId = cells[c.gridPos.getY()][c.gridPos.getX()];
-            g.drawImage(aCellManager.getCellImage(cellId), graphicsX, graphicsY, null);
+            g.drawImage(aCellManager.getCellImage(cellId), graphicsX, graphicsY, cellWidth, cellHeight, null);
         }
     }
 
