@@ -17,4 +17,6 @@ public interface AMap {
 
   // Set the view advisor which is used to determine which map cells can be currently seen.
   void setViewAdvisor(AViewAdvisor advisor);
+
+  AScene getScene();
 }

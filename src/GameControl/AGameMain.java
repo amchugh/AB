@@ -7,10 +7,12 @@ import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 public class AGameMain {
-  
+
   private ADisplay display;
   private ASettings settings;
   private AController controller;
+
+  private boolean startWithMap = false;
   
   private AScene currentScene;
 
@@ -20,55 +22,85 @@ public class AGameMain {
   private ABPActionManager actionManager;
 
   // Resource File Locations
-  private static final String  environmentResources = "rsc/SimpleEnvironmentData.eef";
-  private static final String  speciesResources = "rsc/SimpleSpeciesData.sdf";
-  private static final String  actionResources = "rsc/SimpleSpeciesData.sdf";
+  private static final String DEFAULT_ENVIRONMENT_RESOURCE = "rsc/SimpleEnvironmentData.eef";
+  private static final String DEFAULT_SPECIES_RESOURCE = "rsc/SimpleSpeciesData.sdf";
+  private static final String DEFAULT_ACTION_RESOURCE = "rsc/SimpleActionData.adf";
+  private static final String DEFAULT_MAP_RESOURCE = "rsc/TestMap.map";
+
+  private String environmentResource = DEFAULT_ENVIRONMENT_RESOURCE;
+  private String speciesResource = DEFAULT_SPECIES_RESOURCE;
+  private String actionResource = DEFAULT_ACTION_RESOURCE;
 
   public AGameMain() {
-    this(true);
   }
 
-  public AGameMain(boolean doSetup) {
-    if (doSetup) {
-      // Grab the settings for the game
-      settings = ASettings.DEFAULT_SETTINGS; // TODO load settings
-
-      // Load all the resources
-      try {
-        loadResources(environmentResources, speciesResources, actionResources);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-
-      // Create the display
-      display = new ADisplay(settings.getWindowSize());
-
-      // Add the controller
-      controller = new AController();
-      display.addKeyListener(controller);
-
-      // Set the current scene
-      APlayerCharacter p = new APlayerCharacter();
-      AEnemy e = new AEnemy();
-      AEncounterEnvironment e2 = new AEncounterEnvironment(0);
-      currentScene = new AEncounter(p, e, e2);
-    }
+  public void setStartWithMap(boolean startWithMap) {
+    this.startWithMap = startWithMap;
   }
 
-  public void loadResources(String environmentResources, String actionResources, String speciesResources) throws IOException, ParseException {
-    AEncounterEnvironmentManagerReader er = new AEncounterEnvironmentManagerReader(environmentResources);
-    environmentManager = er.initializeEnvironmentManager();
-    ABPActionManagerReader ar = new ABPActionManagerReader(actionResources);
-    actionManager = ar.initializeActionManager();
-    ABPSpeciesManagerReader sr = new ABPSpeciesManagerReader(speciesResources);
-    speciesManager = sr.initializeSpeciesManager();
+  public void setEnvironmentResourceName(String s) {
+    environmentResource = s;
+  }
+
+  public void setActionResourceName(String s) {
+    actionResource = s;
+  }
+
+  public void setSpeciesResourceName(String s) {
+    speciesResource = s;
   }
 
   public boolean areResourcesLoaded() {
-    if (environmentManager == null) return false;
-    if (actionManager == null) return false;
-    if (speciesManager == null) return false;
-    return true;
+    return environmentManager != null && speciesManager != null && actionManager != null;
+  }
+
+  public void go() {
+    // Grab the settings for the game
+    settings = ASettings.DEFAULT_SETTINGS; // TODO load settings
+
+    // Load all the resources
+    try {
+      loadResources();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // Create the display
+    display = new ADisplay(settings.getWindowSize());
+
+    // Add the controller
+    controller = new AController();
+    display.addKeyListener(controller);
+
+    // Set the current scene
+    APlayerCharacter p = new APlayerCharacter();
+    AEnemy e = new AEnemy();
+    AEncounterEnvironment e2 = new AEncounterEnvironment(0);
+
+    if (startWithMap) {
+      try {
+        ACellManager cellManager = new ACellManagerSimple();
+        AMap map = new AMapReader(DEFAULT_MAP_RESOURCE).constructMap(cellManager);
+        AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
+        map.setViewAdvisor(viewAdvisor);
+        currentScene = map.getScene();
+      } catch (Exception ex) {
+        throw new RuntimeException("Unexpected", ex);
+      }
+    } else {
+      currentScene = new AEncounter(p, e, e2);
+    }
+
+    loop();
+  }
+
+  public void loadResources() throws IOException, ParseException {
+    AEncounterEnvironmentManagerReader er = new AEncounterEnvironmentManagerReader(environmentResource);
+    environmentManager = er.initializeEnvironmentManager();
+    ABPActionManagerReader ar = new ABPActionManagerReader(actionResource);
+    actionManager = ar.initializeActionManager();
+    ABPSpeciesManagerReader sr = new ABPSpeciesManagerReader(speciesResource);
+    speciesManager = sr.initializeSpeciesManager();
   }
 
   public void loop() {
@@ -98,7 +130,5 @@ public class AGameMain {
   }
   
   public void handleDraw() {
-  
   }
-  
 }

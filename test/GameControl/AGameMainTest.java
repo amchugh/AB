@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AGameMainTest {
 
@@ -15,10 +15,12 @@ class AGameMainTest {
         testACData = "test/rsc/SimpleActionData.adf";
 
     @Test
-    public void testLoadingAllResources() throws IOException, ParseException {
-        AGameMain gm = new AGameMain(false); // Calling with false because we want
-                                                     // to setup our own way
-        gm.loadResources(testENData, testACData, testSPData);
+    void testLoadingAllResources() throws IOException, ParseException {
+        AGameMain gm = new AGameMain();
+        gm.setActionResourceName(testACData);
+        gm.setEnvironmentResourceName(testENData);
+        gm.setActionResourceName(testACData);
+        gm.loadResources();
         assertTrue(gm.areResourcesLoaded(), "Resource Managers failed to initialize");
     }
 

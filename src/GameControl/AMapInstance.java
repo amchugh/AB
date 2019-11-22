@@ -40,6 +40,11 @@ public class AMapInstance implements AMap, AScene {
         this.viewAdvisor = advisor;
     }
 
+    @Override
+    public AScene getScene() {
+        return this;
+    }
+
     // AMap methods
     @Override
     public void update() {
