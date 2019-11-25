@@ -34,7 +34,7 @@ class AViewAdvisorRectangularTest {
         // 6 |    |    |    |    |    |    |    |
         //   +----+----+----+----+----+----+----+
         List<AViewAdvisor.ViewableGridCell> viewableCells =
-                advisor.advise(desiredCenter, 3, 3, 6, 6);
+                advisor.advise(desiredCenter, 3, 3, 7, 7);
 
         assertEquals(9, viewableCells.size());
         ensureViewableCellsLogicalScreenPosInRange(2, 2, viewableCells);
@@ -66,7 +66,7 @@ class AViewAdvisorRectangularTest {
         // 6 |    |    |    |    |    |    |    |
         //   +----+----+----+----+----+----+----+
         List<AViewAdvisor.ViewableGridCell> viewableCells =
-                advisor.advise(desiredCenter, 3, 3, 6, 6);
+                advisor.advise(desiredCenter, 3, 3, 7, 7);
 
         assertEquals(9, viewableCells.size());
         ensureViewableCellsLogicalScreenPosInRange(2, 2, viewableCells);
@@ -98,7 +98,7 @@ class AViewAdvisorRectangularTest {
         // 6 |    |    |    |    |  * |  * |  * |
         //   +----+----+----+----+----+----+----+
         List<AViewAdvisor.ViewableGridCell> viewableCells =
-                advisor.advise(desiredCenter, 3, 3, 6, 6);
+                advisor.advise(desiredCenter, 3, 3, 7, 7);
 
         assertEquals(9, viewableCells.size());
         ensureViewableCellsLogicalScreenPosInRange(2, 2, viewableCells);
@@ -130,7 +130,7 @@ class AViewAdvisorRectangularTest {
         // 6 |    |    |    |    |    |  * |  * |
         //   +----+----+----+----+----+----+----+
         List<AViewAdvisor.ViewableGridCell> viewableCells =
-                advisor.advise(desiredCenter, 4, 2, 6, 6);
+                advisor.advise(desiredCenter, 4, 2, 7, 7);
 
         assertEquals(8, viewableCells.size());
         ensureViewableCellsLogicalScreenPosInRange(1, 3, viewableCells);

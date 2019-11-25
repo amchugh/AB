@@ -3,7 +3,7 @@ package GameControl;
 import java.awt.*;
 import java.util.List;
 
-public class AMapInstance implements AMap, AScene {
+public class AMapInstance implements AMap, AScene, AGridPosValidator {
     private int id;
     private int gridWidth;
     private int gridHeight;
@@ -45,9 +45,14 @@ public class AMapInstance implements AMap, AScene {
         return this;
     }
 
+    @Override
+    public AGridPosValidator getGridPosValidator() {
+        return this;
+    }
+
     // AMap methods
     @Override
-    public void update() {
+    public void step() {
 
     }
 
@@ -72,7 +77,13 @@ public class AMapInstance implements AMap, AScene {
     }
 
     @Override
-    public void onButtonPress(char button) {
-        // todo implement
+    public boolean isGridPosOccupiable(GridPos g) {
+        if (g.getX() < 0 || g.getY() < 0) {
+            return false;
+        }
+        if (g.getX() >= gridWidth || g.getY() >= gridHeight) {
+            return false;
+        }
+        return true;
     }
 }

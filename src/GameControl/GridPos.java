@@ -1,5 +1,9 @@
 package GameControl;
 
+/**
+ * Encapsulation of a position within a grid.  An instance of GridPos defines an x and y coordinate
+ * that is relative to a collection of cells arranged in the normal two dimensional fashion.
+ */
 public class GridPos {
     private int x;
     private int y;
@@ -15,6 +19,14 @@ public class GridPos {
 
     int getY() {
         return y;
+    }
+
+    void setX(int x) {
+        this.x = x;
+    }
+
+    void setY(int y) {
+        this.y = y;
     }
 
     @Override

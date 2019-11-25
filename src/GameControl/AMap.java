@@ -1,12 +1,9 @@
 package GameControl;
 
-// This is the interface definition for a Map instance.  A Map represents an object which is updated every step
-// and which can be drawn onto the display.  This is a very generic definition.
-//
-// TODO:  This is too generic and really represents a "I am a generic thing that can be displayed".  It is likely
-// TODO:  that this AMap will be augmented in the future to make it more specific.  In case it doesn't we should
-// TODO:  replace with a more generic interface name.
-
+// An AMap is a construct that orchestrates the overarching and main view into the "physical world" that the
+// player is operating in.  A map is logically a collection of cells arranged as a grid.  The rendering of the
+// discrete units (the cells) is the responsibility of the AScene entity which can be accessed through
+// this interface.
 public interface AMap {
 
   // Set the focus point for the map as a grid position.  The AMap implementation will decide where
@@ -19,4 +16,6 @@ public interface AMap {
   void setViewAdvisor(AViewAdvisor advisor);
 
   AScene getScene();
+
+  AGridPosValidator getGridPosValidator();
 }

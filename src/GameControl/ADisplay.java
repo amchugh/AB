@@ -21,5 +21,4 @@ public class ADisplay extends JFrame {
     this.pack();
     this.setLocation(50, 50); // Position on screen
   }
-  
 }

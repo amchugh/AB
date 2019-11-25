@@ -22,11 +22,11 @@ public class AViewAdvisorRectangular implements AViewAdvisor {
         // such that there won't be enough cells to the right in the grid to
         // fill the logical screen then we need to move the viewable window
         // to the left.  Similar condition for the bottom.
-        if (topLeft.getX() + desiredCols > maxGridX) {
-            topLeft = new GridPos(maxGridX - desiredCols + 1, topLeft.getY());
+        if (topLeft.getX() + desiredCols >= maxGridX) {
+            topLeft = new GridPos(maxGridX - desiredCols, topLeft.getY());
         }
-        if (topLeft.getY() + desiredRows > maxGridY) {
-            topLeft = new GridPos(topLeft.getX(), maxGridY - desiredRows + 1);
+        if (topLeft.getY() + desiredRows >= maxGridY) {
+            topLeft = new GridPos(topLeft.getX(), maxGridY - desiredRows);
         }
 
         List<AViewAdvisorRectangular.ViewableGridCell> result = new ArrayList<>();
@@ -38,6 +38,18 @@ public class AViewAdvisorRectangular implements AViewAdvisor {
                 v.screenCoordinate.y = rows;
                 v.gridPos = new GridPos(topLeft.getX() + cols, topLeft.getY() + rows);
                 result.add(v);
+            }
+        }
+
+        if (false) {
+            System.out.println("Viewable: ");
+            int currentRow = 0;
+            for (ViewableGridCell c : result) {
+                if (currentRow != c.screenCoordinate.y) {
+                    System.out.println();
+                    currentRow = c.screenCoordinate.y;
+                }
+                System.out.print(c.gridPos.getX() + "," + c.gridPos.getY() + "   ");
             }
         }
         return result;

@@ -1,16 +1,15 @@
 package GameControl;
 
-import org.json.simple.parser.ParseException;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.IOException;
 
 public class AGameMain {
 
   private ADisplay display;
   private ASettings settings;
-  private AController controller;
+  private AMapController controller;
+
+  private static final String DEFAULT_MAP_RESOURCE = "rsc/TestMap.map";
 
   private boolean startWithMap = false;
   
@@ -20,16 +19,9 @@ public class AGameMain {
   private AEncounterEnvironmentManager environmentManager;
   private ABPSpeciesManager speciesManager;
   private ABPActionManager actionManager;
-
-  // Resource File Locations
-  private static final String DEFAULT_ENVIRONMENT_RESOURCE = "rsc/SimpleEnvironmentData.eef";
-  private static final String DEFAULT_SPECIES_RESOURCE = "rsc/SimpleSpeciesData.sdf";
-  private static final String DEFAULT_ACTION_RESOURCE = "rsc/SimpleActionData.adf";
-  private static final String DEFAULT_MAP_RESOURCE = "rsc/TestMap.map";
-
-  private String environmentResource = DEFAULT_ENVIRONMENT_RESOURCE;
-  private String speciesResource = DEFAULT_SPECIES_RESOURCE;
-  private String actionResource = DEFAULT_ACTION_RESOURCE;
+  private APlayerCharacter player;
+  private ASceneMap mapScene;
+  private ASceneEncounter encounterScene;
 
   public AGameMain() {
   }
@@ -38,16 +30,16 @@ public class AGameMain {
     this.startWithMap = startWithMap;
   }
 
-  public void setEnvironmentResourceName(String s) {
-    environmentResource = s;
+  public void setEncounterEnvironmentManager(AEncounterEnvironmentManager m) {
+    environmentManager = m;
   }
 
-  public void setActionResourceName(String s) {
-    actionResource = s;
+  public void setBPActionManager(ABPActionManager m) {
+    actionManager = m;
   }
 
-  public void setSpeciesResourceName(String s) {
-    speciesResource = s;
+  public void setBPSpeciesManager(ABPSpeciesManager m) {
+    speciesManager = m;
   }
 
   public boolean areResourcesLoaded() {
@@ -55,52 +47,61 @@ public class AGameMain {
   }
 
   public void go() {
+    assert environmentManager != null;
+    assert speciesManager != null;
+    assert actionManager != null;
+
     // Grab the settings for the game
     settings = ASettings.DEFAULT_SETTINGS; // TODO load settings
-
-    // Load all the resources
-    try {
-      loadResources();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
 
     // Create the display
     display = new ADisplay(settings.getWindowSize());
 
     // Add the controller
-    controller = new AController();
+    controller = new AMapController();
     display.addKeyListener(controller);
 
-    // Set the current scene
-    APlayerCharacter p = new APlayerCharacter();
-    AEnemy e = new AEnemy();
-    AEncounterEnvironment e2 = new AEncounterEnvironment(0);
+    // Create the player.
+    player = new APlayerCharacter();
+    player.setDesiredMovementProvider(controller);
 
-    if (startWithMap) {
-      try {
-        ACellManager cellManager = new ACellManagerSimple();
-        AMap map = new AMapReader(DEFAULT_MAP_RESOURCE).constructMap(cellManager);
-        AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
-        map.setViewAdvisor(viewAdvisor);
-        currentScene = map.getScene();
-      } catch (Exception ex) {
-        throw new RuntimeException("Unexpected", ex);
-      }
-    } else {
-      currentScene = new AEncounter(p, e, e2);
+    // Wire the controller up into the player since the controls here will influence the
+    // player position on the map.
+    player.setDesiredMovementProvider(controller);
+
+    try {
+      ACellManager cellManager = new ACellManagerSimple();
+      AMap map = new AMapReader(DEFAULT_MAP_RESOURCE).constructMap(cellManager);
+      AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
+      map.setViewAdvisor(viewAdvisor);
+      // In the map view the player must be aware of valid movements that can occur.
+      player.setGridPosValidator(map.getGridPosValidator());
+
+      mapScene = new ASceneMap(player, map);
+    } catch (Exception ex) {
+      throw new RuntimeException("Unexpected", ex);
     }
 
-    loop();
-  }
+    // TODO :: This is a placeholder and will normally be generated on the
+    // fly.
+    AEnemy e = new AEnemy();
+    AEncounterEnvironment e2 = new AEncounterEnvironment(0);
+    encounterScene = new ASceneEncounter(player, e, e2);
 
-  public void loadResources() throws IOException, ParseException {
-    AEncounterEnvironmentManagerReader er = new AEncounterEnvironmentManagerReader(environmentResource);
-    environmentManager = er.initializeEnvironmentManager();
-    ABPActionManagerReader ar = new ABPActionManagerReader(actionResource);
-    actionManager = ar.initializeActionManager();
-    ABPSpeciesManagerReader sr = new ABPSpeciesManagerReader(speciesResource);
-    speciesManager = sr.initializeSpeciesManager();
+    // Set the current scene depending on the flag passed in.
+    // TODO :: It is likely that we want to rework this.  You could imagine that
+    // TODO :: the scenes are actually implemented as a stack with a scene being allowed to push
+    // TODO :: a new scene onto the stack.  In this way you can be in a scene, like the main main
+    // TODO :: scene or in a main menu scene, and it can say "I want a new scene to be pushed onto
+    // TODO :: the stack" like a new encounter.  This scene is at the top of the stack until it says
+    // TODO :: "I'm done" and then it is popped.
+    // TODO :: The game main here would only step and draw the scene at the top of the stack.
+    if (startWithMap) {
+      currentScene = mapScene;
+    } else {
+      currentScene = encounterScene;
+    }
+    loop();
   }
 
   public void loop() {
@@ -108,8 +109,10 @@ public class AGameMain {
     display.setVisible(true);
 
     while (true) {
-      // We update
-      currentScene.update();
+
+      // Step the major units within the game.
+      player.step();
+      currentScene.step();
   
       // Then we draw
       BufferStrategy b = display.canvas.getBufferStrategy();
@@ -126,7 +129,6 @@ public class AGameMain {
       g.dispose();
       b.show();
     }
-    
   }
   
   public void handleDraw() {
