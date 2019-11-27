@@ -1,7 +1,10 @@
 package GameControl;
 
+import org.json.simple.parser.ParseException;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.Stack;
 
 public class AGameMain {
@@ -12,10 +15,6 @@ public class AGameMain {
   private ASettings settings;
   private AMapController controller;
 
-  private static final String DEFAULT_MAP_RESOURCE = "rsc/TestMap.map";
-
-  private boolean startWithMap = false;
-
   // Stack of Scenes
   private Stack<AScene> sceneStack;
 
@@ -24,10 +23,9 @@ public class AGameMain {
   private ABPSpeciesManager speciesManager;
   private ABPActionManager actionManager;
   private APlayerCharacter player;
-  private ASceneMap mapScene;
-  private ASceneEncounter encounterScene;
 
   public AGameMain() {
+    sceneStack = new Stack<>();
   }
 
   /**
@@ -35,12 +33,34 @@ public class AGameMain {
    * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
    * @param id the id number of the scene  to load
    */
-  public void addScene(SceneTypes type, int id) {
-
+  public void addScene(SceneTypes type, int id) throws ParseException, IOException {
+    AScene n;
+    switch (type) {
+      case ENCOUNTER:
+        n = createEncounterFromID(id);
+        break;
+      case MAP:
+        n = createMapFromID(id);
+        break;
+      default:
+        throw new IllegalArgumentException("Must specify a valid Scene Type");
+    }
+    sceneStack.push(n);
   }
 
-  public void setStartWithMap(boolean startWithMap) {
-    this.startWithMap = startWithMap;
+  private ASceneMap createMapFromID(int id) throws IOException, ParseException {
+    ACellManager cellManager = new ACellManagerSimple();
+    AMap map = new AMapReader(getMapNameFromID(id)).constructMap(cellManager);
+    AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
+    map.setViewAdvisor(viewAdvisor);
+    // In the map view the player must be aware of valid movements that can occur.
+    player.setGridPosValidator(map.getGridPosValidator());
+    return new ASceneMap(player, map);
+  }
+
+  private ASceneEncounter createEncounterFromID(int id) throws IOException, ParseException {
+    AEncounterInstance i = new AEncounterInstanceReader(getEncounterNameFromID(id)).loadEncounter(environmentManager, speciesManager);
+    return new ASceneEncounter(player, i);
   }
 
   public void setEncounterEnvironmentManager(AEncounterEnvironmentManager m) {
@@ -82,6 +102,8 @@ public class AGameMain {
     // player position on the map.
     player.setDesiredMovementProvider(controller);
 
+    /*
+
     try {
       ACellManager cellManager = new ACellManagerSimple();
       AMap map = new AMapReader(DEFAULT_MAP_RESOURCE).constructMap(cellManager);
@@ -109,7 +131,7 @@ public class AGameMain {
       sceneStack.push(encounterScene);
     }
 
-    loop();
+    */
   }
 
   public void loop() {
@@ -143,7 +165,7 @@ public class AGameMain {
   }
 
   public static String getMapNameFromID(int id) {
-    return id + ".map";
+    return "rsc/" + id + ".map";
   }
 
   public static String getEncounterNameFromID(int id) {

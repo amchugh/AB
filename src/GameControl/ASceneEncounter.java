@@ -25,6 +25,7 @@ public class ASceneEncounter implements AScene {
     // First, draw the background image
     Dimension size = ASettings.getCurrentSettings().getWindowSize();
     g.drawImage(encounter.getEnvironment().getBackgroundImage(), 0, 0, size.width, size.height,null);
+    // Draw the active BP's
     g.drawImage(player.getActiveBP().getSpecies().getFrontImage(), 10, 10, 100, 100, null);
     g.drawImage(encounter.getEnemy().getActiveBP().getSpecies().getBackImage(), 110, 10, 100, 100, null);
   }

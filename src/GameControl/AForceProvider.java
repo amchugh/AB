@@ -6,9 +6,7 @@ package GameControl;
  * be assigned a relative magnitude.
  */
 public interface AForceProvider {
-    public enum ForceDirection {UP, DOWN, LEFT, RIGHT}
-
-    ;
+    public enum ForceDirection {UP, DOWN, LEFT, RIGHT};
 
     boolean isForcePresent(ForceDirection d);
 
