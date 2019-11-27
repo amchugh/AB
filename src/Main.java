@@ -9,18 +9,9 @@ public class Main {
 
   private static final String TEST_MAP_RESOURCE = "rsc/0.map";
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception{
 
     AGameMain main = new AGameMain();
-
-    // TODO:  Add in here full CLI argument parsing.
-    // TODO:  Shift more of the creation of the dependent things used by GameMain into here and follow
-    //  the inversion of control -- dependency injection -- design pattern.
-    /*
-    if (args.length >= 1 && args[0].equalsIgnoreCase("Map")) {
-      main.setStartWithMap(true);
-    }
-     */
 
     String environmentResource = DEFAULT_ENVIRONMENT_RESOURCE;
     String speciesResource = DEFAULT_SPECIES_RESOURCE;
@@ -53,12 +44,25 @@ public class Main {
       System.out.println("Unable to initialize species manager");
       return;
     }
-    main.go();
-    try {
-      main.addScene(AGameMain.SceneTypes.MAP, 0);
-    } catch (Exception e) {
-      e.printStackTrace();
+    main.setup(); // This will set everything up for us
+
+    // If two arguments are specified, we will assume that the first is the type of scene to load
+    // and the second is the id number
+    if (args.length == 2) {
+      AGameMain.SceneTypes t;
+      switch(args[0].toLowerCase()) {
+        case "map": t = AGameMain.SceneTypes.MAP; break;
+        case "test": t = AGameMain.SceneTypes.ENCOUNTER; break;
+        default: throw new IllegalArgumentException("Bad scene type");
+      }
+      main.addScene(t, Integer.parseInt(args[1]));
     }
+
+    // If one argument is specified than we will assume that it is the filename to load
+    if (args.length == 1) {
+      main.addSceneSmart(args[0]);
+    }
+
     main.loop();
   }
 }

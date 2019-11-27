@@ -29,6 +29,26 @@ public class AGameMain {
   }
 
   /**
+   * Given a string, determines what kind of scene it is then adds it to the scene stack
+   * @param filename the location of the map to add
+   */
+  public void addSceneSmart(String filename) throws IOException, ParseException {
+    SceneTypes t = getSceneTypeFromExtension(filename);
+    AScene n;
+    switch (t) {
+      case ENCOUNTER:
+        n = createEncounterFromID(filename);
+        break;
+      case MAP:
+        n = createMapFromID(filename);
+        break;
+      default:
+        throw new IllegalArgumentException("Must specify a valid Scene Type");
+    }
+    sceneStack.push(n);
+  }
+
+  /**
    * Loads a scene from it's appropriate manager and then pushes the new scene to the top of the stack
    * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
    * @param id the id number of the scene  to load
@@ -37,10 +57,10 @@ public class AGameMain {
     AScene n;
     switch (type) {
       case ENCOUNTER:
-        n = createEncounterFromID(id);
+        n = createEncounterFromID(getEncounterNameFromID(id));
         break;
       case MAP:
-        n = createMapFromID(id);
+        n = createMapFromID(getMapNameFromID(id));
         break;
       default:
         throw new IllegalArgumentException("Must specify a valid Scene Type");
@@ -48,9 +68,25 @@ public class AGameMain {
     sceneStack.push(n);
   }
 
-  private ASceneMap createMapFromID(int id) throws IOException, ParseException {
+  private SceneTypes getSceneTypeFromExtension(String filename) {
+    try {
+      String end = filename.split("\\.")[1];
+      switch (end) {
+        case "map":
+          return SceneTypes.MAP;
+        case "esf":
+          return SceneTypes.ENCOUNTER;
+        default:
+          throw new IllegalArgumentException("File does not have a valid scene extension (\"" + end + "\")");
+      }
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Invalid filename", e);
+    }
+  }
+
+  private ASceneMap createMapFromID(String filename) throws IOException, ParseException {
     ACellManager cellManager = new ACellManagerSimple();
-    AMap map = new AMapReader(getMapNameFromID(id)).constructMap(cellManager);
+    AMap map = new AMapReader(filename).constructMap(cellManager);
     AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
     map.setViewAdvisor(viewAdvisor);
     // In the map view the player must be aware of valid movements that can occur.
@@ -58,8 +94,8 @@ public class AGameMain {
     return new ASceneMap(player, map);
   }
 
-  private ASceneEncounter createEncounterFromID(int id) throws IOException, ParseException {
-    AEncounterInstance i = new AEncounterInstanceReader(getEncounterNameFromID(id)).loadEncounter(environmentManager, speciesManager);
+  private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
+    AEncounterInstance i = new AEncounterInstanceReader(filename).loadEncounter(environmentManager, speciesManager);
     return new ASceneEncounter(player, i);
   }
 
@@ -79,7 +115,7 @@ public class AGameMain {
     return environmentManager != null && speciesManager != null && actionManager != null;
   }
 
-  public void go() {
+  public void setup() {
     assert environmentManager != null;
     assert speciesManager != null;
     assert actionManager != null;
@@ -101,37 +137,6 @@ public class AGameMain {
     // Wire the controller up into the player since the controls here will influence the
     // player position on the map.
     player.setDesiredMovementProvider(controller);
-
-    /*
-
-    try {
-      ACellManager cellManager = new ACellManagerSimple();
-      AMap map = new AMapReader(DEFAULT_MAP_RESOURCE).constructMap(cellManager);
-      AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
-      map.setViewAdvisor(viewAdvisor);
-      // In the map view the player must be aware of valid movements that can occur.
-      player.setGridPosValidator(map.getGridPosValidator());
-
-      mapScene = new ASceneMap(player, map);
-    } catch (Exception ex) {
-      throw new RuntimeException("Unexpected", ex);
-    }
-
-    // TODO :: This is a placeholder and will normally be generated on the
-    // fly.
-    AEnemy e = new AEnemy();
-    AEncounterEnvironment e2 = new AEncounterEnvironment(0);
-    AEncounterInstance i = new AEncounterInstance(0, e2, e);
-    encounterScene = new ASceneEncounter(player, i);
-
-    // Set the current scene depending on the flag passed in.
-    if (startWithMap) {
-      sceneStack.push(mapScene);
-    } else {
-      sceneStack.push(encounterScene);
-    }
-
-    */
   }
 
   public void loop() {
@@ -169,7 +174,7 @@ public class AGameMain {
   }
 
   public static String getEncounterNameFromID(int id) {
-    return id + ".eef";
+    return id + ".esf";
   }
 
   public static String getBPDataFileNameFromID(int id) {return id + ".bpf"; }
