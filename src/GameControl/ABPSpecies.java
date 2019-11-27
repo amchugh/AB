@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class ABPSpecies extends AIDItem {
 
-  public Image frontImage;
-  public Image backImage;
+  private Image frontImage;
+  private Image backImage;
   
   public ABPSpecies() {
     super(0);
@@ -28,6 +28,14 @@ public class ABPSpecies extends AIDItem {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public Image getFrontImage() {
+    return frontImage;
+  }
+
+  public Image getBackImage() {
+    return backImage;
   }
 
 }

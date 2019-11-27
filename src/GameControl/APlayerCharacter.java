@@ -3,7 +3,7 @@ package GameControl;
 public class APlayerCharacter {
   
   // TODO remove this field too and replace with actual code.
-  private ABP bp;
+  private ABPTeam bpTeam;
 
   // The player has a current grid position on the map.
   private GridPos currentPos;
@@ -12,8 +12,12 @@ public class APlayerCharacter {
   
   // TODO remove default constructor. Only here for testing purposes
   public APlayerCharacter() {
-    bp = new ABP();
+    bpTeam = new ABPTeam();
     currentPos = new GridPos(1, 1);
+  }
+
+  public void addBP(ABP bp) {
+    bpTeam.addBP(bp);
   }
 
   public GridPos getGridPos() {
@@ -22,7 +26,7 @@ public class APlayerCharacter {
   
   // TODO this method will stay, but needs to be edited with the rest of the class
   public ABP getActiveBP() {
-    return bp;
+    return bpTeam.getSelected();
   }
 
   public void setDesiredMovementProvider(AForceProvider forceProvider) {

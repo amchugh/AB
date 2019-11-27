@@ -7,7 +7,6 @@ public class Main {
   private static final String DEFAULT_SPECIES_RESOURCE = "rsc/SimpleSpeciesData.sdf";
   private static final String DEFAULT_ACTION_RESOURCE = "rsc/SimpleActionData.adf";
 
-
   public static void main(String[] args) {
 
     AGameMain main = new AGameMain();
@@ -15,7 +14,7 @@ public class Main {
     // TODO:  Add in here full CLI argument parsing.
     // TODO:  Shift more of the creation of the dependent things used by GameMain into here and follow
     //  the inversion of control -- dependency injection -- design pattern.
-    if (args.length == 1 && args[0].equalsIgnoreCase("Map")) {
+    if (args.length >= 1 && args[0].equalsIgnoreCase("Map")) {
       main.setStartWithMap(true);
     }
 

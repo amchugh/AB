@@ -15,9 +15,6 @@ import static org.mockito.ArgumentMatchers.*;
 class AMapInstanceTest {
 
     @Mock
-    private Graphics g;
-
-    @Mock
     private ACellManager cellManager;
 
     @Mock

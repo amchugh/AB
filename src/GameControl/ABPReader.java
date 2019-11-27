@@ -11,7 +11,7 @@ public class ABPReader extends AIOJSONHelper {
         super(BPFilename);
     }
 
-    ABP readABP(ABPSpeciesManager speciesManager) throws IOException, ParseException {
+    public ABP readABP(ABPSpeciesManager speciesManager) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         int bpSpeciesID = getInt(jo, "SpeciesID");

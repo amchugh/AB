@@ -44,6 +44,7 @@ public class ABPActionManagerReaderTest {
     @Test
     public void simpleReadExample() throws Exception, IOException, ParseException {
         ABPActionManagerReader r = new ABPActionManagerReader("test/rsc/SimpleActionData.adf");
+
         ABPActionManager m = r.initializeActionManager();
 
         assertNotNull(m);

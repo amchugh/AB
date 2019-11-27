@@ -1,17 +1,26 @@
 package GameControl;
 
 public class AEnemy {
-  
-  private ABP bp;
+
+  private ABPTeam bpTeam;
   
   // TODO remove default constructor. Only here for testing purposes.
   // TODO this whole class needs to be expanded on
   public AEnemy() {
-    bp = new ABP();
+    bpTeam = new ABPTeam();
   }
-  
+
+  public AEnemy(ABP bp) {
+    bpTeam = new ABPTeam();
+    bpTeam.addBP(bp);
+  }
+
+  public void addBP(ABP n) {
+    bpTeam.addBP(n);
+  }
+
   public ABP getActiveBP() {
-    return bp;
+    return bpTeam.getSelected();
   }
   
 }

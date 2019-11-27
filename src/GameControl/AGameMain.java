@@ -2,8 +2,11 @@ package GameControl;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Stack;
 
 public class AGameMain {
+
+  public enum SceneTypes {ENCOUNTER, MAP};
 
   private ADisplay display;
   private ASettings settings;
@@ -12,8 +15,9 @@ public class AGameMain {
   private static final String DEFAULT_MAP_RESOURCE = "rsc/TestMap.map";
 
   private boolean startWithMap = false;
-  
-  private AScene currentScene;
+
+  // Stack of Scenes
+  private Stack<AScene> sceneStack;
 
   // Resource Managers
   private AEncounterEnvironmentManager environmentManager;
@@ -24,6 +28,15 @@ public class AGameMain {
   private ASceneEncounter encounterScene;
 
   public AGameMain() {
+  }
+
+  /**
+   * Loads a scene from it's appropriate manager and then pushes the new scene to the top of the stack
+   * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
+   * @param id the id number of the scene  to load
+   */
+  public void addScene(SceneTypes type, int id) {
+
   }
 
   public void setStartWithMap(boolean startWithMap) {
@@ -86,21 +99,16 @@ public class AGameMain {
     // fly.
     AEnemy e = new AEnemy();
     AEncounterEnvironment e2 = new AEncounterEnvironment(0);
-    encounterScene = new ASceneEncounter(player, e, e2);
+    AEncounterInstance i = new AEncounterInstance(0, e2, e);
+    encounterScene = new ASceneEncounter(player, i);
 
     // Set the current scene depending on the flag passed in.
-    // TODO :: It is likely that we want to rework this.  You could imagine that
-    // TODO :: the scenes are actually implemented as a stack with a scene being allowed to push
-    // TODO :: a new scene onto the stack.  In this way you can be in a scene, like the main main
-    // TODO :: scene or in a main menu scene, and it can say "I want a new scene to be pushed onto
-    // TODO :: the stack" like a new encounter.  This scene is at the top of the stack until it says
-    // TODO :: "I'm done" and then it is popped.
-    // TODO :: The game main here would only step and draw the scene at the top of the stack.
     if (startWithMap) {
-      currentScene = mapScene;
+      sceneStack.push(mapScene);
     } else {
-      currentScene = encounterScene;
+      sceneStack.push(encounterScene);
     }
+
     loop();
   }
 
@@ -112,7 +120,7 @@ public class AGameMain {
 
       // Step the major units within the game.
       player.step();
-      currentScene.step();
+      sceneStack.peek().step();
   
       // Then we draw
       BufferStrategy b = display.canvas.getBufferStrategy();
@@ -122,8 +130,8 @@ public class AGameMain {
       }
   
       Graphics g = b.getDrawGraphics();
-  
-      currentScene.draw(g);
+
+      sceneStack.peek().draw(g);
   
       // All drawing needs to happen before these lines.
       g.dispose();
@@ -133,4 +141,19 @@ public class AGameMain {
   
   public void handleDraw() {
   }
+
+  public static String getMapNameFromID(int id) {
+    return id + ".map";
+  }
+
+  public static String getEncounterNameFromID(int id) {
+    return id + ".eef";
+  }
+
+  public static String getBPDataFileNameFromID(int id) {return id + ".bpf"; }
+
+  public static String getEnemyFileNameFromID(int id) {return id + ".edf";}
+
+  public static String getEnvironmentFileNameFromID(int id) {return id + ".eef";}
+
 }
