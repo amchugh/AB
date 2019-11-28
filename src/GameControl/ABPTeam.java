@@ -33,6 +33,9 @@ public class ABPTeam {
     }
 
     public ABP getSelected() {
+        if (bpArray.size() == 0) {
+            throw new RuntimeException("BP array has not been setup (there are no BPs added to this Team)");
+        }
         return bpArray.get(currentlySelected);
     }
 

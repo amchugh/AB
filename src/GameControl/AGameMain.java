@@ -24,8 +24,11 @@ public class AGameMain {
   private ABPActionManager actionManager;
   private APlayerCharacter player;
 
+  private boolean isReady = false;
+
   public AGameMain() {
     sceneStack = new Stack<>();
+    isReady = false;
   }
 
   /**
@@ -33,6 +36,7 @@ public class AGameMain {
    * @param filename the location of the map to add
    */
   public void addSceneSmart(String filename) throws IOException, ParseException {
+    assert isReady;
     SceneTypes t = getSceneTypeFromExtension(filename);
     AScene n;
     switch (t) {
@@ -54,6 +58,7 @@ public class AGameMain {
    * @param id the id number of the scene  to load
    */
   public void addScene(SceneTypes type, int id) throws ParseException, IOException {
+    assert isReady;
     AScene n;
     switch (type) {
       case ENCOUNTER:
@@ -116,9 +121,10 @@ public class AGameMain {
   }
 
   public void setup() {
-    assert environmentManager != null;
-    assert speciesManager != null;
-    assert actionManager != null;
+    if (!areResourcesLoaded()) {
+      throw new RuntimeException("Resources are not loaded");
+    }
+    assert !isReady;
 
     // Grab the settings for the game
     settings = ASettings.DEFAULT_SETTINGS; // TODO load settings
@@ -134,12 +140,26 @@ public class AGameMain {
     player = new APlayerCharacter();
     player.setDesiredMovementProvider(controller);
 
+    // todo:: remove this line. Just here temporarily
+    try {
+      ABP playerBP = new ABPReader(getBPDataFileNameFromID(0)).readABP(speciesManager);
+      player.addBP(playerBP);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     // Wire the controller up into the player since the controls here will influence the
     // player position on the map.
     player.setDesiredMovementProvider(controller);
+
+    // Set our setup flag
+    isReady = true;
   }
 
   public void loop() {
+    // Ensure the GameMain is already setup
+    assert isReady;
+
     // make the display visible
     display.setVisible(true);
 
@@ -170,17 +190,23 @@ public class AGameMain {
   }
 
   public static String getMapNameFromID(int id) {
-    return "rsc/" + id + ".map";
+    return "rsc/Maps/" + id + ".map";
   }
 
   public static String getEncounterNameFromID(int id) {
-    return id + ".esf";
+    return "rsc/EncounterSceneFiles/" + id + ".esf";
   }
 
-  public static String getBPDataFileNameFromID(int id) {return id + ".bpf"; }
+  public static String getBPDataFileNameFromID(int id) {
+      return "rsc/BPFiles/" + id + ".bpf"; // TODO finish path
+  }
 
-  public static String getEnemyFileNameFromID(int id) {return id + ".edf";}
+  public static String getEnemyFileNameFromID(int id) {
+      return "rsc/EnemyDataFiles/" + id + ".edf";
+  }
 
-  public static String getEnvironmentFileNameFromID(int id) {return id + ".eef";}
+  public static String getEnvironmentFileNameFromID(int id) {
+      return "rsc/EncounterEnvironmentFiles/" + id + ".eef";
+  }
 
 }

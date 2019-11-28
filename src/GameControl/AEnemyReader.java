@@ -22,7 +22,7 @@ public class AEnemyReader extends AIOJSONHelper {
         Iterator bps = items.iterator();
 
         while (bps.hasNext()) {
-            int bpID = (int) bps.next();
+            int bpID = getInt(bps.next());
             String bpFilename = AGameMain.getBPDataFileNameFromID(bpID);
             ABP c = (new ABPReader(bpFilename)).readABP(m);
             e.addBP(c);

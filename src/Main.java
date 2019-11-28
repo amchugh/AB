@@ -7,7 +7,7 @@ public class Main {
   private static final String DEFAULT_SPECIES_RESOURCE = "rsc/SimpleSpeciesData.sdf";
   private static final String DEFAULT_ACTION_RESOURCE = "rsc/SimpleActionData.adf";
 
-  private static final String TEST_MAP_RESOURCE = "rsc/0.map";
+  private static final String TEST_MAP_RESOURCE = "rsc/Maps/0.map";
 
   public static void main(String[] args) throws Exception{
 
@@ -44,6 +44,9 @@ public class Main {
       System.out.println("Unable to initialize species manager");
       return;
     }
+    main.setBPActionManager(actionManager);
+    main.setBPSpeciesManager(speciesManager);
+    main.setEncounterEnvironmentManager(environmentManager);
     main.setup(); // This will set everything up for us
 
     // If two arguments are specified, we will assume that the first is the type of scene to load
@@ -52,7 +55,7 @@ public class Main {
       AGameMain.SceneTypes t;
       switch(args[0].toLowerCase()) {
         case "map": t = AGameMain.SceneTypes.MAP; break;
-        case "test": t = AGameMain.SceneTypes.ENCOUNTER; break;
+        case "encounter": t = AGameMain.SceneTypes.ENCOUNTER; break;
         default: throw new IllegalArgumentException("Bad scene type");
       }
       main.addScene(t, Integer.parseInt(args[1]));
