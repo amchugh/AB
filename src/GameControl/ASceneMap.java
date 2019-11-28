@@ -19,6 +19,7 @@ public class ASceneMap implements AScene {
     @Override
     public void step() {
         player.step();
+        player.handleMove();
         map.setViewFocus(player.getGridPos());
         map.getScene().step();
     }

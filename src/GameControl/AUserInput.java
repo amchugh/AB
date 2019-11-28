@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 // fixme:: feel free to change this if you have a better idea on how to handle
@@ -14,10 +15,12 @@ public class AUserInput extends KeyAdapter implements KeyListener {
         final char c;
         final double buttonDownTime;
         double lastConsumeTime;
+        boolean hasBeenConsumed;
 
         KeyPress(char c, double t) {
             this.c = c;
             this.buttonDownTime = t;
+            hasBeenConsumed = false;
         }
     }
 
@@ -46,22 +49,51 @@ public class AUserInput extends KeyAdapter implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (isKeyPressed(e.getKeyChar()))
             return;
-        System.out.println("Key Pressed event; Key: " + e.getKeyChar());
         pressedKeys.add(new KeyPress(e.getKeyChar(), System.currentTimeMillis()));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("Key Released event; Key: " + e.getKeyChar());
         pressedKeys.removeIf(s -> s.c == e.getKeyChar());
     }
 
     public boolean isKeyPressed(char c) {
-
         Stream<KeyPress> result = pressedKeys.stream().filter((i) -> i.c == c);
         boolean finalResult = result != null && result.count() > 0;
-
         return finalResult;
+    }
+
+    /**
+     * Returns if this is the first time the key has been consumed
+     * @param c
+     * @return
+     */
+    public boolean isKeyPressedFirstTime(char c) {
+        Stream<KeyPress> result = pressedKeys.stream().filter((i) -> i.c == c);
+        if (result == null)
+            return false;
+        KeyPress k = result.findFirst().get();
+        if (k.hasBeenConsumed)
+            return false;
+        k.hasBeenConsumed = true;
+        return true;
+    }
+
+    /**
+     * Gets the time of the key press
+     * @param c the key to find
+     * @return the time in millis when the key was pressed (-1 if the key is not pressed)
+     */
+    public double getKeyPressTime(char c) {
+        Stream<KeyPress> result = pressedKeys.stream().filter((i) -> i.c == c);
+        if (result == null)
+            return -1;
+
+        Optional<KeyPress> k = result.findFirst();
+        if (!k.isPresent())
+            return -1;
+
+        return k.get().buttonDownTime;
     }
 
     /**

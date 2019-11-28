@@ -109,7 +109,8 @@ public class AGameMain {
 
   private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
     AEncounterInstance i = new AEncounterInstanceReader(filename).loadEncounter(environmentManager, speciesManager);
-    return new ASceneEncounter(player, i);
+    AEncounterController e = new AEncounterController(userInput);
+    return new ASceneEncounter(player, i, e);
   }
 
   public void setEncounterEnvironmentManager(AEncounterEnvironmentManager m) {

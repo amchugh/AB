@@ -41,10 +41,9 @@ public class APlayerCharacter {
     // TODO:  Current the player can only move but this is dependent on the specific scene so
     // it is likely that we will want to factor this out of this class so that the Player can
     // exist as a construct independent of whether they are currently in a battle or on the map.
-    handleMove();
   }
 
-  private void handleMove() {
+  public void handleMove() {
     GridPos desiredPos = new GridPos(currentPos.getX(), currentPos.getY());
     if (movementProvider.isForcePresent(AForceProvider.ForceDirection.UP)) {
       desiredPos.setY(desiredPos.getY() - 1);

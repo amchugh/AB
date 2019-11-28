@@ -26,11 +26,14 @@ public class ASceneEncounterTest {
     @Mock
     private AEncounterEnvironment mockEnv;
 
+    @Mock
+    private AEncounterController encounterController;
+
     @InjectMocks
     private AEncounterInstance encI = new AEncounterInstance(0, mockEnv, mockEnemy);
 
     @InjectMocks
-    private ASceneEncounter se = new ASceneEncounter(mockPlayer, encI);
+    private ASceneEncounter se = new ASceneEncounter(mockPlayer, encI, encounterController);
 
     @BeforeEach
     public void setUp() {
