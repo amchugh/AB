@@ -13,7 +13,7 @@ public class AGameMain {
 
   private ADisplay display;
   private ASettings settings;
-  private AMapController controller;
+  private AUserInput userInput;
 
   // Stack of Scenes
   private Stack<AScene> sceneStack;
@@ -62,10 +62,18 @@ public class AGameMain {
     AScene n;
     switch (type) {
       case ENCOUNTER:
+        // Create the encounter
         n = createEncounterFromID(getEncounterNameFromID(id));
+        // Add the encounter controller
+        AEncounterController ec = new AEncounterController(userInput);
         break;
       case MAP:
+        // Create the map
         n = createMapFromID(getMapNameFromID(id));
+        // Create the controller
+        AMapController mc = new AMapController(userInput);
+        // Register the controller with the player
+        player.setDesiredMovementProvider(mc);
         break;
       default:
         throw new IllegalArgumentException("Must specify a valid Scene Type");
@@ -132,25 +140,22 @@ public class AGameMain {
     // Create the display
     display = new ADisplay(settings.getWindowSize());
 
-    // Add the controller
-    controller = new AMapController();
-    display.addKeyListener(controller);
+    // Create the user input object
+    userInput = new AUserInput();
+    // Add the map controller to the key listeners
+    display.addKeyListener(userInput);
 
     // Create the player.
     player = new APlayerCharacter();
-    player.setDesiredMovementProvider(controller);
 
-    // todo:: remove this line. Just here temporarily
+    // todo:: remove these lines. Just here temporarily to add a BP to the player.
+    // todo:: this should be loaded in later down the road
     try {
       ABP playerBP = new ABPReader(getBPDataFileNameFromID(0)).readABP(speciesManager);
       player.addBP(playerBP);
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    // Wire the controller up into the player since the controls here will influence the
-    // player position on the map.
-    player.setDesiredMovementProvider(controller);
 
     // Set our setup flag
     isReady = true;
@@ -175,7 +180,7 @@ public class AGameMain {
         display.canvas.createBufferStrategy(2);
         b = display.canvas.getBufferStrategy();
       }
-  
+
       Graphics g = b.getDrawGraphics();
 
       sceneStack.peek().draw(g);
@@ -184,9 +189,6 @@ public class AGameMain {
       g.dispose();
       b.show();
     }
-  }
-  
-  public void handleDraw() {
   }
 
   public static String getMapNameFromID(int id) {
