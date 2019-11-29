@@ -108,7 +108,11 @@ public class AUserInput extends KeyAdapter implements KeyListener {
         if (result == null)
             return false;
 
-        KeyPress k = result.findFirst().get();
+        Optional<KeyPress> k2 = result.findFirst();
+        if (!k2.isPresent())
+            return false;
+
+        KeyPress k = k2.get();
         if (k.lastConsumeTime + minTime < System.currentTimeMillis()) {
             k.lastConsumeTime = System.currentTimeMillis();
             return true;

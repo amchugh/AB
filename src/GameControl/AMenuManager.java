@@ -5,8 +5,14 @@ import java.util.ArrayList;
 
 public class AMenuManager {
 
+    protected ArrayList<AMenuItem> displayItems;
     protected ArrayList<AMenuSelectable> selectables;
     protected AMenuSelectable selected;
+
+    public AMenuManager() {
+        selectables = new ArrayList<>();
+        displayItems = new ArrayList<>();
+    }
 
     public void attemptMove(AMenuFlowProvider.FlowDirection d) {
         AMenuSelectable dir = switch (d) {
@@ -21,7 +27,7 @@ public class AMenuManager {
     }
 
     public void draw(Graphics g) {
-        selectables.forEach(s -> s.draw(g));
+        displayItems.forEach(s -> s.draw(g));
     }
 
     public int getSelectedIndex() {
@@ -33,7 +39,7 @@ public class AMenuManager {
         throw new RuntimeException("Selected item is not in Array of selectable items");
     }
 
-    protected void setSelected(AMenuSelectable sel) {
+    public void setSelected(AMenuSelectable sel) {
         throw new RuntimeException("This should never be called"); // todo:: uhhhhhh this a hugggeeee hack so like get rid of it
     }
 

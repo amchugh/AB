@@ -16,12 +16,18 @@ public class ASceneEncounter implements AScene {
   private boolean isSetup;
   private boolean encounterOver;
 
+  // This enum/field will be used to store the current state of the encounter.
+  // For example, is the user selecting a move, is narration being displayed, etc
+  private enum GameState {SELECTING_MOVE, DEATH_NARRATION};
+  private GameState currentState;
+
   public ASceneEncounter(APlayerCharacter player, AEncounterInstance encounter, AEncounterController encControler) {
     // Assign references
     this.player = player;
     this.encounter = encounter;
     this.encounterController = encControler;
     isSetup = false; encounterOver = false;
+    currentState = GameState.SELECTING_MOVE;
   }
 
   public void setup() {
@@ -30,6 +36,18 @@ public class ASceneEncounter implements AScene {
   }
 
   private void makeMenu() {
+    switch (currentState) {
+      case DEATH_NARRATION: makeDeathAnimationMenu(); break;
+      case SELECTING_MOVE: makeActionMenu(); break;
+    }
+  }
+
+  private void makeDeathAnimationMenu() {
+    String deathText = encounter.getEnemy().getDeathText();
+    menu = new AEncounterNarrationMenu(deathText);
+  }
+
+  private void makeActionMenu() {
     ABP t = player.getActiveBP();
     ArrayList<ABPAction> actions = t.getActions();
     String[] names = new String[actions.size()];
@@ -45,7 +63,10 @@ public class ASceneEncounter implements AScene {
     if(!isSetup)
       setup();
 
-    handleMoveSelection();
+    switch(currentState) {
+      case SELECTING_MOVE: handleMoveSelection(); break;
+      case DEATH_NARRATION: handleDeathNarration(); break;
+    }
   }
 
   private void handleMoveSelection() {
@@ -69,9 +90,8 @@ public class ASceneEncounter implements AScene {
           // todo:: add support for switching to next BP on death
         } else {
           // The enemy is defeated
-          System.out.println("Enemy defeated!");
-          // todo:: add some text to the screen explaining the player has won.
-          encounterOver = true;
+          currentState = GameState.DEATH_NARRATION;
+          makeMenu(); // update the current menu
         }
       }
     }
@@ -83,10 +103,21 @@ public class ASceneEncounter implements AScene {
     }
   }
 
+  private void handleDeathNarration() {
+    if (encounterController.doSelect()) {
+      encounterOver = true;
+    }
+  }
+
   @Override
   public void draw(Graphics g) {
-    // First, draw the background image
     Dimension size = ASettings.getCurrentSettings().getWindowSize();
+
+    // todo:: remove. I'm going to draw a background plate for now just to make it clear what is being drawn at every frame
+    g.setColor(Color.white);
+    g.fillRect(0, 0, size.width, size.height);
+
+    // First, draw the background image
     g.drawImage(encounter.getEnvironment().getBackgroundImage(), 0, 0, size.width, size.height,null);
     // Draw the menu
     menu.draw(g);
@@ -102,6 +133,7 @@ public class ASceneEncounter implements AScene {
 
   @Override
   public ASceneData shouldPushScene() {
+    // Encounters will likely never push new scenes
     return null;
   }
 }

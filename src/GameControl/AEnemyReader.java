@@ -16,7 +16,9 @@ public class AEnemyReader extends AIOJSONHelper {
     public AEnemy loadEnemy(ABPSpeciesManager m, ABPActionManager a) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
-        AEnemy e = new AEnemy();
+        String deathText = getString(jo, "DeathText");
+
+        AEnemy e = new AEnemy(deathText);
 
         JSONArray items = (JSONArray) jo.get("BPs");
         Iterator bps = items.iterator();

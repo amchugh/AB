@@ -37,11 +37,11 @@ public class AEncounterController implements AMenuFlowProvider{
 
     @Override
     public boolean doSelect() {
-        return userInput.isKeyPressed('e');
+        return userInput.isKeyTimedIn('e', repeatTime);
     }
 
     @Override
     public boolean doCancel() {
-        return userInput.isKeyPressed('q');
+        return userInput.isKeyTimedIn('q', repeatTime);
     }
 }

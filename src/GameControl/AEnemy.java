@@ -3,17 +3,20 @@ package GameControl;
 public class AEnemy {
 
   private ABPTeam bpTeam;
-  
-  // TODO remove default constructor. Only here for testing purposes.
-  // TODO this whole class needs to be expanded on
-  public AEnemy() {
+  private final String deathText;
+
+  public AEnemy(String deathText) {
+    this.deathText = deathText;
     bpTeam = new ABPTeam();
   }
 
-  public AEnemy(ABP bp) {
+  public AEnemy(ABP bp, String deathText) {
     bpTeam = new ABPTeam();
     bpTeam.addBP(bp);
+    this.deathText = deathText;
   }
+
+  //todo:: add other constructors
 
   public void addBP(ABP n) {
     bpTeam.addBP(n);
@@ -43,6 +46,10 @@ public class AEnemy {
    */
   public boolean hasMoreBP() {
     return bpTeam.hasLivingBP();
+  }
+
+  public String getDeathText() {
+    return deathText;
   }
 
 }
