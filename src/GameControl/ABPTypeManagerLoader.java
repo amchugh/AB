@@ -13,9 +13,9 @@ public class ABPTypeManagerLoader extends AIOJSONHelper {
         super(filename);
     }
 
-    public ABPTypeManager loadManager() throws IOException, ParseException {
+    public AResourceManager<ABPType> loadManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
-        ABPTypeManager m = new ABPTypeManager();
+        AResourceManager<ABPType> m = new AResourceManager<>();
         JSONArray arr = getArray(jo, "Types");
 
         // First, create the types
