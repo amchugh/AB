@@ -313,9 +313,16 @@ public class ASceneEncounter implements AScene {
     // Draw the menu
     menu.draw(g);
     statusMenu.draw(g);
+    Dimension bpImageSize = new Dimension(100,100);
     // Draw the active BP's
-    g.drawImage(player.getActiveBP().getSpecies().getFrontImage(), 110, 10, 100, 100, null);
-    g.drawImage(encounter.getEnemy().getActiveBP().getSpecies().getBackImage(), 210, 10, 100, 100, null);
+    g.drawImage(
+            player.getActiveBP().getSpecies().getFrontImage(),
+            size.width/2 - bpImageSize.width/2, (int)Math.floor(size.height*.8) - bpImageSize.height/2,
+            bpImageSize.width, bpImageSize.height, null);
+    g.drawImage(
+            encounter.getEnemy().getActiveBP().getSpecies().getBackImage(),
+            size.width/2 - bpImageSize.width/2, (int)Math.floor(size.height*.2) - bpImageSize.height/2,
+            bpImageSize.width, bpImageSize.height, null);
   }
 
   @Override
