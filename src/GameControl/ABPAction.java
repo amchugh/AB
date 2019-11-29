@@ -9,10 +9,19 @@ package GameControl;
 public class ABPAction extends AIDItem {
 
     private final int damage;
+    private final String name;
 
-    public ABPAction(int id, int damage) {
+    public ABPAction(int id, int damage, String name) {
         super (id);
         this.damage = damage;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public int getDamage() {
+        return damage;
     }
 
 }

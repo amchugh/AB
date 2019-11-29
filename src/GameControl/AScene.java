@@ -9,4 +9,7 @@ import java.awt.*;
 public interface AScene {
   void step();
   void draw(Graphics g);
+  boolean shouldScenePop();
+  ASceneData shouldPushScene();
 }
+

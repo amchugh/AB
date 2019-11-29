@@ -3,6 +3,17 @@
         {
             "ID": 0,
             "Damage": 10,
+            "Name": "foo",
+        },
+        {
+            "ID": 1,
+            "Damage": 20,
+            "Name": "bar",
+        },
+        {
+            "ID": 2,
+            "Damage": 30,
+            "Name": "foobar",
         },
     ]
 }

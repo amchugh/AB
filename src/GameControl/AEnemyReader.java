@@ -13,7 +13,7 @@ public class AEnemyReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AEnemy loadEnemy(ABPSpeciesManager m) throws IOException, ParseException {
+    public AEnemy loadEnemy(ABPSpeciesManager m, ABPActionManager a) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         AEnemy e = new AEnemy();
@@ -24,7 +24,7 @@ public class AEnemyReader extends AIOJSONHelper {
         while (bps.hasNext()) {
             int bpID = getInt(bps.next());
             String bpFilename = AGameMain.getBPDataFileNameFromID(bpID);
-            ABP c = (new ABPReader(bpFilename)).readABP(m);
+            ABP c = (new ABPReader(bpFilename)).readABP(m, a);
             e.addBP(c);
         }
 

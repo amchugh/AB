@@ -11,7 +11,7 @@ public class AEncounterInstanceReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AEncounterInstance loadEncounter(AEncounterEnvironmentManager envManager, ABPSpeciesManager speciesManager) throws IOException, ParseException {
+    public AEncounterInstance loadEncounter(AEncounterEnvironmentManager envManager, ABPSpeciesManager speciesManager, ABPActionManager actionManager) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         int id = getInt(jo, "ID");
@@ -20,7 +20,7 @@ public class AEncounterInstanceReader extends AIOJSONHelper {
 
         // Load the enemy
         String enemyFilename = AGameMain.getEnemyFileNameFromID(enemyId);
-        AEnemy enemy = (new AEnemyReader(enemyFilename)).loadEnemy(speciesManager);
+        AEnemy enemy = (new AEnemyReader(enemyFilename)).loadEnemy(speciesManager, actionManager);
 
         // Load the environment
         AEncounterEnvironment env = envManager.getEnvironmentByID(environmentID);

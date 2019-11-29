@@ -3,10 +3,12 @@
         {
             "ID": 0,
             "Damage": 10,
+            "Name": "foo",
         },
         {
             "ID": 0,
-            "Damage": 10
+            "Damage": 10,
+            "Name": "bar",
         }
     ]
 }

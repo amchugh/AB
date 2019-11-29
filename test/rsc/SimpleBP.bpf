@@ -1,4 +1,7 @@
 {
     "SpeciesID": 3,
-    "CurrentHP": 50
+    "CurrentHP": 50,
+    "Actions": [
+        0,
+    ],
 }

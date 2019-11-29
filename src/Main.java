@@ -52,10 +52,10 @@ public class Main {
     // If two arguments are specified, we will assume that the first is the type of scene to load
     // and the second is the id number
     if (args.length == 2) {
-      AGameMain.SceneTypes t;
+      ASceneData.SceneTypes t;
       switch(args[0].toLowerCase()) {
-        case "map": t = AGameMain.SceneTypes.MAP; break;
-        case "encounter": t = AGameMain.SceneTypes.ENCOUNTER; break;
+        case "map": t = ASceneData.SceneTypes.MAP; break;
+        case "encounter": t = ASceneData.SceneTypes.ENCOUNTER; break;
         default: throw new IllegalArgumentException("Bad scene type");
       }
       main.addScene(t, Integer.parseInt(args[1]));

@@ -15,7 +15,8 @@ class ABPReaderTest {
             ABPReader r = new ABPReader("rsc/DoesNotExists.map");
             ABPSpeciesManager m = new ABPSpeciesManager(); // This does not need to be initialized.
                                                            // In fact, this could be null
-            r.readABP(m);
+            ABPActionManager m2 = new ABPActionManager();
+            r.readABP(m, m2);
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -32,9 +33,12 @@ class ABPReaderTest {
         ABPReader r = new ABPReader("test/rsc/SimpleBP.bpf");
         ABPSpeciesManagerReader mr = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
         ABPSpeciesManager m = mr.initializeSpeciesManager();
-        ABP bp = r.readABP(m);
+        ABPActionManagerReader ar = new ABPActionManagerReader("test/rsc/SimpleActionData.adf");
+        ABPActionManager am = ar.initializeActionManager();
+        ABP bp = r.readABP(m, am);
 
         assertNotNull(bp);
+        assert (bp.getActions().size() == 1);
         assert (bp.getSpecies() != null);
     }
 

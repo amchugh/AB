@@ -2,6 +2,7 @@ package GameControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ABPTeam {
 
@@ -37,6 +38,14 @@ public class ABPTeam {
             throw new RuntimeException("BP array has not been setup (there are no BPs added to this Team)");
         }
         return bpArray.get(currentlySelected);
+    }
+
+    /**
+     * @return if there is a BP with positive health
+     */
+    public boolean hasLivingBP() {
+        Stream<ABP> abpStream = bpArray.stream().filter(b -> b.isAlive());
+        return !((abpStream == null) || (abpStream.count() == 0));
     }
 
 }

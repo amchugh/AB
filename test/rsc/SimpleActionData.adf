@@ -3,6 +3,7 @@
         {
             "ID": 0,
             "Damage": 10,
+            "Name": "Test",
         },
     ]
 }

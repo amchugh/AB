@@ -9,8 +9,6 @@ import java.util.Stack;
 
 public class AGameMain {
 
-  public enum SceneTypes {ENCOUNTER, MAP};
-
   private ADisplay display;
   private ASettings settings;
   private AUserInput userInput;
@@ -37,7 +35,7 @@ public class AGameMain {
    */
   public void addSceneSmart(String filename) throws IOException, ParseException {
     assert isReady;
-    SceneTypes t = getSceneTypeFromExtension(filename);
+    ASceneData.SceneTypes t = getSceneTypeFromExtension(filename);
     AScene n;
     switch (t) {
       case ENCOUNTER:
@@ -57,7 +55,7 @@ public class AGameMain {
    * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
    * @param id the id number of the scene  to load
    */
-  public void addScene(SceneTypes type, int id) throws ParseException, IOException {
+  public void addScene(ASceneData.SceneTypes type, int id) throws ParseException, IOException {
     assert isReady;
     AScene n;
     switch (type) {
@@ -81,14 +79,14 @@ public class AGameMain {
     sceneStack.push(n);
   }
 
-  private SceneTypes getSceneTypeFromExtension(String filename) {
+  private ASceneData.SceneTypes getSceneTypeFromExtension(String filename) {
     try {
       String end = filename.split("\\.")[1];
       switch (end) {
         case "map":
-          return SceneTypes.MAP;
+          return ASceneData.SceneTypes.MAP;
         case "esf":
-          return SceneTypes.ENCOUNTER;
+          return ASceneData.SceneTypes.ENCOUNTER;
         default:
           throw new IllegalArgumentException("File does not have a valid scene extension (\"" + end + "\")");
       }
@@ -108,7 +106,7 @@ public class AGameMain {
   }
 
   private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
-    AEncounterInstance i = new AEncounterInstanceReader(filename).loadEncounter(environmentManager, speciesManager);
+    AEncounterInstance i = new AEncounterInstanceReader(filename).loadEncounter(environmentManager, speciesManager, actionManager);
     AEncounterController e = new AEncounterController(userInput);
     return new ASceneEncounter(player, i, e);
   }
@@ -152,7 +150,7 @@ public class AGameMain {
     // todo:: remove these lines. Just here temporarily to add a BP to the player.
     // todo:: this should be loaded in later down the road
     try {
-      ABP playerBP = new ABPReader(getBPDataFileNameFromID(0)).readABP(speciesManager);
+      ABP playerBP = new ABPReader(getBPDataFileNameFromID(0)).readABP(speciesManager, actionManager);
       player.addBP(playerBP);
     } catch (Exception e) {
       e.printStackTrace();
@@ -174,7 +172,28 @@ public class AGameMain {
       // Step the major units within the game.
       player.step();
       sceneStack.peek().step();
-  
+
+      // See if a new scene should be pushed
+      ASceneData d = sceneStack.peek().shouldPushScene();
+      if (d != null) {
+        try {
+          addScene(d.type, d.id);
+        } catch (ParseException e) {
+          throw new RuntimeException("Failed to push new scene", e);
+        } catch (IOException e) {
+          throw new RuntimeException("Failed to push new scene", e);
+        }
+      }
+
+      // See if the scene should be popped
+      else if (sceneStack.peek().shouldScenePop()) {
+        sceneStack.pop();
+        if (sceneStack.empty()) {
+          // Gameover!
+          System.exit(0);
+        }
+      }
+
       // Then we draw
       BufferStrategy b = display.canvas.getBufferStrategy();
       if (b == null) {

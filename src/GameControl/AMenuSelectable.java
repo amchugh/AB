@@ -13,6 +13,8 @@ public class AMenuSelectable {
     private AMenuSelectable up;
     private AMenuSelectable down;
 
+    private static final Font font = new Font("Serif", Font.PLAIN, 24);
+
     public AMenuSelectable(String text, int x1, int y1, int x2, int y2, Color backgroundColor, Color textColor) {
         this.text = text;
         this.x1 = x1;
@@ -62,9 +64,29 @@ public class AMenuSelectable {
     public void draw(Graphics g) {
         // Draw the rectangle first
         g.setColor(backgroundColor);
-        g.fillRect(x1, y2, x2-x1, y2-y1);
+        g.fillRect(x1, y1, x2-x1, y2-y1);
         // Draw the text in the rectangle
-        // todo:: draw the button text
+        g.setFont(font);
+        g.setColor(textColor);
+        FontMetrics fontMetrics = g.getFontMetrics();
+        drawCenteredString(g, text, font, x1 + (x2-x1)/2, y1 + (y2-y1)/2);
+    }
+
+    /**
+     * Draw a String centered in the middle of a Rectangle.
+     * @param g the graphics object
+     * @param text the string to draw
+     * @param x the center-x of the string
+     * @param y the center-y of the string
+     */
+    public void drawCenteredString(Graphics g, String text, Font font, int x, int y) {
+        // Get the FontMetrics object
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the coordinates for the text
+        int cx = x - metrics.stringWidth(text)/2;
+        int cy = y - metrics.getHeight() / 2 + metrics.getAscent();
+        // Draw the String
+        g.drawString(text, cx, cy);
     }
 
 }

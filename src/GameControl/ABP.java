@@ -1,30 +1,40 @@
 package GameControl;
 
+import java.util.ArrayList;
+
 public class ABP {
   
   private int health;
   private ABPSpecies species;
-  
-  // TODO remove default constructor. Only here for testing purposes
-  public ABP() {
-    species = new ABPSpecies();
-  }
+  private ArrayList<ABPAction> actions;
+
+  public static final int MAX_ACTIONS = 4;
 
   public ABP(ABPSpecies species) {
     this.species = species;
+    actions = new ArrayList<>();
   }
-  
+
+  public ArrayList<ABPAction> getActions() {
+    if (actions.size() == 0) {
+      throw new RuntimeException("Moves have not been initialized on this BP yet");
+    }
+    return actions;
+  }
+
+  public void addAction(ABPAction a) {
+    if (actions.size() == MAX_ACTIONS) {
+      throw new IllegalArgumentException("BP already has 4 registered moves");
+    }
+    actions.add(a);
+  }
+
   /**
    * Causes the BP to take damage
    * @param damage the raw amount to take
-   * @return whether the BP is still alive
    */
-  public boolean takeDamage(int damage) {
+  public void takeDamage(int damage) {
     health -= damage;
-    if (health < 0) {
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -38,5 +48,12 @@ public class ABP {
   public ABPSpecies getSpecies() {
     return species;
   }
-  
+
+  public boolean isAlive() {
+    if (health < 0) {
+      return false;
+    }
+    return true;
+  }
+
 }

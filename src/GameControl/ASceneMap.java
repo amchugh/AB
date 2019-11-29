@@ -28,4 +28,14 @@ public class ASceneMap implements AScene {
     public void draw(Graphics g) {
         map.getScene().draw(g);
     }
+
+    @Override
+    public boolean shouldScenePop() {
+        return false; // todo:: this logic.
+    }
+
+    @Override
+    public ASceneData shouldPushScene() {
+        return null; // todo:: this logic.
+    }
 }

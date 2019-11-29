@@ -8,6 +8,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.awt.*;
+import java.util.ArrayList;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 public class ASceneEncounterTest {
 
@@ -35,6 +39,9 @@ public class ASceneEncounterTest {
     @InjectMocks
     private ASceneEncounter se = new ASceneEncounter(mockPlayer, encI, encounterController);
 
+    @Mock
+    private FontMetrics fontMetrics;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -46,6 +53,14 @@ public class ASceneEncounterTest {
         Mockito.when(mockBP.getSpecies()).thenReturn(mockSpecies);
         Mockito.when(mockEnemy.getActiveBP()).thenReturn(mockBP);
         Mockito.when(mockPlayer.getActiveBP()).thenReturn(mockBP);
+        Mockito.when(g.getFontMetrics(any())).thenReturn(fontMetrics);
+        Mockito.when(fontMetrics.getAscent()).thenReturn(10);
+        Mockito.when(fontMetrics.getHeight()).thenReturn(10);
+        Mockito.when(fontMetrics.stringWidth(any())).thenReturn(10);
+        ArrayList<ABPAction> act = new ArrayList<>();
+        act.add(new ABPAction(0,10, "test"));
+        Mockito.when(mockBP.getActions()).thenReturn(act);
+        se.setup();
         se.draw(g);
         Mockito.verify(mockSpecies).getFrontImage();
         Mockito.verify(mockSpecies).getBackImage();

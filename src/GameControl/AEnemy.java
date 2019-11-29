@@ -18,9 +18,31 @@ public class AEnemy {
   public void addBP(ABP n) {
     bpTeam.addBP(n);
   }
-
   public ABP getActiveBP() {
     return bpTeam.getSelected();
   }
-  
+
+  /**
+   * Deals damage to the current BP
+   * @param damage raw damage to take
+   */
+  public void takeDamage(int damage) {
+    getActiveBP().takeDamage(damage);
+  }
+
+  /**
+   * @return if the currently selected BP is alive
+   */
+  public boolean isBPAlive() {
+    return getActiveBP().isAlive();
+  }
+
+  /**
+   * Finds if a BP is alive
+   * @return if the enemy has another BP
+   */
+  public boolean hasMoreBP() {
+    return bpTeam.hasLivingBP();
+  }
+
 }

@@ -77,6 +77,16 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     }
 
     @Override
+    public boolean shouldScenePop() {
+        return false; // readme:: i don't know if this class should implement AScene and AMap...
+    }
+
+    @Override
+    public ASceneData shouldPushScene() {
+        return null;
+    }
+
+    @Override
     public boolean isGridPosOccupiable(GridPos g) {
         if (g.getX() < 0 || g.getY() < 0) {
             return false;

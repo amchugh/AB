@@ -25,12 +25,13 @@ public class ABPActionManagerReader extends AIOJSONHelper {
             JSONObject oi = (JSONObject) ii.next();
             int id = getInt(oi, "ID");
             int damage = getInt(oi, "Damage");
-            ABPAction action = new ABPAction(id, damage);
+            String name = getString(oi, "Name");
+            ABPAction action = new ABPAction(id, damage, name);
             m.addItem(action);
         }
 
         if (!m.verifyIDNumbers()) {
-            throw new IOException("Multiple Environments exist with the same ID");
+            throw new IOException("Multiple Actions exist with the same ID");
         }
 
         return m;

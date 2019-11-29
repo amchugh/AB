@@ -18,8 +18,7 @@ public class AEncounterEnvironmentManagerReader extends AIOJSONHelper {
         JSONObject jo = getJSON();
         AEncounterEnvironmentManager m = new AEncounterEnvironmentManager();
 
-        JSONArray items = (JSONArray) jo.get("Environments");
-        Iterator ii = items.iterator();
+        Iterator ii = getArray(jo, "Environments");
 
         while (ii.hasNext())
         {

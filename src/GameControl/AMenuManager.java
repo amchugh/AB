@@ -24,9 +24,17 @@ public class AMenuManager {
         selectables.forEach(s -> s.draw(g));
     }
 
+    public int getSelectedIndex() {
+        for (int i = 0; i < selectables.size(); i++) {
+            if (selectables.get(i) == selected) {
+                return i;
+            }
+        }
+        throw new RuntimeException("Selected item is not in Array of selectable items");
+    }
+
     protected void setSelected(AMenuSelectable sel) {
-        selected =sel;
-        System.out.println("help");
+        throw new RuntimeException("This should never be called"); // todo:: uhhhhhh this a hugggeeee hack so like get rid of it
     }
 
 }
