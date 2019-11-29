@@ -21,7 +21,7 @@ public class AGameMain {
   private AResourceManager<AEncounterEnvironment> environmentManager;
   private AResourceManager<ABPSpecies> speciesManager;
   private AResourceManager<ABPAction> actionManager;
-  private ABPTypeManager typeManager;
+  private AResourceManager<ABPType> typeManager;
   private APlayerCharacter player;
   private APlayerMapAvatar playerMapAvatar;
 
