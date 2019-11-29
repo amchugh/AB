@@ -4,7 +4,8 @@
             "ID": 3,
             "FrontImageLocation": "rsc/images/planetEv1.png",
             "BackImageLocation": "rsc/images/TourcisEv1.png"
-            "MaxHP": 10
+            "MaxHP": 10,
+            "Name": "Foo"
         }
     ]
 }

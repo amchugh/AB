@@ -57,8 +57,13 @@ public class ASceneEncounter implements AScene {
   }
 
   private void initializeStatusMenu() {
-    statusMenu = new AEncounterStatusMenu(player.getActiveBP().getSpecies().getMaxHealth(),
-            encounter.getEnemy().getActiveBP().getSpecies().getMaxHealth());
+    ABP p = player.getActiveBP();
+    ABP e = encounter.getEnemy().getActiveBP();
+    statusMenu = new AEncounterStatusMenu(
+            p.getMaxHealth(),
+            e.getMaxHealth(),
+            p.getName(),
+            e.getName());
   }
 
   private void updateStatusMenu() {

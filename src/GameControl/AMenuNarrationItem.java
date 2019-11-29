@@ -32,7 +32,6 @@ public class AMenuNarrationItem extends AMenuItem {
         // Draw the text in the rectangle
         g.setFont(font);
         g.setColor(textColor);
-        FontMetrics fontMetrics = g.getFontMetrics();
         drawCenteredString(g, text, font, x1 + (x2-x1)/2, y1 + (y2-y1)/2);
     }
 

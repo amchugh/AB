@@ -12,7 +12,7 @@
         },
         {
             "ID": 2,
-            "Damage": 30,
+            "Damage": 40,
             "Name": "foobar",
         },
     ]

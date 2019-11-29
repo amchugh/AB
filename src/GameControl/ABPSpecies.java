@@ -10,10 +10,12 @@ public class ABPSpecies extends AIDItem {
   private Image frontImage;
   private Image backImage;
   private int maxHealth;
+  private final String name;
 
-  public ABPSpecies(int idNumber, String frontImageLocation, String backImageLocation, int maxHealth) {
+  public ABPSpecies(int idNumber, String frontImageLocation, String backImageLocation, String name, int maxHealth) {
     super(idNumber);
     this.maxHealth = maxHealth;
+    this.name = name;
     loadImages(frontImageLocation, backImageLocation);
   }
 
@@ -33,5 +35,6 @@ public class ABPSpecies extends AIDItem {
     return backImage;
   }
   public int getMaxHealth() { return maxHealth; }
+  public String getName() { return name; }
 
 }

@@ -27,8 +27,9 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
             int id = getInt(s, "ID");
             String frontImageName = getString(s, "FrontImageLocation");
             String backImageName = getString(s, "BackImageLocation");
+            String speciesName = getString(s, "Name");
             int maxHP = getInt(s, "MaxHP");
-            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, maxHP);
+            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, speciesName, maxHP);
             m.addItem(instance);
         }
 

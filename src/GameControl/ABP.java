@@ -56,8 +56,12 @@ public class ABP {
     return true;
   }
 
-  public int getHealth() {
-    return health;
+  public int getHealth() { return health; }
+  public int getMaxHealth() { return getSpecies().getMaxHealth(); }
+
+  public String getName() {
+    // todo:: add custom names
+    return getSpecies().getName();
   }
 
 }
