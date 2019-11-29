@@ -5,7 +5,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ABPSpeciesManagerReader extends AIOJSONHelper {
@@ -14,10 +13,10 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public ABPSpeciesManager initializeSpeciesManager() throws IOException, ParseException {
+    public AResourceManager<ABPSpecies> initializeSpeciesManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
 
-        ABPSpeciesManager m = new ABPSpeciesManager();
+        AResourceManager<ABPSpecies> m = new AResourceManager<ABPSpecies>();
 
         JSONArray species = (JSONArray) jo.get("Species");
         Iterator i = species.iterator();

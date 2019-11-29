@@ -1,12 +1,10 @@
 package GameControl;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 public class AEncounterEnvironmentManagerReader extends AIOJSONHelper {
 
@@ -14,9 +12,9 @@ public class AEncounterEnvironmentManagerReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AEncounterEnvironmentManager initializeEnvironmentManager() throws IOException, ParseException {
+    public AResourceManager<AEncounterEnvironment> initializeEnvironmentManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
-        AEncounterEnvironmentManager m = new AEncounterEnvironmentManager();
+        AResourceManager<AEncounterEnvironment> m = new AResourceManager<AEncounterEnvironment>();
 
         Iterator ii = getArray(jo, "Environments");
 

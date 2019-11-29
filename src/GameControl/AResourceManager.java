@@ -2,9 +2,9 @@ package GameControl;
 
 import java.util.ArrayList;
 
-public class AResourceManager {
+public class AResourceManager<T extends AIDItem> {
 
-    protected ArrayList<AIDItem> items;
+    protected ArrayList<T> items;
 
     public AResourceManager() {
         items = new ArrayList<>();
@@ -14,11 +14,11 @@ public class AResourceManager {
         return items.size();
     }
 
-    public void addItem(AIDItem i) {
+    public void addItem(T i) {
         items.add(i);
     }
 
-    public AIDItem getItemByID(int id) throws IllegalArgumentException {
+    public T getItemByID(int id) throws IllegalArgumentException {
         return items.stream().filter((i) -> i.getID() == id)
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("No item is loaded with ID " + id));
     }

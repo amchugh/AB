@@ -8,19 +8,19 @@ import java.awt.*;
  */
 public class ASceneMap implements AScene {
 
-    private APlayerCharacter player;
+    private APlayerMapAvatar playerAvatar;
     private AMap map;
 
-    public ASceneMap(APlayerCharacter player, AMap map) {
-        this.player = player;
+    public ASceneMap(APlayerMapAvatar playerAvatar, AMap map) {
+        this.playerAvatar = playerAvatar;
         this.map = map;
     }
 
     @Override
     public void step() {
-        player.step();
-        player.handleMove();
-        map.setViewFocus(player.getGridPos());
+        playerAvatar.step();
+        playerAvatar.handleMove();
+        map.setViewFocus(playerAvatar.getGridPos());
         map.getScene().step();
     }
 

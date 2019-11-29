@@ -15,15 +15,12 @@ public class AMenuManager {
     }
 
     public void attemptMove(AMenuFlowProvider.FlowDirection d) {
-        AMenuSelectable dir = switch (d) {
+        setSelected(switch (d) {
             case UP -> selected.getUp();
             case DOWN -> selected.getDown();
             case RIGHT -> selected.getRight();
             case LEFT -> selected.getLeft();
-        };
-        if (dir == null)
-            return; //Not a valid direction
-        setSelected(dir);
+        });
     }
 
     public void draw(Graphics g) {

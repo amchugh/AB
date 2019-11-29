@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-// fixme:: feel free to change this if you have a better idea on how to handle
 public class AUserInput extends KeyAdapter implements KeyListener {
     private class KeyPress {
         final char c;
@@ -47,8 +46,6 @@ public class AUserInput extends KeyAdapter implements KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (isKeyPressed(e.getKeyChar()))
-            return;
         pressedKeys.add(new KeyPress(e.getKeyChar(), System.currentTimeMillis()));
     }
 
@@ -70,12 +67,16 @@ public class AUserInput extends KeyAdapter implements KeyListener {
      */
     public boolean isKeyPressedFirstTime(char c) {
         Stream<KeyPress> result = pressedKeys.stream().filter((i) -> i.c == c);
-        if (result == null)
+        if (result == null) {
             return false;
+        }
         KeyPress k = result.findFirst().get();
-        if (k.hasBeenConsumed)
+        if (k.hasBeenConsumed) {
             return false;
+        }
+        // synchronized (k) {
         k.hasBeenConsumed = true;
+        // }
         return true;
     }
 

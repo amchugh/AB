@@ -1,7 +1,6 @@
 package GameControl;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class AEncounterActionMenu extends AMenuManager {
 
@@ -16,7 +15,6 @@ public class AEncounterActionMenu extends AMenuManager {
      * @param names
      */
     public AEncounterActionMenu(String[] names) {
-        super();
         for (int i = 0; i < 4; i++) {
             Color bg;
             String text;

@@ -17,9 +17,9 @@ public class Main {
     String speciesResource = DEFAULT_SPECIES_RESOURCE;
     String actionResource = DEFAULT_ACTION_RESOURCE;
 
-    AEncounterEnvironmentManager environmentManager;
-    ABPActionManager actionManager;
-    ABPSpeciesManager speciesManager;
+    AResourceManager<AEncounterEnvironment> environmentManager;
+    AResourceManager<ABPAction> actionManager;
+    AResourceManager<ABPSpecies> speciesManager;
 
     try {
       AEncounterEnvironmentManagerReader er = new AEncounterEnvironmentManagerReader(environmentResource);

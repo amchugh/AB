@@ -13,7 +13,7 @@ public class ABPActionManagerReaderTest {
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
             ABPActionManagerReader r = new ABPActionManagerReader("rsc/doesnotexist.sdf");
-            ABPActionManager m = r.initializeActionManager();
+            AResourceManager<ABPAction> m = r.initializeActionManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -29,7 +29,7 @@ public class ABPActionManagerReaderTest {
     public void throwsExceptionOnBadDataset() throws Exception {
         try {
             ABPActionManagerReader r = new ABPActionManagerReader("test/rsc/BadActionData.adf");
-            ABPActionManager m = r.initializeActionManager();
+            AResourceManager<ABPAction> m = r.initializeActionManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -45,7 +45,7 @@ public class ABPActionManagerReaderTest {
     public void simpleReadExample() throws Exception, IOException, ParseException {
         ABPActionManagerReader r = new ABPActionManagerReader("test/rsc/SimpleActionData.adf");
 
-        ABPActionManager m = r.initializeActionManager();
+        AResourceManager<ABPAction> m = r.initializeActionManager();
 
         assertNotNull(m);
         assert (m.getNumberOfItems() == 1);
