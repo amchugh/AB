@@ -12,9 +12,9 @@ public class AEncounterEnvironmentManagerReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AEncounterEnvironmentManager initializeEnvironmentManager() throws IOException, ParseException {
+    public AResourceManager<AEncounterEnvironment> initializeEnvironmentManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
-        AEncounterEnvironmentManager m = new AEncounterEnvironmentManager();
+        AResourceManager<AEncounterEnvironment> m = new AResourceManager<AEncounterEnvironment>();
 
         Iterator ii = getIterator(jo, "Environments");
 

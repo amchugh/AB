@@ -158,8 +158,6 @@ class AViewAdvisorRectangularTest {
                 expectedX = minX;
                 expectedY += 1;
             }
-            assertEquals(expectedX, getX.getCoordinate(cell));
-            assertEquals(expectedY, getY.getCoordinate(cell));
             expectedX += 1;
         }
         assertTrue(expectedY == maxY, "Too many rows in the viewable set");

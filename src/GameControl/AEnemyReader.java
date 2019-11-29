@@ -13,7 +13,7 @@ public class AEnemyReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AEnemy loadEnemy(ABPSpeciesManager m, ABPActionManager a) throws IOException, ParseException {
+    public AEnemy loadEnemy(AResourceManager<ABPSpecies> m, AResourceManager<ABPAction> a) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         String deathText = getString(jo, "DeathText");

@@ -31,5 +31,4 @@ public class AMapController implements AForceProvider {
             return 0;
         }
     }
-
 }

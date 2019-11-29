@@ -18,11 +18,15 @@ public class AGameMain {
   private Stack<AScene> sceneStack;
 
   // Resource Managers
+  private AResourceManager<AEncounterEnvironment> environmentManager;
+  private AResourceManager<ABPSpecies> speciesManager;
+  private AResourceManager<ABPAction> actionManager;
   private AEncounterEnvironmentManager environmentManager;
   private ABPSpeciesManager speciesManager;
   private ABPActionManager actionManager;
   private ABPTypeManager typeManager;
   private APlayerCharacter player;
+  private APlayerMapAvatar playerMapAvatar;
 
   private boolean isReady = false;
 
@@ -61,52 +65,37 @@ public class AGameMain {
    */
   public void addScene(ASceneData.SceneTypes type, int id) throws ParseException, IOException {
     assert isReady;
-    AScene n;
-    switch (type) {
-      case ENCOUNTER:
-        // Create the encounter
-        n = createEncounterFromID(getEncounterNameFromID(id));
-        // Add the encounter controller
-        AEncounterController ec = new AEncounterController(userInput);
-        break;
-      case MAP:
-        // Create the map
-        n = createMapFromID(getMapNameFromID(id));
-        // Create the controller
-        AMapController mc = new AMapController(userInput);
-        // Register the controller with the player
-        player.setDesiredMovementProvider(mc);
-        break;
-      default:
-        throw new IllegalArgumentException("Must specify a valid Scene Type");
-    }
-    sceneStack.push(n);
+    sceneStack.push(
+            switch (type) {
+              case ENCOUNTER -> createEncounterFromID(getEncounterNameFromID(id));
+              case MAP -> createMapFromID(getMapNameFromID(id));
+            }
+    );
   }
 
   private ASceneData.SceneTypes getSceneTypeFromExtension(String filename) {
-    try {
-      String end = filename.split("\\.")[1];
-      switch (end) {
-        case "map":
-          return ASceneData.SceneTypes.MAP;
-        case "esf":
-          return ASceneData.SceneTypes.ENCOUNTER;
-        default:
-          throw new IllegalArgumentException("File does not have a valid scene extension (\"" + end + "\")");
-      }
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Invalid filename", e);
+    String[] parts = filename.split("\\.");
+    if (parts.length <= 1) {
+      throw new IllegalArgumentException("Filename does not contain an exception");
     }
+
+    return switch (parts[1]) {
+      case "map" -> ASceneData.SceneTypes.MAP;
+      case "esf" -> ASceneData.SceneTypes.ENCOUNTER;
+      default -> throw new IllegalArgumentException("Unexpected extension");
+    };
   }
 
   private ASceneMap createMapFromID(String filename) throws IOException, ParseException {
-    ACellManager cellManager = new ACellManagerSimple();
+    // ACellManager cellManager = new ACellManagerSimple();
+    ACellManager cellManager = new ACellManagerSpriteSheet("rsc/images/map/world_map_tiles.png",
+            16, 16, 4, 50, 1, 1);
     AMap map = new AMapReader(filename).constructMap(cellManager);
     AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
     map.setViewAdvisor(viewAdvisor);
     // In the map view the player must be aware of valid movements that can occur.
-    player.setGridPosValidator(map.getGridPosValidator());
-    return new ASceneMap(player, map);
+    playerMapAvatar.setGridPosValidator(map.getGridPosValidator());
+    return new ASceneMap(playerMapAvatar, map);
   }
 
   private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
@@ -115,15 +104,15 @@ public class AGameMain {
     return new ASceneEncounter(player, i, e);
   }
 
-  public void setEncounterEnvironmentManager(AEncounterEnvironmentManager m) {
+  public void setEncounterEnvironmentManager(AResourceManager<AEncounterEnvironment> m) {
     environmentManager = m;
   }
 
-  public void setBPActionManager(ABPActionManager m) {
+  public void setBPActionManager(AResourceManager<ABPAction> m) {
     actionManager = m;
   }
 
-  public void setBPSpeciesManager(ABPSpeciesManager m) {
+  public void setBPSpeciesManager(AResourceManager<ABPSpecies> m) {
     speciesManager = m;
   }
 
@@ -150,6 +139,7 @@ public class AGameMain {
 
     // Create the player.
     player = new APlayerCharacter();
+    playerMapAvatar = new APlayerMapAvatar(player, new AMapController(userInput));
 
     // todo:: remove these lines. Just here temporarily to add a BP to the player.
     // todo:: this should be loaded in later down the road
@@ -174,7 +164,7 @@ public class AGameMain {
     while (true) {
 
       // Step the major units within the game.
-      player.step();
+      playerMapAvatar.step();
       sceneStack.peek().step();
 
       // See if a new scene should be pushed

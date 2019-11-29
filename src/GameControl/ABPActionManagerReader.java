@@ -13,9 +13,9 @@ public class ABPActionManagerReader extends AIOJSONHelper {
         super (filename);
     }
 
-    public ABPActionManager initializeActionManager() throws IOException, ParseException {
+    public AResourceManager<ABPAction> initializeActionManager() throws IOException, ParseException {
         JSONObject jo = getJSON();
-        ABPActionManager m = new ABPActionManager();
+        AResourceManager<ABPAction> m = new AResourceManager<>();
 
         JSONArray items = (JSONArray) jo.get("Actions");
         Iterator ii = items.iterator();

@@ -25,7 +25,7 @@ public class ABP {
 
   public void addAction(ABPAction a) {
     if (actions.size() == MAX_ACTIONS) {
-      throw new IllegalArgumentException("BP already has 4 registered moves");
+      throw new IllegalArgumentException("BP already has 4 registered actions");
     }
     actions.add(a);
   }
@@ -51,10 +51,7 @@ public class ABP {
   }
 
   public boolean isAlive() {
-    if (health <= 0) {
-      return false;
-    }
-    return true;
+    return health > 0;
   }
 
   public int getHealth() { return health; }

@@ -13,7 +13,7 @@ public class ABPSpeciesManagerReaderTest {
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("rsc/doesnotexist.sdf");
-            ABPSpeciesManager m = r.initializeSpeciesManager();
+            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -29,7 +29,7 @@ public class ABPSpeciesManagerReaderTest {
     public void throwsExceptionOnBadDataset() throws Exception {
         try {
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/BadSpeciesData.sdf");
-            ABPSpeciesManager m = r.initializeSpeciesManager();
+            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
             // It isn't okay if we have gotten this far!
             // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -44,7 +44,7 @@ public class ABPSpeciesManagerReaderTest {
     @Test
     public void simpleReadExample() throws Exception, IOException, ParseException {
         ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
-        ABPSpeciesManager m = r.initializeSpeciesManager();
+        AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
 
         assertNotNull(m);
         assert (m.getNumberOfItems() == 1);

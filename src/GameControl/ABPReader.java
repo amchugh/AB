@@ -12,12 +12,12 @@ public class ABPReader extends AIOJSONHelper {
         super(BPFilename);
     }
 
-    public ABP readABP(ABPSpeciesManager speciesManager, ABPActionManager actionManager) throws IOException, ParseException {
+    public ABP readABP(AResourceManager<ABPSpecies> speciesManager, AResourceManager<ABPAction> actionManager) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         // Get the species
         int bpSpeciesID = getInt(jo, "SpeciesID");
-        ABPSpecies species = speciesManager.getSpeciesByID(bpSpeciesID);
+        ABPSpecies species = speciesManager.getItemByID(bpSpeciesID);
 
         // Construct the BP object
         ABP bp = new ABP(species);
@@ -36,7 +36,7 @@ public class ABPReader extends AIOJSONHelper {
         Iterator actions = getIterator(jo, "Actions");
         while (actions.hasNext()) {
             int actionID = getInt(actions.next());
-            ABPAction a = actionManager.getActionByID(actionID);
+            ABPAction a = actionManager.getItemByID(actionID);
             bp.addAction(a);
         }
 
