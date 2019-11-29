@@ -54,11 +54,23 @@ public class AEnemy {
     return deathText;
   }
 
+  // todo:: these methods should be broken out into a separate class
   public ABPAction getMove() {
     // todo:: expand on this. This is the main "AI" of the enemy.
     // For now, get a random move
     ArrayList<ABPAction> actions = getActiveBP().getActions();
     return actions.get(AGameMain.random.nextInt(actions.size()));
+  }
+
+  /**
+   * Called when the enemy's BP dies and they need to switch
+   */
+  public void switchBP() {
+    // todo:: expand here too. This is another segment of the enemy AI.
+    assert hasMoreBP();
+    // For now, get the next living BP
+    ArrayList<ABP> living = (ArrayList<ABP>) bpTeam.getLivingBP();
+    bpTeam.setSelection(living.get(0));
   }
 
 }

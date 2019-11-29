@@ -22,6 +22,12 @@ public class ABPReader extends AIOJSONHelper {
         // Construct the BP object
         ABP bp = new ABP(species);
 
+        // See if there is a CustomName set
+        if (doesFieldExist(jo, "CustomName")) {
+            String customName = getString(jo, "CustomName");
+            bp.setCustomName(customName);
+        }
+
         // Set the health
         int health = getInt(jo, "CurrentHP");
         bp.setHealth(health);

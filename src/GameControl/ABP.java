@@ -7,6 +7,7 @@ public class ABP {
   private int health;
   private ABPSpecies species;
   private ArrayList<ABPAction> actions;
+  private String customName;
 
   public static final int MAX_ACTIONS = 4;
 
@@ -61,7 +62,13 @@ public class ABP {
 
   public String getName() {
     // todo:: add custom names
-    return getSpecies().getName();
+    if (customName == null)
+      return getSpecies().getName();
+    return customName;
+  }
+
+  public void setCustomName(String n) {
+    customName = n;
   }
 
 }

@@ -2,6 +2,7 @@ package GameControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ABPTeam {
@@ -33,6 +34,16 @@ public class ABPTeam {
         currentlySelected = newSel;
     }
 
+    public void setSelection(ABP selection) {
+        for (int i = 0; i < bpArray.size(); i++) {
+            if (bpArray.get(i) == selection) {
+                currentlySelected = i;
+                return;
+            }
+        }
+        throw new RuntimeException("Attempted to select a BP not in the team");
+    }
+
     public ABP getSelected() {
         if (bpArray.size() == 0) {
             throw new RuntimeException("BP array has not been setup (there are no BPs added to this Team)");
@@ -46,6 +57,11 @@ public class ABPTeam {
     public boolean hasLivingBP() {
         Stream<ABP> abpStream = bpArray.stream().filter(b -> b.isAlive());
         return !((abpStream == null) || (abpStream.count() == 0));
+    }
+
+    public List<ABP> getLivingBP() {
+        Stream<ABP> abpStream = bpArray.stream().filter(b -> b.isAlive());
+        return abpStream.collect(Collectors.toList());
     }
 
 }

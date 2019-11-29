@@ -41,4 +41,8 @@ public class AIOJSONHelper {
         return ((JSONArray) o.get(sub)).iterator();
     }
 
+    protected boolean doesFieldExist(JSONObject o, String sub) {
+        return o.containsKey(sub);
+    }
+
 }

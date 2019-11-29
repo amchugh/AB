@@ -3,5 +3,6 @@
     "CurrentHP": 100,
     "Actions": [
         0, 2
-    ]
+    ],
+    "CustomName": "Jones",
 }

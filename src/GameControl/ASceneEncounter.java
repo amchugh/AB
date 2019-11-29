@@ -20,7 +20,7 @@ public class ASceneEncounter implements AScene {
 
   // This enum/field will be used to store the current state of the encounter.
   // For example, is the user selecting a move, is narration being displayed, etc
-  private enum GameState {SELECTING_MOVE, TURN, DEATH_NARRATION};
+  private enum GameState {SELECTING_MOVE, TURN, DEATH_NARRATION, ENEMY_SWITCH_BP};
   private GameState currentState;
 
   private class Turn {
@@ -51,12 +51,11 @@ public class ASceneEncounter implements AScene {
 
   public void setup() {
     makeMenu();
-    initializeStatusMenu();
-    updateStatusMenu();
+    remakeStatusMenu();
     isSetup = true;
   }
 
-  private void initializeStatusMenu() {
+  private void remakeStatusMenu() {
     ABP p = player.getActiveBP();
     ABP e = encounter.getEnemy().getActiveBP();
     statusMenu = new AEncounterStatusMenu(
@@ -64,6 +63,7 @@ public class ASceneEncounter implements AScene {
             e.getMaxHealth(),
             p.getName(),
             e.getName());
+    updateStatusMenu();
   }
 
   private void updateStatusMenu() {
@@ -73,13 +73,18 @@ public class ASceneEncounter implements AScene {
   private void makeMenu() {
     switch (currentState) {
       case DEATH_NARRATION: makeDeathAnimationMenu(); break;
-      case TURN:
+      case TURN: // Do nothing as action menus need to be created slightly differently
       case SELECTING_MOVE: makeActionMenu(); break;
+      case ENEMY_SWITCH_BP: makeEnemySwitchMenu(); break;
     }
   }
 
   private void makeActionNarrationMenu(String movename) {
     menu = new AEncounterNarrationMenu(movename);
+  }
+
+  private void makeEnemySwitchMenu() {
+    menu = new AEncounterNarrationMenu("Enemy sent out " + encounter.getEnemy().getActiveBP().getName() + "!");
   }
 
   private void makeDeathAnimationMenu() {
@@ -114,6 +119,16 @@ public class ASceneEncounter implements AScene {
       case SELECTING_MOVE: handleMoveSelection(); break;
       case DEATH_NARRATION: handleDeathNarration(); break;
       case TURN: handleTurn(); break;
+      case ENEMY_SWITCH_BP: handleEnemySwitch(); break;
+    }
+  }
+
+  private void handleEnemySwitch() {
+    // Just wait for player input
+    if (encounterController.doSelect()) {
+      currentState = GameState.SELECTING_MOVE;
+      // Build new menus and such
+      makeMenu();
     }
   }
 
@@ -126,19 +141,26 @@ public class ASceneEncounter implements AScene {
 
     // Now we wait for input
     if (encounterController.doSelect()) {
-      // We either do the next action, or we end the turn and select our next move
-      if (currentTurn.hasFirstFinished) {
-        // todo:: remove debug console printing
-        System.out.println("Player HP : " + player.getActiveBP().getHealth());
-        System.out.println("Enemy HP  : " + encounter.getEnemy().getActiveBP().getHealth());
-        // Turn over, go back to move selection
-        currentState = GameState.SELECTING_MOVE;
-        // Update menu
+      // See if a enemy or player has died
+      if (testForDeath()) {
+        // Something just died, so we have new menus to show
         makeMenu();
+        remakeStatusMenu();
       } else {
-        // We need to perform the other action
-        currentTurn.hasFirstFinished = true;
-        performNextAction(currentTurn);
+        // We either do the next action, or we end the turn and select our next move
+        if (currentTurn.hasFirstFinished) {
+          // todo:: remove debug console printing
+          System.out.println("Player HP : " + player.getActiveBP().getHealth());
+          System.out.println("Enemy HP  : " + encounter.getEnemy().getActiveBP().getHealth());
+          // Turn over, go back to move selection
+          currentState = GameState.SELECTING_MOVE;
+          // Update menu
+          makeMenu();
+        } else {
+          // We need to perform the other action
+          currentTurn.hasFirstFinished = true;
+          performNextAction(currentTurn);
+        }
       }
     }
   }
@@ -207,35 +229,65 @@ public class ASceneEncounter implements AScene {
 
   private void enemyTakeDamage(int damage) {
     encounter.getEnemy().takeDamage(damage);
-    boolean isAlive = encounter.getEnemy().isBPAlive();
-    if (!isAlive) {
-      if (encounter.getEnemy().hasMoreBP()) {
-        // The enemy is still alive
-        // todo:: add support for switching to next BP on death
-      } else {
-        // The enemy is defeated
-        currentState = GameState.DEATH_NARRATION;
-        // We won't update the menu immediately.
-      }
-    }
     updateStatusMenu();
   }
 
   private void playerTakeDamage(int damage) {
     player.getActiveBP().takeDamage(damage);
+    updateStatusMenu();
+  }
+
+  private boolean testForDeath() {
+    // Test the enemy first
+    if (testEnemyDeath())
+      return true;
+    // Player death will not be tested if the enemy already died
+    // Then test the player death
+    return testPlayerDeath();
+  }
+
+  /**
+   * Test to see if the enemy has died and handles the state switch
+   * @return if the current enemy BP was dead
+   */
+  private boolean testEnemyDeath() {
+    boolean isAlive = encounter.getEnemy().isBPAlive();
+    if (!isAlive) {
+      if (encounter.getEnemy().hasMoreBP()) {
+        // The enemy is still alive
+        // Tell them to switch to a new BP
+        encounter.getEnemy().switchBP();
+        // Set the state so the narration gets displayed
+        currentState = GameState.ENEMY_SWITCH_BP;
+        return true;
+      } else {
+        // The enemy is defeated
+        currentState = GameState.DEATH_NARRATION;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Test to see if the player has died and handles the state switch
+   * @return if the current player BP was dead
+   */
+  private boolean testPlayerDeath() {
     boolean isAlive = player.getActiveBP().isAlive();
     if (!isAlive) {
       if (player.getTeam().hasLivingBP()) {
-        // The player has more guys available
+        // The player has more BP available
         // todo:: add functionality
       } else {
         // The player has lost!
         currentState = GameState.DEATH_NARRATION;
         // update the menu
         makeMenu();
+        return true;
       }
     }
-    updateStatusMenu();
+    return false;
   }
 
   private void handleDeathNarration() {
