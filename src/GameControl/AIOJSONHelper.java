@@ -37,7 +37,8 @@ public class AIOJSONHelper {
         return (String)o.get(sub);
     }
 
-    protected Iterator getArray(JSONObject o, String sub) {
+    protected JSONArray getArray (JSONObject o, String sub) { return (JSONArray)o.get(sub); }
+    protected Iterator getIterator(JSONObject o, String sub) {
         return ((JSONArray) o.get(sub)).iterator();
     }
 

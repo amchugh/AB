@@ -21,6 +21,7 @@ public class AGameMain {
   private AEncounterEnvironmentManager environmentManager;
   private ABPSpeciesManager speciesManager;
   private ABPActionManager actionManager;
+  private ABPTypeManager typeManager;
   private APlayerCharacter player;
 
   private boolean isReady = false;

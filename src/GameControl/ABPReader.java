@@ -33,7 +33,7 @@ public class ABPReader extends AIOJSONHelper {
         bp.setHealth(health);
 
         // Load the moves
-        Iterator actions = getArray(jo, "Actions");
+        Iterator actions = getIterator(jo, "Actions");
         while (actions.hasNext()) {
             int actionID = getInt(actions.next());
             ABPAction a = actionManager.getActionByID(actionID);
