@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Stack;
 
 public class AGameMain {
@@ -23,6 +24,8 @@ public class AGameMain {
   private APlayerCharacter player;
 
   private boolean isReady = false;
+
+  public static final Random random = new Random(0);
 
   public AGameMain() {
     sceneStack = new Stack<>();

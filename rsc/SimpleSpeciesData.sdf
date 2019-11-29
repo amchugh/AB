@@ -3,7 +3,8 @@
         {
             "ID": 0,
             "FrontImageLocation": "rsc/images/planetEv1.png",
-            "BackImageLocation": "rsc/images/TourcisEv1.png"
+            "BackImageLocation": "rsc/images/TourcisEv1.png",
+            "MaxHP": 100,
         }
     ]
 }

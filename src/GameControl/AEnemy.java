@@ -1,5 +1,7 @@
 package GameControl;
 
+import java.util.ArrayList;
+
 public class AEnemy {
 
   private ABPTeam bpTeam;
@@ -50,6 +52,13 @@ public class AEnemy {
 
   public String getDeathText() {
     return deathText;
+  }
+
+  public ABPAction getMove() {
+    // todo:: expand on this. This is the main "AI" of the enemy.
+    // For now, get a random move
+    ArrayList<ABPAction> actions = getActiveBP().getActions();
+    return actions.get(AGameMain.random.nextInt(actions.size()));
   }
 
 }

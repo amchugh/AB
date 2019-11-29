@@ -9,19 +9,15 @@ public class ABPSpecies extends AIDItem {
 
   private Image frontImage;
   private Image backImage;
-  
-  public ABPSpecies() {
-    super(0);
-    try {
-      frontImage = ImageIO.read(new File("rsc/images/planetEv1.png"));
-      backImage = ImageIO.read(new File("rsc/images/TourcisEv1.png"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  private int maxHealth;
+
+  public ABPSpecies(int idNumber, String frontImageLocation, String backImageLocation, int maxHealth) {
+    super(idNumber);
+    this.maxHealth = maxHealth;
+    loadImages(frontImageLocation, backImageLocation);
   }
 
-  public ABPSpecies(int idNumber, String frontImageLocation, String backImageLocation) {
-    super(idNumber);
+  public void loadImages(String frontImageLocation, String backImageLocation) {
     try {
       frontImage = ImageIO.read(new File(frontImageLocation));
       backImage = ImageIO.read(new File(backImageLocation));
@@ -33,9 +29,9 @@ public class ABPSpecies extends AIDItem {
   public Image getFrontImage() {
     return frontImage;
   }
-
   public Image getBackImage() {
     return backImage;
   }
+  public int getMaxHealth() { return maxHealth; }
 
 }

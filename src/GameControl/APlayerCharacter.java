@@ -20,6 +20,10 @@ public class APlayerCharacter {
     bpTeam.addBP(bp);
   }
 
+  public ABPTeam getTeam() {
+    return bpTeam;
+  }
+
   public GridPos getGridPos() {
     return currentPos;
   }

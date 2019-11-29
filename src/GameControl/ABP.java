@@ -50,10 +50,14 @@ public class ABP {
   }
 
   public boolean isAlive() {
-    if (health < 0) {
+    if (health <= 0) {
       return false;
     }
     return true;
+  }
+
+  public int getHealth() {
+    return health;
   }
 
 }
