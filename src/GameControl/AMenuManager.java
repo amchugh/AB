@@ -15,12 +15,17 @@ public class AMenuManager {
     }
 
     public void attemptMove(AMenuFlowProvider.FlowDirection d) {
-        setSelected(switch (d) {
+        AMenuSelectable newSel = switch (d) {
             case UP -> selected.getUp();
             case DOWN -> selected.getDown();
             case RIGHT -> selected.getRight();
             case LEFT -> selected.getLeft();
-        });
+        };
+        if (newSel == null) {
+            // there is no item in that direction
+            return;
+        }
+        setSelected(newSel);
     }
 
     public void draw(Graphics g) {

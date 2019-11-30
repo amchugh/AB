@@ -2,10 +2,10 @@ package GameControl;
 
 public class APlayerCharacter {
   
-  // TODO remove this field too and replace with actual code.
   private ABPTeam bpTeam;
 
-  // TODO remove default constructor. Only here for testing purposes
+  // todo:: remove default constructor. Only here for testing purposes
+  // todo:: this should be loaded in. Perhaps the constructor will change.
   public APlayerCharacter() {
     bpTeam = new ABPTeam();
   }
@@ -18,7 +18,6 @@ public class APlayerCharacter {
     return bpTeam;
   }
 
-  // TODO this method will stay, but needs to be edited with the rest of the class
   public ABP getActiveBP() {
     return bpTeam.getSelected();
   }
