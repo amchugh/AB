@@ -67,7 +67,7 @@ public class ASceneEncounter implements AScene {
   }
 
   private void updateStatusMenu() {
-    statusMenu.setBarValues(player.getActiveBP().getHealth(), encounter.getEnemy().getActiveBP().getHealth());
+    statusMenu.updateHealthValues(player.getActiveBP().getHealth(), encounter.getEnemy().getActiveBP().getHealth());
   }
 
   private void makeMenu() {
@@ -149,9 +149,6 @@ public class ASceneEncounter implements AScene {
       } else {
         // We either do the next action, or we end the turn and select our next move
         if (currentTurn.hasFirstFinished) {
-          // todo:: remove debug console printing
-          System.out.println("Player HP : " + player.getActiveBP().getHealth());
-          System.out.println("Enemy HP  : " + encounter.getEnemy().getActiveBP().getHealth());
           // Turn over, go back to move selection
           currentState = GameState.SELECTING_MOVE;
           // Update menu
@@ -303,11 +300,6 @@ public class ASceneEncounter implements AScene {
   @Override
   public void draw(Graphics g) {
     Dimension size = ASettings.getCurrentSettings().getWindowSize();
-
-    // todo:: remove. I'm going to draw a background plate for now just to make it clear what is being drawn at every frame
-    g.setColor(Color.white);
-    g.fillRect(0, 0, size.width, size.height);
-
     // First, draw the background image
     g.drawImage(encounter.getEnvironment().getBackgroundImage(), 0, 0, size.width, size.height,null);
     // Draw the menu

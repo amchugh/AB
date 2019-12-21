@@ -58,7 +58,6 @@ public class ABP {
   public int getMaxHealth() { return getSpecies().getMaxHealth(); }
 
   public String getName() {
-    // todo:: add custom names
     if (customName == null)
       return getSpecies().getName();
     return customName;

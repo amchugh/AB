@@ -32,7 +32,6 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
             m.addItem(instance);
         }
 
-        // todo:: find the more appropriate error to throw here
         if (!m.verifyIDNumbers()) {
             throw new IOException("Dataset contains duplicate ID numbers");
         }

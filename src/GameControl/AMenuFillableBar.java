@@ -10,8 +10,15 @@ public class AMenuFillableBar extends AMenuItem {
 
     private final double maxValue;
     private double currentValue;
+    
+    private final boolean enableNegativeValues;
 
     public AMenuFillableBar(int x1, int y1, int barSize, int maxLength, double maxValue, Color barColor, boolean isVertical) {
+        this(x1, y1, barSize, maxLength, maxValue, barColor, isVertical, false);
+    }
+    
+    public AMenuFillableBar(int x1, int y1, int barSize, int maxLength,
+                            double maxValue, Color barColor, boolean isVertical, boolean enableNegativeValues) {
         this.x1 = x1;
         this.y1 = y1;
         this.barSize = barSize;
@@ -20,9 +27,14 @@ public class AMenuFillableBar extends AMenuItem {
         this.currentValue = 0; // set this later
         this.barColor = barColor;
         this.isVertical = isVertical;
+        this.enableNegativeValues = enableNegativeValues;
     }
 
     public void setValue(double newValue) {
+        if (newValue < 0) {
+            if (!enableNegativeValues)
+                newValue = 0;
+        }
         currentValue = newValue;
     }
 

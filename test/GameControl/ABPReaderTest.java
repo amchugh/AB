@@ -29,7 +29,7 @@ class ABPReaderTest {
     }
 
     @Test
-    public void simpleReadExample() throws Exception, IOException, ParseException { //todo:: this method will need to be updated as well when a better exception is named
+    public void simpleReadExample() throws Exception, IOException, ParseException {
         ABPReader r = new ABPReader("test/rsc/SimpleBP.bpf");
         ABPSpeciesManagerReader mr = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
         AResourceManager<ABPSpecies> m = mr.initializeSpeciesManager();

@@ -211,7 +211,7 @@ public class AGameMain {
   }
 
   public static String getBPDataFileNameFromID(int id) {
-      return "rsc/BPFiles/" + id + ".bpf"; // TODO finish path
+      return "rsc/BPFiles/" + id + ".bpf";
   }
 
   public static String getEnemyFileNameFromID(int id) {

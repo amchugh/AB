@@ -18,8 +18,6 @@ public class AEnemy {
     this.deathText = deathText;
   }
 
-  //todo:: add other constructors
-
   public void addBP(ABP n) {
     bpTeam.addBP(n);
   }
