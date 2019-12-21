@@ -13,7 +13,7 @@ public class AMapReader extends AIOJSONHelper {
         super(mapFileName);
     }
 
-    AMap constructMap(ACellManager cellManager) throws IOException, ParseException {
+    public AMap constructMap(ACellManager cellManager) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         int mapId = getInt(jo, "MapId");
