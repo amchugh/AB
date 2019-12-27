@@ -15,7 +15,7 @@ public class ABPSpeciesManagerReaderTest {
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("rsc/doesnotexist.sdf");
             AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
             // It isn't okay if we have gotten this far!
-            // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
+            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
             // Expected, so swallow
@@ -31,7 +31,7 @@ public class ABPSpeciesManagerReaderTest {
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/BadSpeciesData.sdf");
             AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
             // It isn't okay if we have gotten this far!
-            // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
+            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
             // Is expected now, so swallow

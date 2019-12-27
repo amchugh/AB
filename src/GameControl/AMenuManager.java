@@ -42,7 +42,8 @@ public class AMenuManager {
     }
 
     public void setSelected(AMenuSelectable sel) {
-        throw new RuntimeException("This should never be called"); // todo:: uhhhhhh this a hugggeeee hack so like get rid of it
+        if (selectables.contains(sel)) selected = sel;
+        else throw new IllegalArgumentException("Attempted to 'select' a menu object that does not exist in this menu");
     }
 
 }

@@ -28,7 +28,7 @@ class AMapReaderTest {
             AMapReader r = new AMapReader("rsc/DoesNotExists.map");
             r.constructMap(null);
             // It isn't okay if we have gotten this far!
-            // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
+            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
             // Expected, so swallow

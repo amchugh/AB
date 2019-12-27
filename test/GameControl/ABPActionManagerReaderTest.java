@@ -15,7 +15,7 @@ public class ABPActionManagerReaderTest {
             ABPActionManagerReader r = new ABPActionManagerReader("rsc/doesnotexist.sdf");
             AResourceManager<ABPAction> m = r.initializeActionManager();
             // It isn't okay if we have gotten this far!
-            // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
+            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
             // Expected, so swallow
@@ -31,7 +31,7 @@ public class ABPActionManagerReaderTest {
             ABPActionManagerReader r = new ABPActionManagerReader("test/rsc/BadActionData.adf");
             AResourceManager<ABPAction> m = r.initializeActionManager();
             // It isn't okay if we have gotten this far!
-            // TODO:  There is a better way to capture this sort of test that doesn't require the boilerplate.
+            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
         } catch ( IOException e ) {
             // Is expected now, so swallow
