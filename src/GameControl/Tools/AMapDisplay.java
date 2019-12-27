@@ -9,30 +9,34 @@ import java.awt.event.ActionListener;
 
 public class AMapDisplay extends JFrame {
 
-    public Canvas canvas;
     private ACellManager cellManager;
 
-    public AMapDisplay(Dimension window_size, ACellManager cellManager) {
+    public AMapDisplay(Dimension window_size, ACellManager cellManager, AMapEditorController amep) {
         this.setTitle("");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-
-        canvas = new Canvas();
-
-        canvas.setPreferredSize(window_size);
-        canvas.setFocusable(false);
-        canvas.createBufferStrategy(2);
-
-        this.add(canvas);
-        this.pack();
+        
+        JLayeredPane lp = getLayeredPane();
+        
+        int canvasSizeX = 200;
+        int canvasSizeY = 400;
+    
+        amep.setBounds(0,0,canvasSizeX,canvasSizeY);
+        amep.setFocusable(false);
+    
+        this.setFocusable(true);
+        this.setLayout(null);
+        
+        lp.add(amep, 0);
+        
+        this.setPreferredSize(window_size);
         this.setLocation(50, 50); // Position on screen
-
 
         this.cellManager = cellManager;
 
         int cellViewportX = 400;
         int cellViewportY = 10;
-        int cellButtonSizeX = 18;
+        int cellButtonSizeX = 60;
         int cellButtonSizeY = 18;
 
         JButton b = new JButton("Test");
@@ -45,7 +49,9 @@ public class AMapDisplay extends JFrame {
                 System.out.println("Got a click");
             }
         });
-        add(b);
-        setLayout(null);
+        lp.add(b, 1);
+    
+        this.pack();
     }
+    
 }
