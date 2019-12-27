@@ -11,13 +11,13 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class ACellManagerSpriteSheet implements ACellManager {
 
-    private Map<Integer, Image> cells = new HashMap<>();
+    protected Map<Integer, Image> cells = new HashMap<>();
 
-    private String filename;
-    private int cellWidth, cellHeight, numWide, numHigh, eachOffsetX, eachOffsetY;
-    private int f = 0;
+    protected String filename;
+    protected int cellWidth, cellHeight, numWide, numHigh, eachOffsetX, eachOffsetY;
+    protected int f = 0;
 
-    ACellManagerSpriteSheet(String filename, int cellWidth, int cellHeight, int numWide, int numHigh, int eachOffsetX, int eachOffsetY) {
+    public ACellManagerSpriteSheet(String filename, int cellWidth, int cellHeight, int numWide, int numHigh, int eachOffsetX, int eachOffsetY) {
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
 
