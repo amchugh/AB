@@ -64,9 +64,13 @@ public class AMenuTextItem extends AMenuItem {
     }
     
     private Rectangle getStringBounds(Graphics2D g, String str, int x, int y) {
+        if (text == null) {
+            throw new IllegalArgumentException("String must be defined");
+        }
         FontRenderContext frc = g.getFontRenderContext();
         GlyphVector gv = g.getFont().createGlyphVector(frc, str);
-        return gv.getPixelBounds(null, x, y);
+        Rectangle r = gv.getPixelBounds(null, x, y);
+        return r;
     }
 
 }
