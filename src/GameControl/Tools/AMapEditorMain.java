@@ -3,7 +3,6 @@ package GameControl.Tools;
 import GameControl.*;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
 
 public class AMapEditorMain {
 
@@ -32,9 +31,7 @@ public class AMapEditorMain {
         userInput = new AUserInput();
     
         control = new AMapEditorController(userInput, map);
-        
-        display = new AMapDisplay(new Dimension(800, 600), cellManager, control);
-        
+        display = new AMapDisplay(new Dimension(800, 600), cellManager, map);
         display.addKeyListener(userInput);
     }
 

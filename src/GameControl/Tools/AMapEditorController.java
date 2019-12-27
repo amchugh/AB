@@ -1,18 +1,18 @@
 package GameControl.Tools;
 
-import GameControl.AMap;
 import GameControl.AMapInstance;
 import GameControl.AUserInput;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class AMapEditorController extends JPanel {
+/**
+ * An AMapEditorController is here only to interpret the keyboard input seen by
+ * the application and translate the inputs into application actions.
+ */
+public class AMapEditorController {
 
     private AUserInput userInput;
     private static final double repeatTime = 1e3 / 10;
     public AMapInstance map;
-    
+
     public enum MovementDirection {NONE, UP, DOWN, LEFT, RIGHT}
 
     ;
@@ -49,19 +49,4 @@ public class AMapEditorController extends JPanel {
     private boolean isKeyReady(char key) {
         return userInput.isKeyPressed(key) && userInput.isKeyTimedIn(key, repeatTime);
     }
-    
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-        Graphics2D gg = (Graphics2D) g;
-        
-        // Draw a border on the canvas
-        gg.setColor(Color.BLACK);
-        gg.drawRect(0, 0, getWidth()-1, getHeight()-1);
-        
-        // Draw the map
-        map.draw(g);
-    }
-    
 }
