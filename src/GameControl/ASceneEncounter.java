@@ -78,8 +78,8 @@ public class ASceneEncounter implements AScene {
       case ENEMY_SWITCH_BP: makeEnemySwitchMenu(); break;
     }
   }
-
-  private void makeActionNarrationMenu(String text) {
+  
+  private void makeActionNarrationMenu(String[] text) {
     menu = new AEncounterNarrationMenu(text);
   }
 
@@ -118,7 +118,7 @@ public class ASceneEncounter implements AScene {
     switch(currentState) {
       case SELECTING_MOVE: handleMoveSelection(); break;
       case DEATH_NARRATION: handleDeathNarration(); break;
-      case TURN: handleTurn(); break;
+      case TURN: handleTurnNarration(); break;
       case ENEMY_SWITCH_BP: handleEnemySwitch(); break;
     }
   }
@@ -132,7 +132,7 @@ public class ASceneEncounter implements AScene {
     }
   }
 
-  private void handleTurn() {
+  private void handleTurnNarration() {
     if (!currentTurn.hasStarted) {
       // The turn just began, do the first action
       performNextAction(currentTurn);
@@ -141,22 +141,28 @@ public class ASceneEncounter implements AScene {
 
     // Now we wait for input
     if (encounterController.doSelect()) {
-      // See if a enemy or player has died
-      if (testForDeath()) {
-        // Something just died, so we have new menus to show
-        makeMenu();
-        remakeStatusMenu();
+      // Make sure the current narration menu has displayed all of its text
+      AEncounterNarrationMenu nm = (AEncounterNarrationMenu) menu;
+      if (nm.hasMoreTexts()) {
+        nm.showNext();
       } else {
-        // We either do the next action, or we end the turn and select our next move
-        if (currentTurn.hasFirstFinished) {
-          // Turn over, go back to move selection
-          currentState = GameState.SELECTING_MOVE;
-          // Update menu
+        // See if a enemy or player has died
+        if (testForDeath()) {
+          // Something just died, so we have new menus to show
           makeMenu();
+          remakeStatusMenu();
         } else {
-          // We need to perform the other action
-          currentTurn.hasFirstFinished = true;
-          performNextAction(currentTurn);
+          // We either do the next action, or we end the turn and select our next move
+          if (currentTurn.hasFirstFinished) {
+            // Turn over, go back to move selection
+            currentState = GameState.SELECTING_MOVE;
+            // Update menu
+            makeMenu();
+          } else {
+            // We need to perform the other action
+            currentTurn.hasFirstFinished = true;
+            performNextAction(currentTurn);
+          }
         }
       }
     }
@@ -167,37 +173,39 @@ public class ASceneEncounter implements AScene {
 
     if (currentTurn.hasFirstFinished) {
       if (currentTurn.isPlayerFirst) {
-        performEnemyAction(turn); // player has already finished, do enemy action
+        // player has already finished, do enemy action
+        performAction(currentTurn.enemyAction, player.getActiveBP());
       } else {
-        performPlayerAction(turn);
+        performAction(currentTurn.playerAction, encounter.getEnemy().getActiveBP());
       }
     } else {
       if (currentTurn.isPlayerFirst) {
-        performPlayerAction(turn); // player has already finished, do enemy action
+        // First has not finished, and the player is first, so the player goes now
+        performAction(currentTurn.playerAction, encounter.getEnemy().getActiveBP());
       } else {
-        performEnemyAction(turn);
+        performAction(currentTurn.enemyAction, player.getActiveBP());
       }
     }
   }
 
-  private void performPlayerAction(Turn turn) {
-    // Display the move
-    makeActionNarrationMenu("Player used " + turn.playerAction.getName() + "!");
+  private void performAction(ABPAction attackingAction, ABP target) {
     // todo:: right now, the actions can only do damage. need to add the other possible action types
     // todo:: add crit chance
     // Deal damage
-    enemyTakeDamage(turn.playerAction.getDamage(), turn.playerAction.getType(), false);
-  }
-
-  private void performEnemyAction(Turn turn) {
+    bpTakeDamage(target, attackingAction.getDamage(), attackingAction.getType(), false);
+    // Setup the display
+    String[] display;
+    if (target.isBPWeak(attackingAction.getType())) {
+      display = new String[2];
+      display[1] = "It's super effective!";
+    } else {
+      display = new String[1];
+    }
+    display[0] = "Player used " + attackingAction.getName() + "!";
     // Display the move
-    makeActionNarrationMenu("Enemy used " + turn.enemyAction.getName() + "!");
-    // todo:: right now, the actions can only do damage. need to add the other possible action types
-    // todo:: add crit chance
-    // Deal damage to the player
-    playerTakeDamage(turn.enemyAction.getDamage(), turn.enemyAction.getType(), false);
+    makeActionNarrationMenu(display);
   }
-
+  
   private void handleMoveSelection() {
     // Check for selection
     if (encounterController.doSelect()) {
@@ -226,13 +234,8 @@ public class ASceneEncounter implements AScene {
     }
   }
 
-  private void enemyTakeDamage(int damage, ABPType type, boolean crit) {
-    encounter.getEnemy().takeDamage(damage, type, crit);
-    updateStatusMenu();
-  }
-
-  private void playerTakeDamage(int damage, ABPType type, boolean crit) {
-    player.getActiveBP().takeDamage(damage, type, crit);
+  private void bpTakeDamage(ABP target, int damage, ABPType type, boolean crit) {
+    target.takeDamage(damage, type, crit);
     updateStatusMenu();
   }
 
