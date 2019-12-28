@@ -1,0 +1,34 @@
+{
+    "Types": [
+        {
+            "ID": 0,
+            "Name": "Fire",
+            "Weaknesses": [
+                1,
+            ],
+            "Immunities": [
+                
+            ],
+        },
+        {
+            "ID": 1,
+            "Name": "Water",
+            "Weaknesses": [
+                2,
+            ],
+            "Immunities": [
+                
+            ],
+        },
+        {
+            "ID": 2,
+            "Name": "Grass",
+            "Weaknesses": [
+                0,
+            ],
+            "Immunities": [
+                
+            ],
+        },
+    ]
+}

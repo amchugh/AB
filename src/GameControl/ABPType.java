@@ -15,7 +15,6 @@ public class ABPType extends AIDItem {
         weaknesses.add(weakness);
     }
 
-
     public void addImmunity(ABPType immune) {
         immunities.add(immune);
     }
