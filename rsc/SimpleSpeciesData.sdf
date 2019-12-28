@@ -2,15 +2,15 @@
     "Species": [
         {
             "ID": 0,
-            "FrontImageLocation": "rsc/images/planetEv1.png",
-            "BackImageLocation": "rsc/images/planetEv1.png",
+            "FrontImageLocation": "rsc/images/bps/planetEv1.png",
+            "BackImageLocation": "rsc/images/bps/planetEv1.png",
             "MaxHP": 100,
             "Name": "Planet-thing",
         },
         {
             "ID": 1,
-            "FrontImageLocation": "rsc/images/TourcisEv1.png",
-            "BackImageLocation": "rsc/images/TourcisEv1.png",
+            "FrontImageLocation": "rsc/images/bps/TourcisEv1.png",
+            "BackImageLocation": "rsc/images/bps/TourcisEv1.png",
             "MaxHP": 50,
             "Name": "Torch-thing",
         },

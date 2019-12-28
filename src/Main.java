@@ -26,7 +26,7 @@ public class Main {
       environmentManager = er.initializeEnvironmentManager();
     } catch (Exception e) {
       System.out.println("Unable to initialize environment manager");
-      return;
+      throw new RuntimeException(e);
     }
 
     try {
@@ -34,7 +34,7 @@ public class Main {
       actionManager = ar.initializeActionManager();
     } catch (Exception e) {
       System.out.println("Unable to initialize action manager");
-      return;
+      throw new RuntimeException(e);
     }
 
     try {
@@ -42,7 +42,7 @@ public class Main {
       speciesManager = sr.initializeSpeciesManager();
     } catch (Exception e) {
       System.out.println("Unable to initialize species manager");
-      return;
+      throw new RuntimeException(e);
     }
     main.setBPActionManager(actionManager);
     main.setBPSpeciesManager(speciesManager);
