@@ -50,6 +50,10 @@ public class ASceneEncounter implements AScene {
   }
 
   public void setup() {
+    // Get the BP's set
+    encounter.getEnemy().onBattleStart();
+    player.onBattleStart();
+    
     makeMenu();
     remakeStatusMenu();
     isSetup = true;
@@ -171,28 +175,31 @@ public class ASceneEncounter implements AScene {
   private void performNextAction(Turn turn) {
     assert currentState == GameState.TURN;
 
+    ABP pbp = player.getActiveBP();
+    ABP ebp = encounter.getEnemy().getActiveBP();
+    
     if (currentTurn.hasFirstFinished) {
       if (currentTurn.isPlayerFirst) {
         // player has already finished, do enemy action
-        performAction(encounter.getEnemy().getActiveBP().getName(), currentTurn.enemyAction, player.getActiveBP());
+        performAction(currentTurn.enemyAction, pbp, ebp);
       } else {
-        performAction(player.getActiveBP().getName(), currentTurn.playerAction, encounter.getEnemy().getActiveBP());
+        performAction(currentTurn.playerAction, ebp, pbp);
       }
     } else {
       if (currentTurn.isPlayerFirst) {
         // First has not finished, and the player is first, so the player goes now
-        performAction(player.getActiveBP().getName(), currentTurn.playerAction, encounter.getEnemy().getActiveBP());
+        performAction(currentTurn.playerAction, ebp, pbp);
       } else {
-        performAction(encounter.getEnemy().getActiveBP().getName(), currentTurn.enemyAction, player.getActiveBP());
+        performAction(currentTurn.enemyAction, pbp, ebp);
       }
     }
   }
 
-  private void performAction(String username, ABPAction attackingAction, ABP target) {
+  private void performAction(ABPAction attackingAction, ABP target, ABP attacker) {
     // todo:: right now, the actions can only do damage. need to add the other possible action types
     // todo:: add crit chance
     // Deal damage
-    bpTakeDamage(target, attackingAction.getDamage(), attackingAction.getType(), false);
+    bpTakeDamage(target, attacker, attackingAction.getDamage(), attackingAction.getType(), false);
     // Setup the display
     String[] display;
     if (target.isBPWeak(attackingAction.getType())) {
@@ -201,7 +208,7 @@ public class ASceneEncounter implements AScene {
     } else {
       display = new String[1];
     }
-    display[0] = username + " used " + attackingAction.getName() + "!";
+    display[0] = attacker.getName() + " used " + attackingAction.getName() + "!";
     // Display the move
     makeActionNarrationMenu(display);
   }
@@ -234,8 +241,8 @@ public class ASceneEncounter implements AScene {
     }
   }
 
-  private void bpTakeDamage(ABP target, int damage, ABPType type, boolean crit) {
-    target.takeDamage(damage, type, crit);
+  private void bpTakeDamage(ABP target, ABP attacker, int damage, ABPType type, boolean crit) {
+    target.takeDamage(damage, attacker, type, crit);
     updateStatusMenu();
   }
 

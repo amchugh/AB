@@ -1,0 +1,95 @@
+Stats and Levels:
+
+HP
+Armor Strength
+Armor Durability
+Attack Power
+Attack Pierce
+Speed
+Endurance
+
+Every BP has its own stat
+Every Species has its own stat
+Those combined = the effective stat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+A: 20, 20, 20, 20, 20, 30, 20
+
+Move -> Foo: 40
+
+B: 30, 30, 30, 10, 3 , 10, 25
+
+Defense = 30
+Damage Taken = 30 - (10 + 40) = -20
+Defense -= (20 - 30)
+
+-------------------------------------------
+
+Damage Taken = Defense - (Attack Power + Move Strength) * Effective * Crit
+
+Defense = Armor Strength
+Every time the BP is attacked,
+Defense -= Attack Pierce of the opponent + Armor Durability (BUT it cannot go up) 
+
+
+BSpeed start = speed
+Every turn,
+gain BSpeed = Endurance - EHP for endurance at the level
+
+-------------------------------------------
+
+HP
+
+MHP = 2
+BPHP = MHP * level * SCALAR
+BPHP @ lvl 5 = 10
+
+SMHP = 4
+Shp = SMHP * level * SCALAR
+Shp @ lvl 5 = 15
+
+BPhp + Shp = EHP
+EHP @ lvl 5 = 25
+
+Max hp = 25
+
+BP's HP stat + Species' HP stat = effective HP stat
+
+HP = EHP
+
+------------------------------------------
+
+Required XP
+FOR NOW:
+xp_for_next_level(level) = 10 * level^.8
+total_xp(level) = integral of xp_for_next_level

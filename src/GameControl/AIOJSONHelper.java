@@ -45,5 +45,22 @@ public class AIOJSONHelper {
     protected boolean doesFieldExist(JSONObject o, String sub) {
         return o.containsKey(sub);
     }
-
+    
+    /**
+     * Given an appropriate JSON object containing stat information, load it and return a stats instance
+     * @param o the object containing the stats
+     * @return the loaded stats
+     */
+    protected AStats loadStats(JSONObject o) {
+        AStats s = new AStats();
+        s.hitpoints = getInt(o, "HP");
+        s.armorStrength = getInt(o, "AS");
+        s.armorDurability = getInt(o, "AD");
+        s.attackPower = getInt(o, "AP");
+        s.attackPierce = getInt(o, "APP");
+        s.speed = getInt(o, "SP");
+        s.endurance = getInt(o, "ED");
+        return s;
+    }
+    
 }

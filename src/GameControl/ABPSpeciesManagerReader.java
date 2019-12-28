@@ -30,7 +30,10 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
             int maxHP = getInt(s, "MaxHP");
             int typeID = getInt(s, "TypeID");
             ABPType type = t.getItemByID(typeID);
-            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, speciesName, maxHP, type);
+            // Get the BP stats
+            JSONObject statsObject = (JSONObject)s.get("Stats");
+            AStats stats = loadStats(statsObject);
+            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, speciesName, maxHP, type, stats);
             m.addItem(instance);
         }
 

@@ -16,13 +16,32 @@ public class ABP {
   // The % increased damage to take to a critical hit
   private static final float CRIT_MULTIPLIER = 1.5f;
   
-  public ABP(ABPSpecies species) {
+  // Stats
+  private AStats bpPersonalStats;
+  // Effective stats
+  private AStats effectiveStats;
+  private ABattleStats battleStats;
+  
+  // XP
+  private int xpPoints;
+  private int level;
+  
+  public ABP(ABPSpecies species, AStats bpPersonalStats, int xpPoints) {
     this.species = species;
+    this.bpPersonalStats = bpPersonalStats;
+    this.xpPoints = xpPoints;
+    level = getLevelFromXP(xpPoints);
     // Set the health to zero to start
     health = 0;
     actions = new ArrayList<>();
   }
 
+  public void onBattleStart() {
+    AStats es = getEffectiveStats();
+    // Setup the battle stats
+    battleStats = new ABattleStats(es.armorStrength, es.speed);
+  }
+  
   public ArrayList<ABPAction> getActions() {
     if (actions.size() == 0) {
       throw new RuntimeException("Moves have not been initialized on this BP yet");
@@ -42,14 +61,16 @@ public class ABP {
    * @param damage the raw amount to take. This is before the actual amount is calculated by this method
    * @param damageType the Type of move that inflicted this damage. Used for type weaknesses
    */
-  public void takeDamage(int damage, ABPType damageType, boolean isCrit) {
+  public void takeDamage(int damage, ABP attacker, ABPType damageType, boolean isCrit) {
+    //Damage Taken = (Attack Power / Defense) * Move Strength (damage) * Effective * Crit
+    int damageTaken = (attacker.getEffectiveStats().attackPower / battleStats.defense) * damage;
     if (isBPWeak(damageType)) {
-      damage *= TYPE_WEAKNESS_MULTIPLIER;
+      damageTaken *= TYPE_WEAKNESS_MULTIPLIER;
     }
     if (isCrit) {
-      damage *= CRIT_MULTIPLIER;
+      damageTaken *= CRIT_MULTIPLIER;
     }
-    health -= damage;
+    health -= damageTaken;
   }
 
   /**
@@ -85,4 +106,43 @@ public class ABP {
     return species.getBpType().isImmuneAgainst(type);
   }
 
+  private AStats getEffectiveStats() {
+    if (effectiveStats == null) {
+      AStats s = new AStats(bpPersonalStats);
+      s.add(getSpecies().getStats());
+      s.multiply(level);
+      effectiveStats = s;
+    }
+    return effectiveStats;
+  }
+  
+  private int getLevelFromXP(int xp) {
+    int l = 0;
+    while (getTotalXPNeededForLevel(l) < xp) {
+      l++;
+    }
+    return l;
+  }
+  
+  private int getXPNeededForLevel(int level) {
+    return (int)Math.floor(10 * Math.pow(level, 0.8d));
+  }
+  
+  private int getTotalXPNeededForLevel(int level) {
+    int t = level;
+    int total = 0;
+    while (t > 0) {
+      total += getXPNeededForLevel(t);
+      t--;
+    }
+    return total;
+  }
+  
+  public ABattleStats getBattleStats() {
+    if (battleStats == null) {
+      throw new RuntimeException("Battle stats were not properly set up!");
+    }
+    return battleStats;
+  }
+  
 }

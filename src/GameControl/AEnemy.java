@@ -29,8 +29,8 @@ public class AEnemy {
    * Deals damage to the current BP
    * @param damage raw damage to take
    */
-  public void takeDamage(int damage, ABPType damageType, boolean isCrit) {
-    getActiveBP().takeDamage(damage, damageType, isCrit);
+  public void takeDamage(int damage, ABP attacker, ABPType damageType, boolean isCrit) {
+    getActiveBP().takeDamage(damage, attacker, damageType, isCrit);
   }
 
   /**
@@ -70,5 +70,12 @@ public class AEnemy {
     ArrayList<ABP> living = (ArrayList<ABP>) bpTeam.getLivingBP();
     bpTeam.setSelection(living.get(0));
   }
-
+  
+  /**
+   * Alerts all BP that the battle has started so they can setup
+   */
+  public void onBattleStart() {
+    bpTeam.onBattleStart();
+  }
+  
 }

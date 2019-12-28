@@ -23,10 +23,15 @@ public class ABPReader extends AIOJSONHelper {
         int bpSpeciesID = getInt(jo, "SpeciesID");
         ABPSpecies species = speciesManager.getItemByID(bpSpeciesID);
 
-        // Get the BP type
+        // Get the BP stats
+        JSONObject stats = (JSONObject)jo.get("Stats");
+        AStats s = loadStats(stats);
+        
+        // Get the XP
+        int xp = getInt(jo, "XP");
         
         // Construct the BP object
-        ABP bp = new ABP(species);
+        ABP bp = new ABP(species, s, xp);
 
         // See if there is a CustomName set
         if (doesFieldExist(jo, "CustomName")) {

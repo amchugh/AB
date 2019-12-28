@@ -21,4 +21,9 @@ public class APlayerCharacter {
   public ABP getActiveBP() {
     return bpTeam.getSelected();
   }
+  
+  public void onBattleStart() {
+    bpTeam.onBattleStart();
+  }
+  
 }
