@@ -2,7 +2,7 @@
     "Environments": [
         {
             "ID": 0,
-            "BackgroundImage": "rsc/images/bps/planetEv1.png",
+            "BackgroundImage": "test/rsc/grass16x16.png",
         }
     ]
 }

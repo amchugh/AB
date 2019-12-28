@@ -145,7 +145,7 @@ public class AGameMain {
     // todo:: remove these lines. Just here temporarily to add a BP to the player.
     // todo:: this should be loaded in later down the road
     try {
-      ABP playerBP = new ABPReader(getBPDataFileNameFromID(0)).readABP(speciesManager, actionManager);
+      ABP playerBP = new ABPReader(getBPDataFileNameFromID(6)).readABP(speciesManager, actionManager);
       player.addBP(playerBP);
     } catch (Exception e) {
       e.printStackTrace();

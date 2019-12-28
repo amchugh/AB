@@ -174,21 +174,21 @@ public class ASceneEncounter implements AScene {
     if (currentTurn.hasFirstFinished) {
       if (currentTurn.isPlayerFirst) {
         // player has already finished, do enemy action
-        performAction(currentTurn.enemyAction, player.getActiveBP());
+        performAction(encounter.getEnemy().getActiveBP().getName(), currentTurn.enemyAction, player.getActiveBP());
       } else {
-        performAction(currentTurn.playerAction, encounter.getEnemy().getActiveBP());
+        performAction(player.getActiveBP().getName(), currentTurn.playerAction, encounter.getEnemy().getActiveBP());
       }
     } else {
       if (currentTurn.isPlayerFirst) {
         // First has not finished, and the player is first, so the player goes now
-        performAction(currentTurn.playerAction, encounter.getEnemy().getActiveBP());
+        performAction(player.getActiveBP().getName(), currentTurn.playerAction, encounter.getEnemy().getActiveBP());
       } else {
-        performAction(currentTurn.enemyAction, player.getActiveBP());
+        performAction(encounter.getEnemy().getActiveBP().getName(), currentTurn.enemyAction, player.getActiveBP());
       }
     }
   }
 
-  private void performAction(ABPAction attackingAction, ABP target) {
+  private void performAction(String username, ABPAction attackingAction, ABP target) {
     // todo:: right now, the actions can only do damage. need to add the other possible action types
     // todo:: add crit chance
     // Deal damage
@@ -201,7 +201,7 @@ public class ASceneEncounter implements AScene {
     } else {
       display = new String[1];
     }
-    display[0] = "Player used " + attackingAction.getName() + "!";
+    display[0] = username + " used " + attackingAction.getName() + "!";
     // Display the move
     makeActionNarrationMenu(display);
   }
