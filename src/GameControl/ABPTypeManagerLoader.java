@@ -20,7 +20,7 @@ public class ABPTypeManagerLoader extends AIOJSONHelper {
 
         // First, create the types
         for (int i = 0; i < arr.size(); i++) {
-            m.addItem(new ABPType(i));
+            m.addItem(new ABPType(getInt((JSONObject)arr.get(i), "ID")));
         }
 
         // Now, register the weaknesses and immunities
@@ -43,6 +43,10 @@ public class ABPTypeManagerLoader extends AIOJSONHelper {
                 ABPType w = (ABPType)m.getItemByID(getInt(immunityID));
                 type.addImmunity(w);
             }
+        }
+
+        if (!m.verifyIDNumbers()) {
+            throw new IOException("Bad Type data");
         }
 
         return m;
