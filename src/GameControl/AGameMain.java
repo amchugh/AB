@@ -112,6 +112,10 @@ public class AGameMain {
   public void setBPSpeciesManager(AResourceManager<ABPSpecies> m) {
     speciesManager = m;
   }
+  
+  public void setBPTypeManager(AResourceManager<ABPType> m) {
+    typeManager = m;
+  }
 
   public boolean areResourcesLoaded() {
     return environmentManager != null && speciesManager != null && actionManager != null;

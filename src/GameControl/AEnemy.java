@@ -29,8 +29,8 @@ public class AEnemy {
    * Deals damage to the current BP
    * @param damage raw damage to take
    */
-  public void takeDamage(int damage) {
-    getActiveBP().takeDamage(damage);
+  public void takeDamage(int damage, ABPType damageType, boolean isCrit) {
+    getActiveBP().takeDamage(damage, damageType, isCrit);
   }
 
   /**

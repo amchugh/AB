@@ -9,10 +9,17 @@ public class ABP {
   private ArrayList<ABPAction> actions;
   private String customName;
 
+  // The maximum number of actions any one BP is allowed to know
   public static final int MAX_ACTIONS = 4;
-
+  // The % increased damage to take if weak against a type
+  private static final float TYPE_WEAKNESS_MULTIPLIER = 1.5f;
+  // The % increased damage to take to a critical hit
+  private static final float CRIT_MULTIPLIER = 1.5f;
+  
   public ABP(ABPSpecies species) {
     this.species = species;
+    // Set the health to zero to start
+    health = 0;
     actions = new ArrayList<>();
   }
 
@@ -32,23 +39,26 @@ public class ABP {
 
   /**
    * Causes the BP to take damage
-   * @param damage the raw amount to take
+   * @param damage the raw amount to take. This is before the actual amount is calculated by this method
+   * @param damageType the Type of move that inflicted this damage. Used for type weaknesses
    */
-  public void takeDamage(int damage) {
+  public void takeDamage(int damage, ABPType damageType, boolean isCrit) {
+    if (isBPWeak(damageType)) {
+      damage *= TYPE_WEAKNESS_MULTIPLIER;
+    }
+    if (isCrit) {
+      damage *= CRIT_MULTIPLIER;
+    }
     health -= damage;
   }
 
   /**
-   * This should only be used when constructing the BP.
+   * This should probably only be used when constructing the BP.
    * @param health
    */
-  public void setHealth(int health) {
-    this.health = health;
-  }
+  public void setHealth(int health) { this.health = health; }
   
-  public ABPSpecies getSpecies() {
-    return species;
-  }
+  public ABPSpecies getSpecies() { return species; }
 
   public boolean isAlive() {
     return health > 0;
@@ -65,6 +75,14 @@ public class ABP {
 
   public void setCustomName(String n) {
     customName = n;
+  }
+  
+  public boolean isBPWeak(ABPType type) {
+    return species.getBpType().isWeakAgainst(type);
+  }
+  
+  public boolean isBPImmune(ABPType type) {
+    return species.getBpType().isImmuneAgainst(type);
   }
 
 }

@@ -13,7 +13,7 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
         super(filename);
     }
 
-    public AResourceManager<ABPSpecies> initializeSpeciesManager() throws IOException, ParseException {
+    public AResourceManager<ABPSpecies> initializeSpeciesManager(AResourceManager<ABPType> t) throws IOException, ParseException {
         JSONObject jo = getJSON();
 
         AResourceManager<ABPSpecies> m = new AResourceManager<ABPSpecies>();
@@ -28,7 +28,9 @@ public class ABPSpeciesManagerReader extends AIOJSONHelper {
             String backImageName = getString(s, "BackImageLocation");
             String speciesName = getString(s, "Name");
             int maxHP = getInt(s, "MaxHP");
-            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, speciesName, maxHP);
+            int typeID = getInt(s, "TypeID");
+            ABPType type = t.getItemByID(typeID);
+            ABPSpecies instance = new ABPSpecies(id, frontImageName, backImageName, speciesName, maxHP, type);
             m.addItem(instance);
         }
 

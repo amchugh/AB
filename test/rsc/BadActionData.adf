@@ -4,11 +4,13 @@
             "ID": 0,
             "Damage": 10,
             "Name": "foo",
+            "TypeID": 0,
         },
         {
             "ID": 0,
             "Damage": 10,
             "Name": "bar",
+            "TypeID": 0,
         }
     ]
 }

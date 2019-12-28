@@ -6,6 +6,7 @@
             "BackImageLocation": "rsc/images/TourcisEv1.png",
             "MaxHP": 100,
             "Name": "foo",
+            "TypeID": 0,
         },
         {
             "ID": 3,
@@ -13,6 +14,7 @@
             "BackImageLocation": "rsc/images/TourcisEv1.png",
             "Name": "foo",
             "MaxHP": 100,
+            "TypeID": 0,
         }
     ]
 }

@@ -73,14 +73,14 @@ public class ASceneEncounter implements AScene {
   private void makeMenu() {
     switch (currentState) {
       case DEATH_NARRATION: makeDeathAnimationMenu(); break;
-      case TURN: // Do nothing as action menus need to be created slightly differently
+      case TURN: break; // Do nothing as action menus need to be created slightly differently
       case SELECTING_MOVE: makeActionMenu(); break;
       case ENEMY_SWITCH_BP: makeEnemySwitchMenu(); break;
     }
   }
 
-  private void makeActionNarrationMenu(String movename) {
-    menu = new AEncounterNarrationMenu(movename);
+  private void makeActionNarrationMenu(String text) {
+    menu = new AEncounterNarrationMenu(text);
   }
 
   private void makeEnemySwitchMenu() {
@@ -184,16 +184,18 @@ public class ASceneEncounter implements AScene {
     // Display the move
     makeActionNarrationMenu("Player used " + turn.playerAction.getName() + "!");
     // todo:: right now, the actions can only do damage. need to add the other possible action types
+    // todo:: add crit chance
     // Deal damage
-    enemyTakeDamage(turn.playerAction.getDamage());
+    enemyTakeDamage(turn.playerAction.getDamage(), turn.playerAction.getType(), false);
   }
 
   private void performEnemyAction(Turn turn) {
     // Display the move
     makeActionNarrationMenu("Enemy used " + turn.enemyAction.getName() + "!");
     // todo:: right now, the actions can only do damage. need to add the other possible action types
+    // todo:: add crit chance
     // Deal damage to the player
-    playerTakeDamage(turn.enemyAction.getDamage());
+    playerTakeDamage(turn.enemyAction.getDamage(), turn.enemyAction.getType(), false);
   }
 
   private void handleMoveSelection() {
@@ -224,13 +226,13 @@ public class ASceneEncounter implements AScene {
     }
   }
 
-  private void enemyTakeDamage(int damage) {
-    encounter.getEnemy().takeDamage(damage);
+  private void enemyTakeDamage(int damage, ABPType type, boolean crit) {
+    encounter.getEnemy().takeDamage(damage, type, crit);
     updateStatusMenu();
   }
 
-  private void playerTakeDamage(int damage) {
-    player.getActiveBP().takeDamage(damage);
+  private void playerTakeDamage(int damage, ABPType type, boolean crit) {
+    player.getActiveBP().takeDamage(damage, type, crit);
     updateStatusMenu();
   }
 
