@@ -26,5 +26,8 @@ public class ResourceEditorMain {
         main.setBPActionResource(actionResource);
         main.setBPSpeciesResource(speciesResource);
         main.setEncounterEnvironmentResource(environmentResource);
+        
+        // Finally, allow to setup
+        main.setup();
     }
 }

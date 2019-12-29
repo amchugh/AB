@@ -89,11 +89,18 @@ public class ABP {
   public int getMaxHealth() { return getSpecies().getMaxHealth(); }
 
   public String getName() {
-    if (customName == null)
+    if (customName == null || customName.equals(""))
       return getSpecies().getName();
     return customName;
   }
 
+  public boolean hasCustomName() {
+    if (customName == null || customName.equals("")) {
+      return false;
+    }
+    return true;
+  }
+  
   public void setCustomName(String n) {
     customName = n;
   }
@@ -143,6 +150,14 @@ public class ABP {
       throw new RuntimeException("Battle stats were not properly set up!");
     }
     return battleStats;
+  }
+  
+  public int getXP() {
+    return xpPoints;
+  }
+  
+  public AStats getPersonalStats() {
+    return bpPersonalStats;
   }
   
 }

@@ -1,6 +1,9 @@
 package GameControl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class AResourceManager<T extends AIDItem> {
 
@@ -38,4 +41,8 @@ public class AResourceManager<T extends AIDItem> {
         return true;
     }
 
+    public List<T> getItems() {
+        return Collections.unmodifiableList(items);
+    }
+    
 }
