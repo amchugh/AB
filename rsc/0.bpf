@@ -1,0 +1,18 @@
+{
+    "SpeciesID": 0,
+    "CurrentHP": 100,
+    "XP": 100,
+    "Actions": [
+        0, 2
+    ],
+    "CustomName": "Jones",
+    "Stats": {
+        "HP": 5,
+        "AS": 5,
+        "AD": 5,
+        "AP": 5,
+        "APP": 5,
+        "SP": 5,
+        "ED": 5,
+    },
+}

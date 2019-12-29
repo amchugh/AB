@@ -7,6 +7,7 @@ public class ResourceEditorMain {
     private static final String DEFAULT_SPECIES_RESOURCE = "rsc/SimpleSpeciesData.sdf";
     private static final String DEFAULT_ACTION_RESOURCE = "rsc/SimpleActionData.adf";
     private static final String DEFAULT_TYPE_RESOURCE = "rsc/SimpleTypeData.tdf";
+    private static final String DEFAULT_BP_RESOURCES = "rsc/BPFiles/";
     
     private static final String TEST_MAP_RESOURCE = "rsc/Maps/0.map";
     
@@ -26,6 +27,7 @@ public class ResourceEditorMain {
         main.setBPActionResource(actionResource);
         main.setBPSpeciesResource(speciesResource);
         main.setEncounterEnvironmentResource(environmentResource);
+        main.setBPFileResource(DEFAULT_BP_RESOURCES);
         
         // Finally, allow to setup
         main.setup();

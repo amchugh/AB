@@ -1,9 +1,16 @@
 package ResourceEditor;
 
 import GameControl.*;
+import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class AResourceEditorMain {
@@ -13,12 +20,17 @@ public class AResourceEditorMain {
     private String speciesResource;
     private String actionResource;
     private String typeResource;
+    private String bpResources;
     
     // We will need a ResourceManager for every resource in the game currently
     private AResourceManager<ABPType> typeManager = null;
     private AResourceManager<AEncounterEnvironment> environmentManager;
     private AResourceManager<ABPSpecies> speciesManager;
     private AResourceManager<ABPAction> actionManager;
+    
+    public void setBPFileResource(String f) {
+        bpResources = f;
+    }
     
     public void setBPActionResource(String f) {
         actionResource = f;
@@ -78,6 +90,9 @@ public class AResourceEditorMain {
             currentSel = 0;
             display.selectNewBP(loadedBPs.get(0));;
         }
+        
+        
+        exportBPs();
     }
     
     // ----------------------------------
@@ -92,17 +107,108 @@ public class AResourceEditorMain {
         defaultBP = new ABP(speciesManager.getItemByID(0), new AStats(), 0);
         loadedBPs = new ArrayList<>();
         
-        // todo:: remove temp BP
-        ABP bp = new ABP(speciesManager.getItemByID(0), new AStats(), 0);
-        bp.setCustomName("foo");
-        ABP bp2 = new ABP(speciesManager.getItemByID(1), new AStats(), 10);
-        bp2.setCustomName("bar");
-        loadedBPs.add(bp);
-        loadedBPs.add(bp2);
+        // Parse the BP folder
+        File dir = new File(bpResources);
+        File[] files = dir.listFiles();
+    
+        for (int i = 0; i < files.length; i++) {
+            try {
+                ABP bp = new ABPReader(files[i].getAbsolutePath()).readABP(speciesManager, actionManager);
+                loadedBPs.add(bp);
+            } catch (IOException e) {
+                System.out.println("Failed to load file " + files[i].getName());
+                e.printStackTrace();
+            } catch (ParseException e) {
+                System.out.println("Failed to parse file " + files[i].getName());
+                e.printStackTrace();
+            }
+        }
+        
+        loadedBPs.add(defaultBP);
     }
     
     private void exportBPs() {
-    
+        // We're going to delete every file currently in the folder.
+        File dir = new File(bpResources);
+        File[] files = dir.listFiles();
+        
+        // fixme:: unfortunately, it seems we are unable to delete files.
+        // There is a Windows permission flaw that means we cannot delete it as it's "in-use"
+        for (int i = 0; i < files.length; i++) {
+            Path floc = files[i].toPath();
+            try {
+                Files.delete(floc);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Path floc = dir.toPath();
+        
+        // Now, we're going to create files for every BP in the current array
+        for (int i = 0; i < loadedBPs.size(); i++) {
+            // Find if the file already exists
+            ABP bp = loadedBPs.get(i);
+            File f;
+            if (files.length > i) {
+                // The file already exists
+                f = files[i];
+                // We will clear the file real quick
+                try {
+                    FileWriter fw = new FileWriter(f);
+                    PrintWriter pw = new PrintWriter(fw, false);
+                    pw.flush();
+                    pw.close();
+                    fw.close();
+                } catch (IOException e) {
+                    System.out.println("Failed to clean file #" + String.valueOf(i));
+                }
+            } else {
+                f = new File(dir.getAbsolutePath() + String.valueOf(i) + ".bpf");
+            }
+            // Now, we need to write all our data to the file.
+            FileWriter fr = null;
+            try {
+                fr = new FileWriter(f);
+                // Time to write our data!
+                fr.write("{\n");
+                fr.write("\t\"SpeciesID\": " + bp.getSpecies().getID() + "\n");
+                fr.write("\t\"XP\": " + bp.getXP() + "\n");
+                fr.write("\t\"Actions\": [\n");
+                fr.write("\t\t");
+                ArrayList<ABPAction> actions = bp.getActions();
+                for (int j = 0; j < actions.size(); j++) {
+                    int id = actions.get(j).getID();
+                    fr.write(id + ", ");
+                }
+                fr.write("\n\t],\n");
+                fr.write("\t\"Stats\": [\n");
+                fr.write("\t\t\"HP\": " + bp.getPersonalStats().hitpoints + "\n");
+                fr.write("\t\t\"AS\": " + bp.getPersonalStats().armorStrength + "\n");
+                fr.write("\t\t\"AD\": " + bp.getPersonalStats().armorDurability + "\n");
+                fr.write("\t\t\"AP\": " + bp.getPersonalStats().attackPower + "\n");
+                fr.write("\t\t\"APP\": " +bp.getPersonalStats().attackPierce + "\n");
+                fr.write("\t\t\"SP\": " + bp.getPersonalStats().speed + "\n");
+                fr.write("\t\t\"ED\": " + bp.getPersonalStats().endurance + "\n");
+                fr.write("\t},\n");
+                
+                if (bp.hasCustomName()) {
+                    fr.write("\t\"CustomName\": \"" + bp.getName() + "\"\n");
+                }
+                
+                fr.write("\t\"CurrentHP\": " + bp.getSpecies().getMaxHealth() + "\n"); // todo:: support not having full HP
+                fr.write("}");
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                // Close the files
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    // swallow
+                }
+            }
+        }
     }
     
     public void addBP() {
