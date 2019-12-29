@@ -112,7 +112,6 @@ public class AResourceEditorMain {
             try {
                 ABP bp = new ABPReader(files[i].getAbsolutePath()).readABP(speciesManager, actionManager);
                 loadedBPs.add(bp);
-                loadedBPs.add(bp);
             } catch (IOException e) {
                 System.out.println("Failed to load file " + files[i].getName());
                 e.printStackTrace();
