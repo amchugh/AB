@@ -31,4 +31,15 @@ public class ABPTableSelectionHandler implements ListSelectionListener{
         m.removeSelectedBP();
     }
     
+    public void onExport() {
+        // We should update the current BP first
+        m.updateCurrentBP();
+        m.exportBPs();
+    }
+    
+    public void onExit() {
+        onExport();
+        System.exit(0);
+    }
+    
 }

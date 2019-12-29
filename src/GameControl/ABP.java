@@ -44,7 +44,8 @@ public class ABP {
   
   public ArrayList<ABPAction> getActions() {
     if (actions.size() == 0) {
-      throw new RuntimeException("Moves have not been initialized on this BP yet");
+      // TODO:: REMOVE ME!!!!
+      //throw new RuntimeException("Moves have not been initialized on this BP yet");
     }
     return actions;
   }

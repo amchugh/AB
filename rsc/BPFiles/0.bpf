@@ -1,18 +1,18 @@
 {
-	"SpeciesID": 0
-	"XP": 100
+	"SpeciesID": 0,
+	"XP": 100,
 	"Actions": [
-		0, 2, 
+		
 	],
-	"Stats": [
-		"HP": 5
-		"AS": 5
-		"AD": 5
-		"AP": 5
-		"APP": 5
-		"SP": 5
-		"ED": 5
+	"Stats": {
+		"HP": 5,
+		"AS": 5,
+		"AD": 5,
+		"AP": 5,
+		"APP": 5,
+		"SP": 5,
+		"ED": 5,
 	},
-	"CustomName": "Jones"
-	"CurrentHP": 100
+	"CustomName": "Jones3",
+	"CurrentHP": 100,
 }

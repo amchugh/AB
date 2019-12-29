@@ -90,9 +90,6 @@ public class AResourceEditorMain {
             currentSel = 0;
             display.selectNewBP(loadedBPs.get(0));;
         }
-        
-        
-        exportBPs();
     }
     
     // ----------------------------------
@@ -115,6 +112,7 @@ public class AResourceEditorMain {
             try {
                 ABP bp = new ABPReader(files[i].getAbsolutePath()).readABP(speciesManager, actionManager);
                 loadedBPs.add(bp);
+                loadedBPs.add(bp);
             } catch (IOException e) {
                 System.out.println("Failed to load file " + files[i].getName());
                 e.printStackTrace();
@@ -123,17 +121,17 @@ public class AResourceEditorMain {
                 e.printStackTrace();
             }
         }
-        
-        loadedBPs.add(defaultBP);
     }
     
-    private void exportBPs() {
+    public void exportBPs() {
         // We're going to delete every file currently in the folder.
         File dir = new File(bpResources);
         File[] files = dir.listFiles();
         
-        // fixme:: unfortunately, it seems we are unable to delete files.
+        // improveme:: unfortunately, it seems we are unable to delete files.
         // There is a Windows permission flaw that means we cannot delete it as it's "in-use"
+        // UPDATE improveme:: I did some further testing. It appears it really only fails with committed files.
+        // It worked fine with my temp files. I won't think about it too much.
         for (int i = 0; i < files.length; i++) {
             Path floc = files[i].toPath();
             try {
@@ -142,7 +140,6 @@ public class AResourceEditorMain {
                 e.printStackTrace();
             }
         }
-        Path floc = dir.toPath();
         
         // Now, we're going to create files for every BP in the current array
         for (int i = 0; i < loadedBPs.size(); i++) {
@@ -163,7 +160,7 @@ public class AResourceEditorMain {
                     System.out.println("Failed to clean file #" + String.valueOf(i));
                 }
             } else {
-                f = new File(dir.getAbsolutePath() + String.valueOf(i) + ".bpf");
+                f = new File(dir.getAbsolutePath() + "\\" + String.valueOf(i) + ".bpf");
             }
             // Now, we need to write all our data to the file.
             FileWriter fr = null;
@@ -171,8 +168,8 @@ public class AResourceEditorMain {
                 fr = new FileWriter(f);
                 // Time to write our data!
                 fr.write("{\n");
-                fr.write("\t\"SpeciesID\": " + bp.getSpecies().getID() + "\n");
-                fr.write("\t\"XP\": " + bp.getXP() + "\n");
+                fr.write("\t\"SpeciesID\": " + bp.getSpecies().getID() + ",\n");
+                fr.write("\t\"XP\": " + bp.getXP() + ",\n");
                 fr.write("\t\"Actions\": [\n");
                 fr.write("\t\t");
                 ArrayList<ABPAction> actions = bp.getActions();
@@ -181,21 +178,21 @@ public class AResourceEditorMain {
                     fr.write(id + ", ");
                 }
                 fr.write("\n\t],\n");
-                fr.write("\t\"Stats\": [\n");
-                fr.write("\t\t\"HP\": " + bp.getPersonalStats().hitpoints + "\n");
-                fr.write("\t\t\"AS\": " + bp.getPersonalStats().armorStrength + "\n");
-                fr.write("\t\t\"AD\": " + bp.getPersonalStats().armorDurability + "\n");
-                fr.write("\t\t\"AP\": " + bp.getPersonalStats().attackPower + "\n");
-                fr.write("\t\t\"APP\": " +bp.getPersonalStats().attackPierce + "\n");
-                fr.write("\t\t\"SP\": " + bp.getPersonalStats().speed + "\n");
-                fr.write("\t\t\"ED\": " + bp.getPersonalStats().endurance + "\n");
+                fr.write("\t\"Stats\": {\n");
+                fr.write("\t\t\"HP\": " + bp.getPersonalStats().hitpoints + ",\n");
+                fr.write("\t\t\"AS\": " + bp.getPersonalStats().armorStrength + ",\n");
+                fr.write("\t\t\"AD\": " + bp.getPersonalStats().armorDurability + ",\n");
+                fr.write("\t\t\"AP\": " + bp.getPersonalStats().attackPower + ",\n");
+                fr.write("\t\t\"APP\": " +bp.getPersonalStats().attackPierce + ",\n");
+                fr.write("\t\t\"SP\": " + bp.getPersonalStats().speed + ",\n");
+                fr.write("\t\t\"ED\": " + bp.getPersonalStats().endurance + ",\n");
                 fr.write("\t},\n");
                 
                 if (bp.hasCustomName()) {
-                    fr.write("\t\"CustomName\": \"" + bp.getName() + "\"\n");
+                    fr.write("\t\"CustomName\": \"" + bp.getName() + "\",\n");
                 }
                 
-                fr.write("\t\"CurrentHP\": " + bp.getSpecies().getMaxHealth() + "\n"); // todo:: support not having full HP
+                fr.write("\t\"CurrentHP\": " + bp.getSpecies().getMaxHealth() + ",\n"); // todo:: support not having full HP
                 fr.write("}");
                 
             } catch (IOException e) {
@@ -279,6 +276,10 @@ public class AResourceEditorMain {
         currentSel = newIndex;
         // Finally, update the table after exporting the new BP
         display.updateTableData(loadedBPs);
+    }
+    
+    public void updateCurrentBP() {
+        loadedBPs.set(currentSel, display.getEditedBP());
     }
     
 }

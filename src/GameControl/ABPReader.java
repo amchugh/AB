@@ -52,6 +52,7 @@ public class ABPReader extends AIOJSONHelper {
             bp.addAction(a);
         }
 
+        
         return bp;
     }
 

@@ -6,6 +6,8 @@ import GameControl.AResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AResourceEditorDisplay {
@@ -36,6 +38,18 @@ public class AResourceEditorDisplay {
         JMenu m = new JMenu("File");
         JMenuItem e1 = new JMenuItem("Export");
         JMenuItem e2 = new JMenuItem("Exit");
+        e1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sh.onExport();
+            }
+        });
+        e2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sh.onExit();
+            }
+        });
         
         m.add(e1);
         m.add(e2);

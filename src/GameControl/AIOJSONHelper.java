@@ -22,7 +22,10 @@ public class AIOJSONHelper {
     }
 
     protected JSONObject getJSON() throws IOException, ParseException {
-        return (JSONObject)(new JSONParser().parse(getFile()));
+        FileReader f = getFile();
+        JSONObject r = (JSONObject)(new JSONParser().parse(f));
+        f.close();
+        return r;
     }
 
     protected int getInt(JSONObject o, String sub) {
