@@ -1,11 +1,9 @@
-package ResourceEditor;
+package ResourceEditor.BPEditor;
 
 import GameControl.ABP;
+import ResourceEditor.AResourceEditorInputManager;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -13,12 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+@Deprecated(since = "The inclusion of AResourceEditorTable & AResourceEditorTableModel", forRemoval = true)
 public class ABPEditorTable extends JPanel {
 
     public BPTableModel tm;
     public JTable table;
     
-    public ABPEditorTable(ABPTableSelectionHandler sh) {
+    public ABPEditorTable(AResourceEditorInputManager sh) {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         tm = new BPTableModel();
@@ -87,7 +86,6 @@ public class ABPEditorTable extends JPanel {
         });
         bottom.add(add);
         bottom.add(remove);
-        Dimension d = remove.getPreferredSize();
         add(bottom);
     }
     

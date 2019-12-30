@@ -3,8 +3,6 @@ package ResourceEditor;
 import GameControl.*;
 import org.json.simple.parser.ParseException;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -85,17 +83,13 @@ public class AResourceEditorMain {
     public void setup() {
         loadBPs();
         handleDisplay();
-        // Display the first BP (if it exists)
-        if (loadedBPs.size() > 0) {
-            currentSel = 0;
-            display.selectNewBP(loadedBPs.get(0));;
-        }
+
     }
     
     // ----------------------------------
     // -- Handling the current BPs     --
     // ----------------------------------
-    
+
     private ArrayList<ABP> loadedBPs;
     
     private static ABP defaultBP;
@@ -212,50 +206,69 @@ public class AResourceEditorMain {
         // This BP is our new selected BP if it's our first one
         if (loadedBPs.size() == 1) {
             currentSel = 0;
-            display.selectNewBP(loadedBPs.get(currentSel));
+            display.selectNewBP(loadedBPs.get(currentSel), currentSel);
         } else {
             // This BP will still be our new selected, but let's go there nicely
             onSelectNewBP(loadedBPs.size()-1);
         }
-        display.updateTableData(loadedBPs);
+        display.updateBPTableData(loadedBPs);
     }
     
     public void removeSelectedBP() {
         if (loadedBPs.size() > 0) {
             loadedBPs.remove(currentSel);
-            display.updateTableData(loadedBPs);
+            display.updateBPTableData(loadedBPs);
             currentSel -= 1;
             if (currentSel < 0) {
                 currentSel = 0; // don't go negative!
             }
             // Now we need to select a new BP!
             // 2) open the new BP
-            display.selectNewBP(loadedBPs.get(currentSel));
+            display.selectNewBP(loadedBPs.get(currentSel), currentSel);
         }
     }
-    
+
+    // ----------------------------------
+    // -- Handling the current Enemies --
+    // ----------------------------------
+
+    private ArrayList<AEnemy> loadedEnemies;
+
+    private static AEnemy defaultEnemy;
+
+    private void loadEnemies() {
+
+    }
+
+    public void exportEnemies() {
+
+    }
+
+    public void addEnemy() {
+
+    }
+
+    public void removeSelectedEnemy() {
+
+    }
+
     // ----------------------------------
     // -- Handle the display
     // ----------------------------------
     private AResourceEditorDisplay display;
-    private ABPTableSelectionHandler handler;
+    private AResourceEditorInputManager handler;
     private int currentSel;
     
     public void handleDisplay() {
-        handler = new ABPTableSelectionHandler(this);
-        display = new AResourceEditorDisplay(handler, speciesManager);
-        
-        // Now, add a test BP to the display
-        ABP test;
-        try {
-            test = new ABPReader(AGameMain.getBPDataFileNameFromID(0)).readABP(speciesManager, actionManager);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
+        handler = new AResourceEditorInputManager(this);
+        display = new AResourceEditorDisplay(handler, speciesManager, actionManager);
+
+        // Display the first BP (if it exists)
+        if (loadedBPs.size() > 0) {
+            currentSel = 0;
+            display.selectNewBP(loadedBPs.get(currentSel), currentSel);
         }
-        ArrayList<ABP> bpList = new ArrayList<>();
-        bpList.add(test);
-        display.updateTableData(loadedBPs);
+
     }
     
     public void onSelectNewBP() {
@@ -271,10 +284,10 @@ public class AResourceEditorMain {
         // 1) update the edited BP
         loadedBPs.set(currentSel, display.getEditedBP());
         // 2) open the new BP
-        display.selectNewBP(loadedBPs.get(newIndex));
+        display.selectNewBP(loadedBPs.get(newIndex), newIndex);
         currentSel = newIndex;
         // Finally, update the table after exporting the new BP
-        display.updateTableData(loadedBPs);
+        display.updateBPTableData(loadedBPs);
     }
     
     public void updateCurrentBP() {
