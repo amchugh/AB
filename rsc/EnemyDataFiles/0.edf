@@ -2,5 +2,6 @@
     "BPs": [
         1, 2,
     ]
-    "DeathText": "Aww shucks"
+    "DeathText": "Aww shucks",
+    "Name": "Brad",
 }

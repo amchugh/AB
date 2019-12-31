@@ -5,8 +5,9 @@ import GameControl.ABPAction;
 import GameControl.ABPSpecies;
 import GameControl.AResourceManager;
 import ResourceEditor.BPEditor.ABPEditorPanel;
-import ResourceEditor.BPEditor.ABPEditorTable;
 import ResourceEditor.BPEditor.ABPEditorTableModel;
+import ResourceEditor.EnemyEditor.AEnemyEditorPanel;
+import ResourceEditor.EnemyEditor.AEnemyEditorTableModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +19,14 @@ public class AResourceEditorDisplay {
     
     public JPanel mainPanel;
     private JFrame frame;
-    
+
+    // BP Editor constructs
     private AResourceEditorTable bpTable;
     private ABPEditorPanel bpEditorPanel;
+
+    // Enemy Editor constructs
+    private AResourceEditorTable enemyTable;
+    private AEnemyEditorPanel enemyEditorPanel;
 
     public enum EditorMode { BP, ENEMY };
     public EditorMode current;
@@ -74,7 +80,9 @@ public class AResourceEditorDisplay {
         bpEditorPanel = new ABPEditorPanel(sm, am);
 
         // Create the Enemy editor components
-        // todo:: create and add components
+        AEnemyEditorTableModel enemyTableModel = new AEnemyEditorTableModel();
+        enemyTable = new AResourceEditorTable(enemyTableModel, sh);
+        enemyEditorPanel = new AEnemyEditorPanel(sm, am);
 
         // Set the mode to BP editor by default
         setMode(EditorMode.BP);
@@ -89,13 +97,16 @@ public class AResourceEditorDisplay {
     }
 
     public void updateDisplay() {
+        // Start by remove all the components
+        mainPanel.removeAll();
         switch (current) {
             case BP:
                 mainPanel.add(bpTable);
                 mainPanel.add(bpEditorPanel);
                 break;
             case ENEMY:
-
+                mainPanel.add(enemyTable);
+                mainPanel.add(enemyEditorPanel);
                 break;
         }
     }

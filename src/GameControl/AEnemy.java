@@ -5,17 +5,20 @@ import java.util.ArrayList;
 public class AEnemy {
 
   private ABPTeam bpTeam;
-  private final String deathText;
+  private String deathText;
+  private String name;
 
-  public AEnemy(String deathText) {
+  public AEnemy(String deathText, String name) {
     this.deathText = deathText;
+    this.name = name;
     bpTeam = new ABPTeam();
   }
 
-  public AEnemy(ABP bp, String deathText) {
+  public AEnemy(ABP bp, String deathText, String name) {
     bpTeam = new ABPTeam();
     bpTeam.addBP(bp);
     this.deathText = deathText;
+    this.name = name;
   }
 
   public void addBP(ABP n) {
@@ -51,6 +54,7 @@ public class AEnemy {
   public String getDeathText() {
     return deathText;
   }
+  public String getName() { return name; }
 
   // todo:: these methods should be broken out into a separate class
   public ABPAction getMove() {
