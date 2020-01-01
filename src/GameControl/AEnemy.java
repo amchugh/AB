@@ -5,17 +5,20 @@ import java.util.ArrayList;
 public class AEnemy {
 
   private ABPTeam bpTeam;
-  private final String deathText;
+  private String deathText;
+  private String name;
 
-  public AEnemy(String deathText) {
+  public AEnemy(String deathText, String name) {
     this.deathText = deathText;
+    this.name = name;
     bpTeam = new ABPTeam();
   }
 
-  public AEnemy(ABP bp, String deathText) {
+  public AEnemy(ABP bp, String deathText, String name) {
     bpTeam = new ABPTeam();
     bpTeam.addBP(bp);
     this.deathText = deathText;
+    this.name = name;
   }
 
   public void addBP(ABP n) {
@@ -29,8 +32,8 @@ public class AEnemy {
    * Deals damage to the current BP
    * @param damage raw damage to take
    */
-  public void takeDamage(int damage) {
-    getActiveBP().takeDamage(damage);
+  public void takeDamage(int damage, ABP attacker, ABPType damageType, boolean isCrit) {
+    getActiveBP().takeDamage(damage, attacker, damageType, isCrit);
   }
 
   /**
@@ -51,6 +54,7 @@ public class AEnemy {
   public String getDeathText() {
     return deathText;
   }
+  public String getName() { return name; }
 
   // todo:: these methods should be broken out into a separate class
   public ABPAction getMove() {
@@ -70,5 +74,12 @@ public class AEnemy {
     ArrayList<ABP> living = (ArrayList<ABP>) bpTeam.getLivingBP();
     bpTeam.setSelection(living.get(0));
   }
-
+  
+  /**
+   * Alerts all BP that the battle has started so they can setup
+   */
+  public void onBattleStart() {
+    bpTeam.onBattleStart();
+  }
+  
 }

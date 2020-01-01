@@ -1,18 +1,38 @@
 {
-    "Species": [
-        {
-            "ID": 0,
-            "FrontImageLocation": "rsc/images/planetEv1.png",
-            "BackImageLocation": "rsc/images/planetEv1.png",
-            "MaxHP": 100,
-            "Name": "Planet-thing",
-        },
-        {
+     "Species": [
+         {
+             "ID": 0,
+             "FrontImageLocation": "rsc/images/bps/Planet.png",
+             "BackImageLocation": "rsc/images/bps/Planet.png",
+             "MaxHP": 100,
+             "Name": "Planetoid",
+             "TypeID": 2,
+             "Stats": {
+                 "HP": 5,
+                 "AS": 5,
+                 "AD": 5,
+                 "AP": 5,
+                 "APP": 5,
+                 "SP": 5,
+                 "ED": 5,
+             },
+         },
+         {
             "ID": 1,
-            "FrontImageLocation": "rsc/images/TourcisEv1.png",
-            "BackImageLocation": "rsc/images/TourcisEv1.png",
-            "MaxHP": 50,
-            "Name": "Torch-thing",
+            "FrontImageLocation": "rsc/images/bps/Tourcis.png",
+            "BackImageLocation": "rsc/images/bps/Tourcis.png",
+            "MaxHP": 90,
+            "Name": "Tourcis",
+            "TypeID": 0,
+            "Stats": {
+              "HP": 5,
+              "AS": 5,
+              "AD": 5,
+              "AP": 5,
+              "APP": 5,
+              "SP": 5,
+              "ED": 5,
+            },
         },
-    ]
-}
+     ]
+ }

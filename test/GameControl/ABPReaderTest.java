@@ -30,11 +30,14 @@ class ABPReaderTest {
 
     @Test
     public void simpleReadExample() throws Exception, IOException, ParseException {
+        ABPTypeManagerLoader l = new ABPTypeManagerLoader("test/rsc/SimpleTypeData.tdf");
+        AResourceManager<ABPType> tm = l.loadManager();
+        
         ABPReader r = new ABPReader("test/rsc/SimpleBP.bpf");
         ABPSpeciesManagerReader mr = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
-        AResourceManager<ABPSpecies> m = mr.initializeSpeciesManager();
+        AResourceManager<ABPSpecies> m = mr.initializeSpeciesManager(tm);
         ABPActionManagerReader ar = new ABPActionManagerReader("test/rsc/SimpleActionData.adf");
-        AResourceManager<ABPAction> am = ar.initializeActionManager();
+        AResourceManager<ABPAction> am = ar.initializeActionManager(tm);
         ABP bp = r.readABP(m, am);
 
         assertNotNull(bp);

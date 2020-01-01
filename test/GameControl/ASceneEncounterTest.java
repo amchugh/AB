@@ -70,7 +70,7 @@ public class ASceneEncounterTest {
         Mockito.when(fontMetrics.getHeight()).thenReturn(10);
         Mockito.when(fontMetrics.stringWidth(any())).thenReturn(10);
         ArrayList<ABPAction> act = new ArrayList<>();
-        act.add(new ABPAction(0,10, "test"));
+        act.add(new ABPAction(0,10, new ABPType(0), "test"));
         Mockito.when(mockBP.getActions()).thenReturn(act);
         se.setup();
         se.draw(g);

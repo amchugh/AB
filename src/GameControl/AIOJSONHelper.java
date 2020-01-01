@@ -22,7 +22,10 @@ public class AIOJSONHelper {
     }
 
     protected JSONObject getJSON() throws IOException, ParseException {
-        return (JSONObject)(new JSONParser().parse(getFile()));
+        FileReader f = getFile();
+        JSONObject r = (JSONObject)(new JSONParser().parse(f));
+        f.close();
+        return r;
     }
 
     protected int getInt(JSONObject o, String sub) {
@@ -45,5 +48,22 @@ public class AIOJSONHelper {
     protected boolean doesFieldExist(JSONObject o, String sub) {
         return o.containsKey(sub);
     }
-
+    
+    /**
+     * Given an appropriate JSON object containing stat information, load it and return a stats instance
+     * @param o the object containing the stats
+     * @return the loaded stats
+     */
+    protected AStats loadStats(JSONObject o) {
+        AStats s = new AStats();
+        s.hitpoints = getInt(o, "HP");
+        s.armorStrength = getInt(o, "AS");
+        s.armorDurability = getInt(o, "AD");
+        s.attackPower = getInt(o, "AP");
+        s.attackPierce = getInt(o, "APP");
+        s.speed = getInt(o, "SP");
+        s.endurance = getInt(o, "ED");
+        return s;
+    }
+    
 }

@@ -13,7 +13,7 @@ public class ABPActionManagerReader extends AIOJSONHelper {
         super (filename);
     }
 
-    public AResourceManager<ABPAction> initializeActionManager() throws IOException, ParseException {
+    public AResourceManager<ABPAction> initializeActionManager(AResourceManager<ABPType> t) throws IOException, ParseException {
         JSONObject jo = getJSON();
         AResourceManager<ABPAction> m = new AResourceManager<>();
 
@@ -26,7 +26,9 @@ public class ABPActionManagerReader extends AIOJSONHelper {
             int id = getInt(oi, "ID");
             int damage = getInt(oi, "Damage");
             String name = getString(oi, "Name");
-            ABPAction action = new ABPAction(id, damage, name);
+            int typeID = getInt(oi, "TypeID");
+            ABPType type = t.getItemByID(typeID);
+            ABPAction action = new ABPAction(id, damage, type, name);
             m.addItem(action);
         }
 

@@ -1,8 +1,18 @@
 {
-    "SpeciesID": 0,
-    "CurrentHP": 100,
-    "Actions": [
-        0, 2
-    ],
-    "CustomName": "Jones",
+	"SpeciesID": 0,
+	"XP": 79,
+	"Actions": [
+		0, 2, 
+	],
+	"Stats": {
+		"HP": 2,
+		"AS": 0,
+		"AD": 0,
+		"AP": 0,
+		"APP": 0,
+		"SP": 0,
+		"ED": 0,
+	},
+	"CustomName": "wsedrftvgyuhnj",
+	"CurrentHP": 100,
 }

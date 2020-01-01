@@ -12,8 +12,10 @@ public class ABPSpeciesManagerReaderTest {
     @Test
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
         try {
+            ABPTypeManagerLoader l = new ABPTypeManagerLoader("test/rsc/SimpleTypeData.tdf");
+            AResourceManager<ABPType> tm = l.loadManager();
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("rsc/doesnotexist.sdf");
-            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
+            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager(tm);
             // It isn't okay if we have gotten this far!
             // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -28,8 +30,10 @@ public class ABPSpeciesManagerReaderTest {
     @Test
     public void throwsExceptionOnBadDataset() throws Exception {
         try {
+            ABPTypeManagerLoader l = new ABPTypeManagerLoader("test/rsc/SimpleTypeData.tdf");
+            AResourceManager<ABPType> tm = l.loadManager();
             ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/BadSpeciesData.sdf");
-            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
+            AResourceManager<ABPSpecies> m = r.initializeSpeciesManager(tm);
             // It isn't okay if we have gotten this far!
             // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
             throw new Exception( "Test failure!");
@@ -43,8 +47,11 @@ public class ABPSpeciesManagerReaderTest {
 
     @Test
     public void simpleReadExample() throws Exception, IOException, ParseException {
+        ABPTypeManagerLoader l = new ABPTypeManagerLoader("test/rsc/SimpleTypeData.tdf");
+        AResourceManager<ABPType> tm = l.loadManager();
+        
         ABPSpeciesManagerReader r = new ABPSpeciesManagerReader("test/rsc/SimpleSpeciesData.sdf");
-        AResourceManager<ABPSpecies> m = r.initializeSpeciesManager();
+        AResourceManager<ABPSpecies> m = r.initializeSpeciesManager(tm);
 
         assertNotNull(m);
         assert (m.getNumberOfItems() == 1);

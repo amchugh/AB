@@ -2,10 +2,20 @@
     "Species": [
         {
             "ID": 3,
-            "FrontImageLocation": "rsc/images/planetEv1.png",
-            "BackImageLocation": "rsc/images/TourcisEv1.png"
+            "FrontImageLocation": "test/rsc/grass16x16.png",
+            "BackImageLocation": "test/rsc/grass16x16.png",
             "MaxHP": 10,
-            "Name": "Foo"
+            "Name": "Foo",
+            "TypeID": 0,
+            "Stats": {
+                "HP": 5,
+                "AS": 5,
+                "AD": 5,
+                "AP": 5,
+                "APP": 5,
+                "SP": 5,
+                "ED": 5,
+            },
         }
     ]
 }

@@ -2,11 +2,11 @@
     "Environments": [
         {
             "ID": 0,
-            "BackgroundImage": "rsc/images/planetEv1.png",
+            "BackgroundImage": "test/rsc/grass16x16.png",
         },
         {
             "ID": 0,
-            "BackgroundImage": "rsc/images/planetEv1.png"
+            "BackgroundImage": "test/rsc/grass16x16.png",
         }
     ]
 }

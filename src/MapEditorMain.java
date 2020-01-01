@@ -1,4 +1,4 @@
-import GameControl.Tools.AMapEditorMain;
+import Editor.AMapEditorMain;
 
 // The controlling program for the map editor.  Kept sparse on purpose.
 

@@ -9,12 +9,13 @@ public class ABPType extends AIDItem {
 
     public ABPType(int id) {
         super(id);
+        weaknesses = new ArrayList<>();
+        immunities = new ArrayList<>();
     }
 
     public void addWeakness(ABPType weakness) {
         weaknesses.add(weakness);
     }
-
 
     public void addImmunity(ABPType immune) {
         immunities.add(immune);

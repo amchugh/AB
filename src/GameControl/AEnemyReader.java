@@ -17,8 +17,9 @@ public class AEnemyReader extends AIOJSONHelper {
         JSONObject jo = getJSON();
 
         String deathText = getString(jo, "DeathText");
+        String name = getString(jo, "Name");
 
-        AEnemy e = new AEnemy(deathText);
+        AEnemy e = new AEnemy(deathText, name);
 
         JSONArray items = (JSONArray) jo.get("BPs");
         Iterator bps = items.iterator();

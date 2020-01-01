@@ -10,9 +10,11 @@ public class ABPAction extends AIDItem {
 
     private final int damage;
     private final String name;
+    private final ABPType type;
 
-    public ABPAction(int id, int damage, String name) {
+    public ABPAction(int id, int damage, ABPType type, String name) {
         super (id);
+        this.type = type;
         this.damage = damage;
         this.name = name;
     }
@@ -23,5 +25,8 @@ public class ABPAction extends AIDItem {
     public int getDamage() {
         return damage;
     }
-
+    public ABPType getType() {
+        return type;
+    }
+    
 }

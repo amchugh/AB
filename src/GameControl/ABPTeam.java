@@ -63,5 +63,14 @@ public class ABPTeam {
         Stream<ABP> abpStream = bpArray.stream().filter(b -> b.isAlive());
         return abpStream.collect(Collectors.toList());
     }
-
+    
+    /**
+     * Alerts all BP that the battle has started so they can setup
+     */
+    public void onBattleStart() {
+        for (int i = 0; i < bpArray.size(); i++) {
+            bpArray.get(i).onBattleStart();
+        }
+    }
+    
 }
