@@ -11,35 +11,48 @@ public class AMapEditorMain {
     private AMapEditorController control;
     
     private ACellManagerSpriteSheet cellManager;
+    private AMapInstance map;
+
+    final String CELL_RESOURCE_FILENAME = "rsc/images/map/world_map_tiles.png";
 
     GridPos currentPos = new GridPos(1, 1);
 
     public AMapEditorMain(String mapFilename) {
-        cellManager = new ACellManagerSpriteSheet("rsc/images/map/world_map_tiles.png",
+        cellManager = new ACellManagerSpriteSheet(CELL_RESOURCE_FILENAME,
                 16, 16, 4, 50, 1, 1);
         
-        AMapInstance map;
         try {
             map = (AMapInstance) new AMapReader(mapFilename).constructMap(cellManager);
         } catch (Exception e) {
             throw new RuntimeException("Shouldn't throw", e);
         }
+        map.setHighlightDesiredCenter(true);
     
         AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
         map.setViewAdvisor(viewAdvisor);
     
         userInput = new AUserInput();
-    
-        control = new AMapEditorController(userInput, map);
-        display = new AMapDisplay(new Dimension(800, 600), cellManager, map);
+
+        AMapWriter mapWriter = new AMapWriter(mapFilename);
+
+        control = new AMapEditorController(userInput);
+        display = new AMapDisplay(new Dimension(1200, 900), cellManager, map, mapWriter);
         display.addKeyListener(userInput);
     }
 
     public void step() {
         control.step();
         handleMoveCurrentGridPos();
-        control.map.setViewFocus(currentPos);
-        control.map.getScene().step();
+        handleMapModifications();
+        map.setViewFocus(currentPos);
+        map.getScene().step();
+    }
+
+    protected void handleMapModifications() {
+        if (control.getPlaceCell()) {
+            map.setCell(currentPos.getY(), currentPos.getX(), display.getCurrentCellId());
+            display.repaint();
+        }
     }
 
 
@@ -52,8 +65,9 @@ public class AMapEditorMain {
             case NONE -> currentPos;
         };
         if (!(desiredPos.equals(currentPos))) {
-            if (control.map.isGridPosOccupiable(desiredPos)) {
+            if (map.isGridPosOccupiable(desiredPos)) {
                 currentPos = desiredPos;
+                display.repaint();
                 System.out.println("Setting currentPos to be; " + currentPos.getX() + ", " + currentPos.getY());
             }
         }

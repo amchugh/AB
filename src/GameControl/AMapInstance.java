@@ -11,6 +11,7 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     private GridPos desiredCenter;
     private ACellManager aCellManager;
     private AViewAdvisor viewAdvisor;
+    private boolean highlightDesiredCenter;
 
     AMapInstance(int id, int gridWidth, int gridHeight, ACellManager aCellManager) {
         this.id = id;
@@ -20,6 +21,25 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
 
         desiredCenter = new GridPos(0,0);
         cells = new int[gridHeight][gridWidth];
+    }
+
+    public int getGridId() {
+        return id;
+    }
+
+    public int getGridWidth() {
+        return gridWidth;
+    }
+
+    public int getGridHeight() {
+        return gridHeight;
+    }
+
+    public int getCell(int row, int col) {
+        assert (row < gridHeight);
+        assert (col < gridWidth);
+
+        return cells[row][col];
     }
 
     public void setCell(int row, int col, int cell) {
@@ -50,13 +70,16 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
         return this;
     }
 
+    public void setHighlightDesiredCenter(boolean highlightDesiredCenter) {
+        this.highlightDesiredCenter = highlightDesiredCenter;
+    }
+
     // AMap methods
     @Override
     public void step() {
 
     }
 
-    @Override
     public void draw(Graphics g) {
         // TODO:  Need to figure out how large the graphics region is to draw into
         int viewableWidth = 5;
@@ -69,10 +92,14 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
         int cellHeight = aCellManager.getCellHeight();
 
         for (AViewAdvisor.ViewableGridCell c : viewableCells) {
+
             int graphicsX = c.screenCoordinate.x * cellWidth;
             int graphicsY = c.screenCoordinate.y * cellHeight;
             int cellId = cells[c.gridPos.getY()][c.gridPos.getX()];
             g.drawImage(aCellManager.getCellImage(cellId), graphicsX, graphicsY, cellWidth, cellHeight, null);
+            if (highlightDesiredCenter && c.gridPos.getX() == desiredCenter.getX() && c.gridPos.getY() == desiredCenter.getY()) {
+                g.drawRect(graphicsX, graphicsY, cellWidth, cellHeight);
+            }
         }
     }
 

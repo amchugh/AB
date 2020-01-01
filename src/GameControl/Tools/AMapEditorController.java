@@ -1,6 +1,5 @@
 package GameControl.Tools;
 
-import GameControl.AMapInstance;
 import GameControl.AUserInput;
 
 /**
@@ -11,23 +10,26 @@ public class AMapEditorController {
 
     private AUserInput userInput;
     private static final double repeatTime = 1e3 / 10;
-    public AMapInstance map;
 
     public enum MovementDirection {NONE, UP, DOWN, LEFT, RIGHT}
-
-    ;
-
     private MovementDirection movementDirection;
+    private boolean placeCell;
 
-    public AMapEditorController(AUserInput userInput, AMapInstance map) {
+    public AMapEditorController(AUserInput userInput) {
         this.userInput = userInput;
         movementDirection = MovementDirection.NONE;
-        this.map = map;
+        placeCell = false;
     }
 
     public MovementDirection getMovementDirection() {
         MovementDirection result = this.movementDirection;
         this.movementDirection = MovementDirection.NONE;
+        return result;
+    }
+
+    public boolean getPlaceCell() {
+        boolean result = placeCell;
+        placeCell = false;
         return result;
     }
 
@@ -42,7 +44,7 @@ public class AMapEditorController {
             movementDirection = MovementDirection.RIGHT;
         }
         if (isKeyReady(' ')) {
-            // Place current tile
+            placeCell = true;
         }
     }
 

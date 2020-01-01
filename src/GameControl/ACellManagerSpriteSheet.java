@@ -10,7 +10,6 @@ import java.util.Map;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class ACellManagerSpriteSheet implements ACellManager {
-
     protected Map<Integer, Image> cells = new HashMap<>();
 
     protected String filename;
@@ -30,7 +29,7 @@ public class ACellManagerSpriteSheet implements ACellManager {
             int x = eachOffsetX;
             for (int row = 0; row < numWide; row++) {
                 cells.put(id, getSubImage(sheet, x, y));
-                System.out.println("Copied; i: " + String.valueOf(id) + ", x: " + x + " , y: " + y);
+                // System.out.println("Copied; i: " + String.valueOf(id) + ", x: " + x + " , y: " + y);
                 id = id + 1;
                 f = 1;
                 x += eachOffsetX + cellWidth;
@@ -41,9 +40,6 @@ public class ACellManagerSpriteSheet implements ACellManager {
 
     private Image getSubImage(Image sheet, int x, int y) {
         Image result = new BufferedImage(cellWidth, cellHeight, TYPE_INT_RGB);
-        // Graphics sheetGraphics = sheet.getGraphics();
-        // sheetGraphics.setClip(x, y, cellWidth, cellHeight);
-
         int w = sheet.getWidth(null);
         int h = sheet.getHeight(null);
         Graphics g = result.getGraphics();
@@ -51,17 +47,6 @@ public class ACellManagerSpriteSheet implements ACellManager {
                 sheet,
                 -x, -y, w, h, null);
         return result;
-
-        /*
-        Graphics g = result.getGraphics();
-        if ( f == 0 ) {
-            g.setColor(Color.red);
-        } else {
-            g.setColor(Color.green);
-        }
-        g.fillRect(0,0,16,16);
-        return result;
-         */
     }
 
     private Image getImage(String filename) {
