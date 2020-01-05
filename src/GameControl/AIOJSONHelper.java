@@ -33,7 +33,7 @@ public class AIOJSONHelper {
     }
 
     protected float getFloat(JSONObject o, String sub) {
-        return ((Float) o.get(sub)).floatValue();
+        return ((Double) o.get(sub)).floatValue();
     }
 
     protected int getInt(Object o) {

@@ -29,6 +29,20 @@ public class AMapWriter {
             rows.add(col);
         }
         result.put("Cells", rows);
+
+        JSONArray regions = new JSONArray();
+        for (ARegionEncounterGenerator r : map.getRegions()) {
+            JSONObject region = new JSONObject();
+            region.put("TopLeftX", r.getTopLeft().getX());
+            region.put("TopLeftY", r.getTopLeft().getY());
+            region.put("BottomRightX", r.getBottomRight().getX());
+            region.put("BottomRightY", r.getBottomRight().getY());
+            region.put("EncounterId", r.getEncounterId());
+            region.put("ChanceToEncounter", r.getChanceToEncounter());
+            regions.add(region);
+        }
+        result.put("Regions", regions);
+
         try (FileWriter file = new FileWriter(mapFileName)) {
             file.write(result.toJSONString());
             file.flush();

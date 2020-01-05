@@ -15,7 +15,6 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     private boolean highlightDesiredCenter;
     private List<ARegionEncounterGenerator> regions;
 
-
     AMapInstance(int id, int gridWidth, int gridHeight, ACellManager aCellManager) {
         this.id = id;
         this.gridWidth = gridWidth;
@@ -130,5 +129,9 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
 
     public void addRegion(ARegionEncounterGenerator aRegionEncounterGenerator) {
         regions.add(aRegionEncounterGenerator);
+    }
+
+    public List<ARegionEncounterGenerator> getRegions() {
+        return regions;
     }
 }

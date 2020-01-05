@@ -37,4 +37,20 @@ public class ARegionEncounterGenerator implements ARegion {
             return null;
         }
     }
+
+    public int getEncounterId() {
+        return encounterInstanceID;
+    }
+
+    public GridPos getTopLeft() {
+        return topLeft;
+    }
+
+    public GridPos getBottomRight() {
+        return bottomRight;
+    }
+
+    public float getChanceToEncounter() {
+        return chanceToCreateEncounter;
+    }
 }

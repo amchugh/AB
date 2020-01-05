@@ -1,0 +1,27 @@
+{
+    "MapId": 1,
+    "Width": 3,
+    "Height": 2,
+    "Cells": [
+        [ 1, 2, 3],
+        [ 4, 5, 6]
+    ],
+    "Regions" : [
+        {
+            "TopLeftX": 1,
+            "TopLeftY": 10,
+            "BottomRightX": 5,
+            "BottomRightY": 15,
+            "ChanceToEncounter": 0.5,
+            "EncounterId": 100,
+        },
+        {
+            "TopLeftX": 50,
+            "TopLeftY": 51,
+            "BottomRightX": 55,
+            "BottomRightY": 56,
+            "ChanceToEncounter": 0.01,
+            "EncounterId": 101,
+        }
+    ]
+}
