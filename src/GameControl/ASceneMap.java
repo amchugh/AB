@@ -38,6 +38,6 @@ public class ASceneMap implements AScene {
 
     @Override
     public ASceneData shouldPushScene() {
-        return null; // todo:: this logic.
+        return map.shouldIntroduceNewScene();
     }
 }

@@ -77,6 +77,18 @@ public class AMapInstance implements AMap, AGridPosValidator {
     public void step() {
     }
 
+    public ASceneData shouldIntroduceNewScene() {
+        for (ARegionEncounterGenerator r : regions) {
+            if (r.containsGridPos(desiredCenter)) {
+                ASceneData d = r.shouldPushScene();
+                if (d != null) {
+                    return d;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void draw(Graphics g, Rectangle bounds) {
         int cellWidth = aCellManager.getCellWidth();

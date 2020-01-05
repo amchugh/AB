@@ -23,5 +23,8 @@ public interface AMap {
   // A map can draw onto a graphics region.
   void draw(Graphics g, Rectangle bounds);
 
+  // A map can decide that a new scene should be introduced.  Null is returned if no scene is necessary.
+  ASceneData shouldIntroduceNewScene();
+
   AGridPosValidator getGridPosValidator();
 }
