@@ -1,5 +1,7 @@
 package GameControl;
 
+import java.awt.*;
+
 // An AMap is a construct that orchestrates the overarching and main view into the "physical world" that the
 // player is operating in.  A map is logically a collection of cells arranged as a grid.  The rendering of the
 // discrete units (the cells) is the responsibility of the AScene entity which can be accessed through
@@ -15,7 +17,11 @@ public interface AMap {
   // Set the view advisor which is used to determine which map cells can be currently seen.
   void setViewAdvisor(AViewAdvisor advisor);
 
-  AScene getScene();
+  // A map must be stepped.
+  void step();
+
+  // A map can draw onto a graphics region.
+  void draw(Graphics g, Rectangle bounds);
 
   AGridPosValidator getGridPosValidator();
 }

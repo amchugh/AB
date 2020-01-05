@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AMapInstance implements AMap, AScene, AGridPosValidator {
+public class AMapInstance implements AMap, AGridPosValidator {
     private int id;
     private int gridWidth;
     private int gridHeight;
@@ -64,11 +64,6 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     }
 
     @Override
-    public AScene getScene() {
-        return this;
-    }
-
-    @Override
     public AGridPosValidator getGridPosValidator() {
         return this;
     }
@@ -80,19 +75,18 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     // AMap methods
     @Override
     public void step() {
-
     }
 
-    public void draw(Graphics g) {
-        // TODO:  Need to figure out how large the graphics region is to draw into
-        int viewableWidth = 5;
-        int viewableHeight = 5;
-
-        List<AViewAdvisor.ViewableGridCell> viewableCells =
-                viewAdvisor.advise(desiredCenter, viewableWidth, viewableHeight, gridWidth, gridHeight);
-
+    @Override
+    public void draw(Graphics g, Rectangle bounds) {
         int cellWidth = aCellManager.getCellWidth();
         int cellHeight = aCellManager.getCellHeight();
+
+        int desiredCols = bounds.width / cellWidth;
+        int desiredRows = bounds.height / cellHeight;
+
+        List<AViewAdvisor.ViewableGridCell> viewableCells =
+                viewAdvisor.advise(desiredCenter, desiredRows, desiredCols, gridWidth, gridHeight);
 
         for (AViewAdvisor.ViewableGridCell c : viewableCells) {
 
@@ -104,16 +98,6 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
                 g.drawRect(graphicsX, graphicsY, cellWidth, cellHeight);
             }
         }
-    }
-
-    @Override
-    public boolean shouldScenePop() {
-        return false; // readme:: i don't know if this class should implement AScene and AMap...
-    }
-
-    @Override
-    public ASceneData shouldPushScene() {
-        return null;
     }
 
     @Override

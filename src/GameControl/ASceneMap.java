@@ -8,12 +8,14 @@ import java.awt.*;
  */
 public class ASceneMap implements AScene {
 
+    private final Rectangle mapDisplayArea;
     private APlayerMapAvatar playerAvatar;
     private AMap map;
 
-    public ASceneMap(APlayerMapAvatar playerAvatar, AMap map) {
+    public ASceneMap(APlayerMapAvatar playerAvatar, AMap map, Rectangle mapDisplayArea) {
         this.playerAvatar = playerAvatar;
         this.map = map;
+        this.mapDisplayArea = mapDisplayArea;
     }
 
     @Override
@@ -21,12 +23,12 @@ public class ASceneMap implements AScene {
         playerAvatar.step();
         playerAvatar.handleMove();
         map.setViewFocus(playerAvatar.getGridPos());
-        map.getScene().step();
+        map.step();
     }
 
     @Override
     public void draw(Graphics g) {
-        map.getScene().draw(g);
+        map.draw(g, mapDisplayArea);
     }
 
     @Override

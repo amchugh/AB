@@ -45,7 +45,7 @@ public class AMapEditorMain {
         handleMoveCurrentGridPos();
         handleMapModifications();
         map.setViewFocus(currentPos);
-        map.getScene().step();
+        map.step();
     }
 
     protected void handleMapModifications() {

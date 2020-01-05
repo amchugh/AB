@@ -23,7 +23,7 @@ public class AMapDisplay extends JFrame {
             gg.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
             // Draw the map
-            map.draw(g);
+            map.draw(g, new Rectangle(0, 0, getWidth() - 1, getHeight() - 1));
         }
     }
 

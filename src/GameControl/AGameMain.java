@@ -92,7 +92,8 @@ public class AGameMain {
     map.setViewAdvisor(viewAdvisor);
     // In the map view the player must be aware of valid movements that can occur.
     playerMapAvatar.setGridPosValidator(map.getGridPosValidator());
-    return new ASceneMap(playerMapAvatar, map);
+    return new ASceneMap(playerMapAvatar, map, new Rectangle(0, 0,
+            settings.getWindowSize().width, settings.getWindowSize().height));
   }
 
   private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
@@ -197,7 +198,6 @@ public class AGameMain {
       }
 
       Graphics g = b.getDrawGraphics();
-
       sceneStack.peek().draw(g);
   
       // All drawing needs to happen before these lines.

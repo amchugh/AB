@@ -56,7 +56,7 @@ class AMapInstanceTest {
                 fakeViewableResult);
 
         Graphics g = Mockito.mock(Graphics.class);
-        map.draw(g);
+        map.draw(g, new Rectangle(0, 0, 80, 80));
         Mockito.verify(g).drawImage(any(), eq(0), eq(0), eq(16), eq(16), any());
         Mockito.verifyNoMoreInteractions(g);
     }
