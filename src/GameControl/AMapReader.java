@@ -39,6 +39,22 @@ public class AMapReader extends AIOJSONHelper {
             }
             rows += 1;
         }
+
+        JSONArray regions = (JSONArray) jo.get("Regions");
+        if (regions != null) {
+            Iterator regionIterator = regions.iterator();
+            while (regionIterator.hasNext()) {
+                JSONObject regionSpec = (JSONObject) regionIterator.next();
+                int topLeftX = getInt(regionSpec, "TopLeftX");
+                int topLeftY = getInt(regionSpec, "TopLeftY");
+                int bottomRightX = getInt(regionSpec, "BottomRightX");
+                int bottomRightY = getInt(regionSpec, "BottomRightY");
+                int encounterId = getInt(regionSpec, "EncounterId");
+                float chanceToEncounter = getFloat(regionSpec, "ChanceToEncounter");
+
+                map.addRegion(new ARegionEncounterGenerator(chanceToEncounter, encounterId, new GridPos(topLeftX, topLeftY), new GridPos(bottomRightX, bottomRightY)));
+            }
+        }
         return map;
     }
 }

@@ -32,6 +32,10 @@ public class AIOJSONHelper {
         return ((Long)o.get(sub)).intValue();
     }
 
+    protected float getFloat(JSONObject o, String sub) {
+        return ((Float) o.get(sub)).floatValue();
+    }
+
     protected int getInt(Object o) {
         return ((Long)o).intValue();
     }

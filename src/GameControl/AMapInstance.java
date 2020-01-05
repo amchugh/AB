@@ -1,6 +1,7 @@
 package GameControl;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AMapInstance implements AMap, AScene, AGridPosValidator {
@@ -12,6 +13,8 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
     private ACellManager aCellManager;
     private AViewAdvisor viewAdvisor;
     private boolean highlightDesiredCenter;
+    private List<ARegionEncounterGenerator> regions;
+
 
     AMapInstance(int id, int gridWidth, int gridHeight, ACellManager aCellManager) {
         this.id = id;
@@ -21,6 +24,7 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
 
         desiredCenter = new GridPos(0,0);
         cells = new int[gridHeight][gridWidth];
+        regions = new ArrayList<>();
     }
 
     public int getGridId() {
@@ -122,5 +126,9 @@ public class AMapInstance implements AMap, AScene, AGridPosValidator {
             return false;
         }
         return true;
+    }
+
+    public void addRegion(ARegionEncounterGenerator aRegionEncounterGenerator) {
+        regions.add(aRegionEncounterGenerator);
     }
 }

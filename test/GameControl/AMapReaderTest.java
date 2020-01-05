@@ -2,6 +2,7 @@
 package GameControl;
 
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,18 +25,10 @@ class AMapReaderTest {
 
     @Test
     public void throwsIOExceptionOnInvalidFilename() throws Exception {
-        try {
+        Assertions.assertThrows(IOException.class, () -> {
             AMapReader r = new AMapReader("rsc/DoesNotExists.map");
             r.constructMap(null);
-            // It isn't okay if we have gotten this far!
-            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
-            throw new Exception( "Test failure!");
-        } catch ( IOException e ) {
-            // Expected, so swallow
-        } catch ( ParseException e ) {
-            // Not expected
-            throw e;
-        }
+        });
     }
 
     @Test

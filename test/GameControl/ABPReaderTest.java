@@ -1,6 +1,7 @@
 package GameControl;
 
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,22 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ABPReaderTest {
 
     @Test
-    public void throwsIOExceptionOnInvalidFilename() throws Exception {
-        try {
+    public void throwsIOExceptionOnInvalidFilename() {
+        Assertions.assertThrows(IOException.class, () -> {
             ABPReader r = new ABPReader("rsc/DoesNotExists.map");
             AResourceManager<ABPSpecies> m = new AResourceManager<ABPSpecies>(); // This does not need to be initialized.
-                                                           // In fact, this could be null
+            // In fact, this could be null
             AResourceManager<ABPAction> m2 = new AResourceManager<>();
             r.readABP(m, m2);
-            // It isn't okay if we have gotten this far!
-            // improveme:  There is a better way to capture this sort of test that doesn't require the boilerplate.
-            throw new Exception( "Test failure!");
-        } catch ( IOException e ) {
-            // Expected, so swallow
-        } catch ( org.json.simple.parser.ParseException e ) {
-            // Not expected
-            throw e;
-        }
+        });
     }
 
     @Test

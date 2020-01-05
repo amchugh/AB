@@ -68,17 +68,14 @@ public class Main {
     // If two arguments are specified, we will assume that the first is the type of scene to load
     // and the second is the id number
     if (args.length == 2) {
-      ASceneData.SceneTypes t;
-      switch(args[0].toLowerCase()) {
-        case "map": t = ASceneData.SceneTypes.MAP; break;
-        case "encounter": t = ASceneData.SceneTypes.ENCOUNTER; break;
-        default: throw new IllegalArgumentException("Bad scene type");
-      }
-      main.addScene(t, Integer.parseInt(args[1]));
-    }
-
-    // If one argument is specified than we will assume that it is the filename to load
-    if (args.length == 1) {
+      main.addScene(
+              switch (args[0].toLowerCase()) {
+                case "map" -> ASceneData.SceneTypes.MAP;
+                case "encounter" -> ASceneData.SceneTypes.ENCOUNTER;
+                default -> throw new IllegalStateException("Unexpected value: " + args[0].toLowerCase());
+              }, Integer.parseInt(args[1]));
+    } else if (args.length == 1) {
+      // If one argument is specified than we will assume that it is the filename to load
       main.addSceneSmart(args[0]);
     }
 
