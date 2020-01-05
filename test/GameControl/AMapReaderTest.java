@@ -63,9 +63,9 @@ class AMapReaderTest {
         ARegionEncounterGenerator g = peeker.getRegions().get(1);
         assertEquals(50, g.getTopLeft().getX());
         assertEquals(51, g.getTopLeft().getY());
-        assertEquals(55, g.getTopLeft().getX());
-        assertEquals(56, g.getTopLeft().getY());
-        assertEquals(0.01, g.getChanceToEncounter());
+        assertEquals(55, g.getBottomRight().getX());
+        assertEquals(56, g.getBottomRight().getY());
+        assertEquals(0.01, g.getChanceToEncounter(), 0.01);
         assertEquals(101, g.getEncounterId());
     }
 }
