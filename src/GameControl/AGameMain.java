@@ -54,13 +54,23 @@ public class AGameMain {
     }
     sceneStack.push(n);
   }
-
+  
   /**
    * Loads a scene from it's appropriate manager and then pushes the new scene to the top of the stack
    * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
    * @param id the id number of the scene  to load
    */
   public void addScene(ASceneData.SceneTypes type, int id) throws ParseException, IOException {
+    addScene(type, id, false);
+  }
+
+  /**
+   * Loads a scene from it's appropriate manager and then pushes the new scene to the top of the stack
+   * @param type the type of scene (map, encounter, menu, ... etc). This tells what manager to access
+   * @param id the id number of the scene  to load
+   * @param doUpdate should the scene be updated as part of adding it
+   */
+  public void addScene(ASceneData.SceneTypes type, int id, boolean doUpdate) throws ParseException, IOException {
     assert isReady;
     sceneStack.push(
             switch (type) {
@@ -68,6 +78,10 @@ public class AGameMain {
               case MAP -> createMapFromID(getMapNameFromID(id));
             }
     );
+    // We need to step the new scene once to allow it to be ready for the upcoming draw cycle
+    if (doUpdate) {
+      sceneStack.peek().step();
+    }
   }
 
   private ASceneData.SceneTypes getSceneTypeFromExtension(String filename) {
@@ -173,7 +187,7 @@ public class AGameMain {
       ASceneData d = sceneStack.peek().shouldPushScene();
       if (d != null) {
         try {
-          addScene(d.type, d.id);
+          addScene(d.type, d.id, true);
         } catch (ParseException e) {
           throw new RuntimeException("Failed to push new scene", e);
         } catch (IOException e) {
