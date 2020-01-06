@@ -195,11 +195,10 @@ public class ASceneEncounter implements AScene {
     }
   }
 
-  private void performAction(ABPAction attackingAction, ABP target, ABP attacker) {
-    // todo:: right now, the actions can only do damage. need to add the other possible action types
-    // todo:: add crit chance
-    // Deal damage
-    bpTakeDamage(target, attacker, attackingAction.getDamage(), attackingAction.getType(), false);
+  private void performAction(ABPAction attackingAction, ABP target, ABP caster) {
+    // Perform the action on the target
+    // todo:: add calculation for finding the critical chance. Right now, no attack will ever crit.
+    attackingAction.performActions(caster, target, false);
     // Setup the display
     String[] display;
     if (target.isBPWeak(attackingAction.getType())) {
@@ -208,9 +207,11 @@ public class ASceneEncounter implements AScene {
     } else {
       display = new String[1];
     }
-    display[0] = attacker.getName() + " used " + attackingAction.getName() + "!";
+    display[0] = caster.getName() + " used " + attackingAction.getName() + "!";
     // Display the move
     makeActionNarrationMenu(display);
+    // Update the health bars
+    updateStatusMenu();
   }
   
   private void handleMoveSelection() {
@@ -239,11 +240,6 @@ public class ASceneEncounter implements AScene {
     if (d != null) {
       menu.attemptMove(d);
     }
-  }
-
-  private void bpTakeDamage(ABP target, ABP attacker, int damage, ABPType type, boolean crit) {
-    target.takeDamage(damage, attacker, type, crit);
-    updateStatusMenu();
   }
 
   private boolean testForDeath() {

@@ -18,8 +18,7 @@ public class ABP {
   
   // Stats
   private AStats bpPersonalStats;
-  // Effective stats
-  private AStats effectiveStats;
+  // Battle stats
   private ABattleStats battleStats;
   
   // XP
@@ -37,15 +36,13 @@ public class ABP {
   }
 
   public void onBattleStart() {
-    AStats es = getEffectiveStats();
     // Setup the battle stats
-    battleStats = new ABattleStats(es.armorStrength, es.speed);
+    battleStats = new ABattleStats(bpPersonalStats, getSpecies().getStats());
   }
   
   public ArrayList<ABPAction> getActions() {
     if (actions.size() == 0) {
-      // TODO:: REMOVE ME!!!!
-      //throw new RuntimeException("Moves have not been initialized on this BP yet");
+      throw new RuntimeException("Moves have not been initialized on this BP yet");
     }
     return actions;
   }
@@ -63,15 +60,24 @@ public class ABP {
    * @param damageType the Type of move that inflicted this damage. Used for type weaknesses
    */
   public void takeDamage(int damage, ABP attacker, ABPType damageType, boolean isCrit) {
-    //Damage Taken = (Attack Power / Defense) * Move Strength (damage) * Effective * Crit
-    int damageTaken = (attacker.getEffectiveStats().attackPower / battleStats.defense) * damage;
+    ABattleStats attackerStats = attacker.getBattleStats();
+    double realDamage = (damage + attacker.getLevel()) * attackerStats.attackPower;
+    double currentDefense = battleStats.armorStrength * (1 + battleStats.armorVulnerability);
+    double damageAfterDefense = realDamage * currentDefense;
+    
     if (isBPWeak(damageType)) {
-      damageTaken *= TYPE_WEAKNESS_MULTIPLIER;
+      damageAfterDefense *= TYPE_WEAKNESS_MULTIPLIER;
     }
     if (isCrit) {
-      damageTaken *= CRIT_MULTIPLIER;
+      damageAfterDefense *= CRIT_MULTIPLIER;
     }
-    health -= damageTaken;
+    
+    int damageToTake = (int)Math.ceil(damageAfterDefense);
+    
+    health -= damageToTake;
+    
+    // Decrease armor
+    battleStats.takeArmorDamage(attackerStats);
   }
 
   /**
@@ -114,6 +120,7 @@ public class ABP {
     return species.getBpType().isImmuneAgainst(type);
   }
 
+  /*
   private AStats getEffectiveStats() {
     if (effectiveStats == null) {
       AStats s = new AStats(bpPersonalStats);
@@ -122,6 +129,11 @@ public class ABP {
       effectiveStats = s;
     }
     return effectiveStats;
+  }
+  */
+  
+  public int getLevel() {
+    return getLevelFromXP(this.xpPoints);
   }
   
   private int getLevelFromXP(int xp) {

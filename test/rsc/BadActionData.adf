@@ -2,15 +2,19 @@
     "Actions": [
         {
             "ID": 0,
-            "Damage": 10,
             "Name": "foo",
             "TypeID": 0,
+            "ActionEffects": [
+
+            ]
         },
         {
             "ID": 0,
-            "Damage": 10,
-            "Name": "bar",
+            "Name": "foo",
             "TypeID": 0,
-        }
+            "ActionEffects": [
+
+            ]
+        },
     ]
 }

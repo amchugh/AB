@@ -36,7 +36,8 @@ public class AResourceEditorDisplay {
     public AResourceEditorDisplay(
             AResourceEditorInputManager sh,
             AResourceManager<ABPSpecies> sm,
-            AResourceManager<ABPAction> am) {
+            AResourceManager<ABPAction> am,
+            EditorMode defaultMode) {
         this.sh = sh;
         frame = new JFrame();
         frame.setTitle("Resource Editor");
@@ -84,8 +85,8 @@ public class AResourceEditorDisplay {
         enemyTable = new AResourceEditorTable(enemyTableModel, sh);
         enemyEditorPanel = new AEnemyEditorPanel(sm, am);
 
-        // Set the mode to BP editor by default
-        setMode(EditorMode.BP);
+        // Set the mode of the Editor
+        setMode(defaultMode);
     
         frame.setContentPane(mainPanel);
         frame.setVisible(true);

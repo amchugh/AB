@@ -1,18 +1,18 @@
 {
 	"SpeciesID": 0,
-	"XP": 79,
+	"XP": 0,
 	"Actions": [
-		0, 2, 
+		2, 
 	],
 	"Stats": {
-		"HP": 2,
-		"AS": 0,
-		"AD": 0,
-		"AP": 0,
-		"APP": 0,
-		"SP": 0,
-		"ED": 0,
+		"HP": 1.0,
+		"AS": 1.0,
+		"AD": 1.0,
+		"AP": 1.0,
+		"APP": 1.0,
+		"SP": 1.0,
+		"ED": 1.0,
 	},
-	"CustomName": "JasonsPlaceholder1",
+	"CustomName": "garbo",
 	"CurrentHP": 100,
 }

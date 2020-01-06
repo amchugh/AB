@@ -31,11 +31,15 @@ public class AIOJSONHelper {
     protected int getInt(JSONObject o, String sub) {
         return ((Long)o.get(sub)).intValue();
     }
-
+    
     protected float getFloat(JSONObject o, String sub) {
         return ((Double) o.get(sub)).floatValue();
     }
-
+    
+    protected double getDouble(JSONObject o, String sub) {
+        return ((Double) o.get(sub));
+    }
+    
     protected int getInt(Object o) {
         return ((Long)o).intValue();
     }
@@ -60,13 +64,13 @@ public class AIOJSONHelper {
      */
     protected AStats loadStats(JSONObject o) {
         AStats s = new AStats();
-        s.hitpoints = getInt(o, "HP");
-        s.armorStrength = getInt(o, "AS");
-        s.armorDurability = getInt(o, "AD");
-        s.attackPower = getInt(o, "AP");
-        s.attackPierce = getInt(o, "APP");
-        s.speed = getInt(o, "SP");
-        s.endurance = getInt(o, "ED");
+        s.hitpoints = getDouble(o, "HP");
+        s.armorStrength = getDouble(o, "AS");
+        s.armorDurability = getDouble(o, "AD");
+        s.attackPower = getDouble(o, "AP");
+        s.attackPierce = getDouble(o, "APP");
+        s.speed = getDouble(o, "SP");
+        s.endurance = getDouble(o, "ED");
         return s;
     }
     

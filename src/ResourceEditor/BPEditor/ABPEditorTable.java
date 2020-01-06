@@ -94,7 +94,6 @@ public class ABPEditorTable extends JPanel {
     }
     
     private class BPTableModel extends AbstractTableModel {
-        // todo:: load the proper data
         private String[] columnNames = {"ID", "Species Name", "Name"};
         private ArrayList<ABP> data = new ArrayList<>();
         

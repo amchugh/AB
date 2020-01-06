@@ -2,21 +2,66 @@
     "Actions": [
         {
             "ID": 0,
-            "Damage": 10,
             "Name": "foo",
             "TypeID": 0,
+            "ActionEffects": [
+                {
+                    "EffectType": "DAMAGE",
+                    "Damage": 10
+                },
+            ]
         },
         {
             "ID": 1,
-            "Damage": 20,
             "Name": "bar",
             "TypeID": 0,
+            "ActionEffects": [
+                {
+                    "EffectType": "DAMAGE",
+                    "Damage": 10
+                },
+            ]
         },
         {
             "ID": 2,
-            "Damage": 40,
             "Name": "foobar",
             "TypeID": 1,
+            "ActionEffects": [
+                {
+                    "EffectType": "DAMAGE",
+                    "Damage": 1
+                },
+            ]
+        },
+        {
+            "ID": 3,
+            "Name": "Increase Attack",
+            "TypeID": 0,
+            "ActionEffects": [
+                {
+                    "EffectType": "STAT",
+                    "Modifier": 5.0,
+                    "Stat": "AP",
+                    "DoesEffectCaster": 1,
+                },
+            ]
+        },
+        {
+            "ID": 4,
+            "Name": "hahaha damage",
+            "TypeID": 0,
+            "ActionEffects": [
+                {
+                    "EffectType": "STAT",
+                    "Modifier": 10.0,
+                    "Stat": "AP",
+                    "DoesEffectCaster": 1,
+                },
+                {
+                    "EffectType": "DAMAGE",
+                    "Damage": 1
+                },
+            ]
         },
     ]
 }

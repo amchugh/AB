@@ -224,7 +224,13 @@ public class AResourceEditorMain {
             }
             // Now we need to select a new BP!
             // 2) open the new BP
-            display.selectNewBP(loadedBPs.get(currentSel), currentSel);
+            if (loadedBPs.size() > 0) {
+                display.selectNewBP(loadedBPs.get(currentSel), currentSel);
+            } else {
+                // If there are no loaded BP's... idk what to do.
+                // todo:: figure out what happens when no Objects exist
+            }
+            
         }
     }
 
@@ -261,7 +267,7 @@ public class AResourceEditorMain {
     
     public void handleDisplay() {
         handler = new AResourceEditorInputManager(this);
-        display = new AResourceEditorDisplay(handler, speciesManager, actionManager);
+        display = new AResourceEditorDisplay(handler, speciesManager, actionManager, AResourceEditorDisplay.EditorMode.BP);
 
         // Display the first BP (if it exists)
         if (loadedBPs.size() > 0) {
@@ -269,6 +275,9 @@ public class AResourceEditorMain {
             display.selectNewBP(loadedBPs.get(currentSel), currentSel);
         }
 
+        // Update the display's data
+        display.updateBPTableData(loadedBPs);
+        
     }
     
     public void onSelectNewBP() {
@@ -291,6 +300,7 @@ public class AResourceEditorMain {
     }
     
     public void updateCurrentBP() {
+        if (loadedBPs.size() <= 0) return;
         loadedBPs.set(currentSel, display.getEditedBP());
     }
     

@@ -2,9 +2,14 @@
     "Actions": [
         {
             "ID": 0,
-            "Damage": 10,
-            "Name": "Test",
+            "Name": "foo",
             "TypeID": 0,
+            "ActionEffects": [
+                {
+                    "EffectType": "DAMAGE",
+                    "Damage": 10
+                },
+            ]
         },
     ]
 }

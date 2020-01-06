@@ -161,7 +161,12 @@ public class ABPEditorPanel extends JPanel {
         app.setText(String.valueOf(s.attackPierce));
         sp.setText(String.valueOf(s.speed));
         ed.setText(String.valueOf(s.endurance));
-        ArrayList<ABPAction> actions = b.getActions();
+        ArrayList<ABPAction> actions;
+        try {
+            actions = b.getActions();
+        } catch (RuntimeException e) {
+            actions = new ArrayList<ABPAction>();
+        }
         for (int i = 0; i < actions.size(); i++) {
             int index = actions.get(i).getID()+1; // Moving over by one to account for our No move option
             actionSelections[i].setSelectedIndex(index);
@@ -208,9 +213,9 @@ public class ABPEditorPanel extends JPanel {
         return s;
     }
     
-    private int getValueFromField(JTextField f, String name) {
+    private double getValueFromField(JTextField f, String name) {
         try {
-            return Integer.parseInt(f.getText());
+            return Double.parseDouble(f.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Failed to parse data from " + name);
             return 0;

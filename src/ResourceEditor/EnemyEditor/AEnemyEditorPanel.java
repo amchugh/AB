@@ -170,7 +170,7 @@ public class AEnemyEditorPanel extends JPanel {
     }
 
     public ABP exportBP() {
-        ABPSpecies spec = speciesManager.getItemByID(species.getSelectedIndex()); // todo:: get the actual species
+        ABPSpecies spec = speciesManager.getItemByID(species.getSelectedIndex());
         AStats s = exportStats();
         int xp = exportXP();
         ABP bp = new ABP(spec, s, xp);

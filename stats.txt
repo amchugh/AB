@@ -1,12 +1,20 @@
 Stats and Levels:
 
+Acceptable Values
 HP
-Armor Strength
+1
+Armor Strength:
+80% - 110%
 Armor Durability
+70% - 100%
 Attack Power
+80% - 125%
 Attack Pierce
+80% - 125%
 Speed
+1
 Endurance
+1
 
 Every BP has its own stat
 Every Species has its own stat

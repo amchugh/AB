@@ -8,25 +8,34 @@ package GameControl;
  */
 public class ABPAction extends AIDItem {
 
-    private final int damage;
+    private ABPActionEffect[] effects;
     private final String name;
     private final ABPType type;
 
-    public ABPAction(int id, int damage, ABPType type, String name) {
+    public ABPAction(int id, ABPType type, String name, ABPActionEffect[] effects) {
         super (id);
         this.type = type;
-        this.damage = damage;
         this.name = name;
+        this.effects = effects;
     }
 
     public String getName() {
         return name;
     }
-    public int getDamage() {
-        return damage;
-    }
     public ABPType getType() {
         return type;
+    }
+    
+    /**
+     * Performs this ABPAction
+     * @param caster the ABP that "used" this action
+     * @param enemy the ABP that has been targeted by the action
+     * @param isCrit should the effects of this action be increased?
+     */
+    public void performActions(ABP caster, ABP enemy, boolean isCrit) {
+        for (int i = 0; i < effects.length; i++) {
+            effects[i].performAction(caster, enemy, type, isCrit);
+        }
     }
     
 }
