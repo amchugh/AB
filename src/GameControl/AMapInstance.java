@@ -14,6 +14,8 @@ public class AMapInstance implements AMap, AGridPosValidator {
     private AViewAdvisor viewAdvisor;
     private boolean highlightDesiredCenter;
     private List<ARegionEncounterGenerator> regions;
+    private List<ARegionEncounterGenerator> containingRegions;
+    private ARegionEncounterGenerator lastRegionEncounterGenerator;
 
     AMapInstance(int id, int gridWidth, int gridHeight, ACellManager aCellManager) {
         this.id = id;
@@ -24,6 +26,7 @@ public class AMapInstance implements AMap, AGridPosValidator {
         desiredCenter = new GridPos(0,0);
         cells = new int[gridHeight][gridWidth];
         regions = new ArrayList<>();
+        lastRegionEncounterGenerator = null;
     }
 
     public int getGridId() {
@@ -75,13 +78,25 @@ public class AMapInstance implements AMap, AGridPosValidator {
     // AMap methods
     @Override
     public void step() {
+        List<ARegionEncounterGenerator> curStepRegions = new ArrayList<>();
+        for (ARegionEncounterGenerator r : regions) {
+            if (r.containsGridPos(desiredCenter)) {
+                curStepRegions.add(r);
+            }
+        }
+        if (lastRegionEncounterGenerator != null && !curStepRegions.contains(lastRegionEncounterGenerator)) {
+            lastRegionEncounterGenerator = null;
+        }
+
+        containingRegions = curStepRegions;
     }
 
     public ASceneData shouldIntroduceNewScene() {
-        for (ARegionEncounterGenerator r : regions) {
-            if (r.containsGridPos(desiredCenter)) {
+        for (ARegionEncounterGenerator r : containingRegions) {
+            if (r != lastRegionEncounterGenerator) {
                 ASceneData d = r.shouldPushScene();
                 if (d != null) {
+                    lastRegionEncounterGenerator = r;
                     return d;
                 }
             }
