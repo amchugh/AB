@@ -1,15 +1,25 @@
 package GameControl;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+import static javax.imageio.ImageIO.read;
+
 public class APlayerMapAvatar {
     private APlayerCharacter player;
     private GridPos currentPos;
     private AForceProvider movementProvider;
     private AGridPosValidator gridPosValidator;
+    private Image playerImage;
 
-    public APlayerMapAvatar(APlayerCharacter player, AForceProvider forceProvider) {
+    private static final String DEFAULT_PLAYER_FILENAME = "rsc/images/Player.png";
+
+    public APlayerMapAvatar(APlayerCharacter player, AForceProvider forceProvider) throws IOException {
         this.player = player;
         this.movementProvider = forceProvider;
         currentPos = new GridPos(1, 1);
+        playerImage = read(new File(DEFAULT_PLAYER_FILENAME));
     }
 
     public void setGridPosValidator(AGridPosValidator gridPosValidator) {
@@ -44,5 +54,13 @@ public class APlayerMapAvatar {
                 System.out.println("Setting currentPos to be; " + currentPos.getX() + ", " + currentPos.getY());
             }
         }
+    }
+
+    public void draw(Graphics g) {
+        // Jason :: TODO:  Magic constants are for losers
+        g.drawImage(playerImage, currentPos.getX() * 32, currentPos.getY() * 32,
+                playerImage.getWidth(null),
+                playerImage.getHeight(null),
+                null);
     }
 }

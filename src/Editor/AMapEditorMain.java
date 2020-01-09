@@ -13,14 +13,14 @@ public class AMapEditorMain {
     private ACellManagerSpriteSheet cellManager;
     private AMapInstance map;
 
-    final String CELL_RESOURCE_FILENAME = "rsc/images/map/world_map_tiles.png";
+    final String CELL_RESOURCE_FILENAME = "rsc/images/map/kellen.png";
 
     GridPos currentPos = new GridPos(1, 1);
 
     public AMapEditorMain(String mapFilename) {
         cellManager = new ACellManagerSpriteSheet(CELL_RESOURCE_FILENAME,
-                16, 16, 4, 50, 1, 1);
-        
+                32, 32, 37, 1, 0, 0);
+
         try {
             map = (AMapInstance) new AMapReader(mapFilename).constructMap(cellManager);
         } catch (Exception e) {

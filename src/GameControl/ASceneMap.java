@@ -29,6 +29,7 @@ public class ASceneMap implements AScene {
     @Override
     public void draw(Graphics g) {
         map.draw(g, mapDisplayArea);
+        playerAvatar.draw(g);
     }
 
     @Override

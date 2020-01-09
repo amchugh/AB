@@ -96,6 +96,8 @@ public class AMapInstance implements AMap, AGridPosValidator {
             if (r != lastRegionEncounterGenerator) {
                 ASceneData d = r.shouldPushScene();
                 if (d != null) {
+                    System.out.println("found a new scene; " +
+                            "region area: " + r.getTopLeft().getX() + ", " + r.getTopLeft().getY() + " -> " + r.getBottomRight().getX() + ", " + r.getBottomRight().getY());
                     lastRegionEncounterGenerator = r;
                     return d;
                 }
@@ -139,6 +141,7 @@ public class AMapInstance implements AMap, AGridPosValidator {
     }
 
     public void addRegion(ARegionEncounterGenerator aRegionEncounterGenerator) {
+        System.out.println("Adding region; " + aRegionEncounterGenerator.getTopLeft().getX() + ", " + aRegionEncounterGenerator.getTopLeft().getY() + " -> " + aRegionEncounterGenerator.getBottomRight().getX() + ", " + aRegionEncounterGenerator.getBottomRight().getY());
         regions.add(aRegionEncounterGenerator);
     }
 

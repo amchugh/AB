@@ -101,9 +101,10 @@ public class AGameMain {
   }
 
   private ASceneMap createMapFromID(String filename) throws IOException, ParseException {
-    // ACellManager cellManager = new ACellManagerSimple();
-    ACellManager cellManager = new ACellManagerSpriteSheet("rsc/images/map/world_map_tiles.png",
-            16, 16, 4, 50, 1, 1);
+    // ACellManager cellManager = new ACellManagerSpriteSheet("rsc/images/map/world_map_tiles.png",
+    //         16, 16, 4, 50, 1, 1);
+    ACellManager cellManager = new ACellManagerSpriteSheet("rsc/images/map/kellen.png",
+            32, 32, 37, 1, 0, 0);
     AMap map = new AMapReader(filename).constructMap(cellManager);
     AViewAdvisor viewAdvisor = new AViewAdvisorRectangular();
     map.setViewAdvisor(viewAdvisor);
@@ -142,7 +143,7 @@ public class AGameMain {
     return environmentManager != null && speciesManager != null && actionManager != null;
   }
 
-  public void setup() {
+  public void setup() throws IOException {
     if (!areResourcesLoaded()) {
       throw new RuntimeException("Resources are not loaded");
     }
