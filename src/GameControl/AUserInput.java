@@ -113,4 +113,9 @@ public class AUserInput extends KeyAdapter implements KeyListener {
         }
         return false;
     }
+
+    public boolean anyKeysPressed() {
+        return pressedKeys.size() != 0;
+    }
+
 }

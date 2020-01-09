@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.rmi.UnexpectedException;
 import java.util.Random;
 import java.util.Stack;
 
@@ -76,6 +77,8 @@ public class AGameMain {
             switch (type) {
               case ENCOUNTER -> createEncounterFromID(getEncounterNameFromID(id));
               case MAP -> createMapFromID(getMapNameFromID(id));
+              case SPLASH -> createSplashSceneForMapId(id);
+              default -> throw new UnexpectedException("Unexpected!");
             }
     );
     // We need to step the new scene once to allow it to be ready for the upcoming draw cycle
@@ -110,6 +113,9 @@ public class AGameMain {
             settings.getWindowSize().width, settings.getWindowSize().height));
   }
 
+  private ASceneSplashScreen createSplashSceneForMapId(int mapId) throws IOException, ParseException {
+    return new ASceneSplashScreen(userInput, mapId);
+  }
   private ASceneEncounter createEncounterFromID(String filename) throws IOException, ParseException {
     AEncounterInstance i = new AEncounterInstanceReader(filename).loadEncounter(environmentManager, speciesManager, actionManager);
     AEncounterController e = new AEncounterController(userInput);

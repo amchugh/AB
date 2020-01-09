@@ -72,6 +72,7 @@ public class Main {
               switch (args[0].toLowerCase()) {
                 case "map" -> ASceneData.SceneTypes.MAP;
                 case "encounter" -> ASceneData.SceneTypes.ENCOUNTER;
+                case "splash" -> ASceneData.SceneTypes.SPLASH;
                 default -> throw new IllegalStateException("Unexpected value: " + args[0].toLowerCase());
               }, Integer.parseInt(args[1]));
     } else if (args.length == 1) {
